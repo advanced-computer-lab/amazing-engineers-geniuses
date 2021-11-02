@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Show Flight</title>
+
+   <!-- Bootstrap CSS -->
+   <!-- build:css css/main.css -->
+   <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+   <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+   <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
+   <link rel="stylesheet" href="css/styles.css">
+   <!-- endbuild -->
+</head>
+
+<body>
+    <nav class="navbar navbar-dark navbar-expand-sm  fixed-top">
+        <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="Navbar">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active" ><a class="nav-link"href="#"><span class="fa fa-plane fa-lg"></span> Flights</a> </li>
+              <li class="nav-item"><a class="nav-link"href="./create"><span class="fa fa-pencil fa-lg"></span> Create Flight</a> </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <div id="deletemodal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg" role="content">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete </h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id='deleteForm' action="admin/flight/delete/<%= flights._id %>?_method=DELETE" method=POST>
+                        <div class="form-row">
+                            <span>Are you sure you want to delete?</span>
+                            <button type="button" class="btn btn-secondary btn-sm ml-auto" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-danger btn-sm ml-1">Delete</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1><em>Show Flights..</em> </h1>
+    <form action='/admin/flight/show' method="post">
+
+        <label>Flight Number</label>
+        <input type='number' placeholder='FlightNumber' name="FlightNumber" />
+        <br />
+        <label>Departure Time</label>
+        <input type='time' name="Departure" />
+        <br />
+        <label>Arrival Time</label>
+        <input type='time' name="Arrival" />
+        <br />
+        <label>Flight Date</label>
+        <input type='date' name="FlightDate" />
+        <br />
+        <label>Economy Seats</label>
+        <input type='number' placeholder='EconomySeats' name="EconomySeats" />
+        <br />
+        <label>Business Seats </label>
+        <input type='number' placeholder='BusinessSeats' name="BusinessSeats" />
+        <br />
+        <label>First Class seats</label>
+        <input type='number' placeholder='FirstClassSeats' name="FirstClassSeats" />
+        <br />
+        <label>From Airport </label>
+        <input type='text' placeholder='FromAirport' name="FromAirport" />
+        <br />
+        <label>To Airport </label>
+        <input type='text' placeholder='ToAirport' name="ToAirport" />
+        <br />
+        <button class="btn btn-warning">Filter</button>
+    </form>
+    
+    
+    <span class="col-12 col-sm-4 order-sm-last col-md-3">
+    <ul class="list-group">
+        <% for(i = 0;i < flights.length; i++) { %>
+            <li class="list-group-item"> 
+                <%=flights[i] %>
+                <ul>
+                    <li>ID: <%= flights[i]._id %></li>
+                    <li>Number: 
+                        <%= flights[i].FlightNumber %>
+                    </li>
+                    <li>Departure: 
+                        <%= flights[i].Departure.Hours %>:<%= flights[i].Departure.Minutes %> <%= flights[i].Departure.Period %>
+                    </li>
+                    <li>Arrival:
+                        <%= flights[i].Arrival.Hours %>:<%= flights[i].Arrival.Minutes %>
+                                <%= flights[i].Arrival.Period %>
+                    </li>
+                    <li>Date:
+                        <%= flights[i].FlightDate.getDate() %>/<%= flights[i].FlightDate.getMonth() + 1%>/<%= flights[i].FlightDate.getFullYear()%>
+                </ul>
+                <button id=<%= flights[i]._id %> class="btn btn-danger btn-sm ml-1" onclick="addActionToDeleteForm(this.id)">
+                    <a data-toggle="modal" data-target="#deletemodal">
+                    <span></span> Delete</a>
+                </button>
+            </li>
+        <% } %>
+    </ul>
+    </span> 
+   
+<script>
+    function addActionToDeleteForm(id){
+        const form = document.querySelector('#deleteForm');
+        console.log(form);
+        form.action = `/admin/flight/delete/${id}?_method=DELETE`
+    }
+    
+</script>
+   <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
+</body>
+
+</html>
