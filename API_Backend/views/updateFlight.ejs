@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Flight</title>
+</head>
+
+<body>
+    <h1><em>Update Flight..</em> </h1>
+    <form action='/admin/flight/update/<%= flight._id %>?_method=PUT' method="post">
+
+        <label>Flight Number</label>
+        <input type='number' placeholder='FlightNumber' name="FlightNumber" value=<%= flight.FlightNumber %> />
+        <br />
+        <label>Departure Time</label>
+        <input type='time' name="Departure" />
+        <br />
+        <label>Arrival Time</label>
+        <input type='time' name="Arrival" />
+        <br />
+        <label>Flight Date</label>
+        <input type='date' name="FlightDate" value=<%= flight.FlightDate %> />
+        <br />
+        <label>Economy Seats</label>
+        <input type='number' placeholder='EconomySeats' name="EconomySeats" value=<%= flight.EconomySeats %> />
+        <br />
+        <label>Business Seats </label>
+        <input type='number' placeholder='BusinessSeats' name="BusinessSeats" value=<%= flight.BusinessSeats %> />
+        <br />
+        <label>First Class seats</label>
+        <input type='number' placeholder='FirstClassSeats' name="FirstClassSeats" value=<%= flight.FirstClassSeats %> />
+        <br />
+        <label>From Airport </label>
+        <input type='text' placeholder='FromAirport' name="FromAirport" value=<%= flight.FromAirport %> />
+        <br />
+        <label>To Airport </label>
+        <input type='text' placeholder='ToAirport' name="ToAirport" value=<%= flight.ToAirport %> />
+        <br />
+        <button>Update</button>
+    </form>
+
+</body>
+
+</html>
