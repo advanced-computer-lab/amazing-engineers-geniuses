@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
 
-
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Show Flight</title>
 
@@ -27,6 +26,7 @@
 </head>
 
 <body>
+
     <nav class="navbar navbar-dark navbar-expand-sm  fixed-top">
         <div class="container">
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
@@ -94,12 +94,14 @@
         <br />
         <button class="btn btn-warning">Filter</button>
     </form>
+
     
     
     <span class="col-12 col-sm-4 order-sm-last col-md-3">
     <ul class="list-group">
         <% for(i = 0;i < flights.length; i++) { %>
             <li class="list-group-item"> 
+
                 <%=flights[i] %>
                 <ul>
                     <li>ID: <%= flights[i]._id %></li>
@@ -123,7 +125,9 @@
             </li>
         <% } %>
     </ul>
+
     </span> 
+
    
 <script>
     function addActionToDeleteForm(id){
