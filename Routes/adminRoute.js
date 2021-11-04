@@ -74,8 +74,12 @@ router.delete('/flight/delete/:id',(req,res)=>{
 });
 
 
-
-
+router.get('/flight/flightSchedule', (req,res)=>{
+   Flight.find({},(err,flights)=>{
+      res.render('flightSchedule',{flights: flights})
+  });
+    
+});
 
 
 function getTime(time){

@@ -95,7 +95,9 @@
         <button class="btn btn-warning">Filter</button>
     </form>
 
-    
+    <hr>
+
+    <button class="btn btn-info" onclick="viewFlightSchedule()">VIEW FLIGHTS SCHEDULE</button>
     
     <span class="col-12 col-sm-4 order-sm-last col-md-3">
     <ul class="list-group">
@@ -137,6 +139,13 @@
     }
     
 </script>
+
+<script>
+    function viewFlightSchedule(){
+        document.location.href = 'flightSchedule'       
+    }  
+</script>
+
    <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
