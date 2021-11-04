@@ -17,16 +17,13 @@
   },
   "homepage": "https://github.com/advanced-computer-lab/Amazing-Engineers-Geniuses#readme",
   "dependencies": {
-
     "bootstrap-social": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
-
     "font-awesome": "^4.7.0",
     "font-icon": "^0.0.7",
-
     "method-override": "^3.0.0",
     "mongoose": "^6.0.12",
     "nodemon": "^2.0.14"
