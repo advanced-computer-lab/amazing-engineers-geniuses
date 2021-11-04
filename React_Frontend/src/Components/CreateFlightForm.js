@@ -55,35 +55,37 @@ class CreateFlightForm extends Component{
 
         return (
             <div>
-                <h1>Create Flight</h1>
-                <label>Flight Number</label>
-                <input type='number' placeholder='FlightNumber' name="FlightNumber"  onChange={this.changeText}/>
-                <br/>
-                <label>Departure Time</label>
-                <input type='time' name="Departure" onChange={this.changeText}/>
-                <br/>
-                <label>Arrival Time</label>
-                <input type='time' name="Arrival" onChange={this.changeText}/>
-                <br/>
-                <label>Flight Date</label>
-                <input type='date'  name="FlightDate" onChange={this.changeText}/>
-                <br/>
-                <label>Economy Seats</label>
-                <input type='number' placeholder='EconomySeats' name="EconomySeats" onChange={this.changeText}/>
-                <br/>
-                <label>Business Seats </label>
-                <input type='number' placeholder='BusinessSeats' name="BusinessSeats" onChange={this.changeText}/>
-                <br/>
-                <label>First Class seats</label>
-                <input type='number' placeholder='FirstClassSeats' name="FirstClassSeats" onChange={this.changeText}/>
-                <br/>
-                <label>From Airport </label>
-                <input type='text' placeholder='FromAirport' name="FromAirport" onChange={this.changeText}/>
-                <br/>
-                <label>To Airport </label>
-                <input type='text' placeholder='ToAirport' name="ToAirport" onChange={this.changeText}/>
-                <br/>
-                <button onClick={this.submitForm} >Create</button>
+                <form onSubmit = {this.submitForm}>
+                    <h1>Create Flight</h1>
+                    <label>Flight Number</label>
+                    <input type='number' placeholder='FlightNumber' name="FlightNumber"  required  onChange={this.changeText}/>
+                    <br/>
+                    <label>Departure Time</label>
+                    <input type='time' name="Departure" required onChange={this.changeText}/>
+                    <br/>
+                    <label>Arrival Time</label>
+                    <input type='time' name="Arrival" required onChange={this.changeText}/>
+                    <br/>
+                    <label>Flight Date</label>
+                    <input type='date'  name="FlightDate" required onChange={this.changeText}/>
+                    <br/>
+                    <label>Economy Seats</label>
+                    <input type='number' placeholder='EconomySeats' name="EconomySeats" required onChange={this.changeText}/>
+                    <br/>
+                    <label>Business Seats </label>
+                    <input type='number' placeholder='BusinessSeats' name="BusinessSeats" required onChange={this.changeText}/>
+                    <br/>
+                    <label>First Class seats</label>
+                    <input type='number' placeholder='FirstClassSeats' name="FirstClassSeats" required onChange={this.changeText}/>
+                    <br/>
+                    <label>From Airport </label>
+                    <input type='text' placeholder='FromAirport' name="FromAirport" required onChange={this.changeText}/>
+                    <br/>
+                    <label>To Airport </label>
+                    <input type='text' placeholder='ToAirport' name="ToAirport" required onChange={this.changeText}/>
+                    <br/>
+                    <button type='submit'>Create</button>
+                </form>
             </div>
         )
     }
