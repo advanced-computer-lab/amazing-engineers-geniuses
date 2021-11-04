@@ -7,7 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap-social/bootstrap-social.css">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Show Flight</title>
@@ -22,6 +26,21 @@
 </head>
 
 <body>
+
+    <nav class="navbar navbar-dark navbar-expand-sm  fixed-top">
+        <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#Navbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="Navbar">
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item active" ><a class="nav-link"href="#"><span class="fa fa-plane fa-lg"></span> Flights</a> </li>
+              <li class="nav-item"><a class="nav-link"href="./create"><span class="fa fa-pencil fa-lg"></span> Create Flight</a> </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
     <div id="deletemodal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg" role="content">
             <!-- Modal content-->
@@ -75,9 +94,14 @@
         <br />
         <button class="btn btn-warning">Filter</button>
     </form>
-    <ul>
+
+    
+    
+    <span class="col-12 col-sm-4 order-sm-last col-md-3">
+    <ul class="list-group">
         <% for(i = 0;i < flights.length; i++) { %>
-            <li> 
+            <li class="list-group-item"> 
+
                 <%=flights[i] %>
                 <ul>
                     <li>ID: <%= flights[i]._id %></li>
@@ -101,6 +125,9 @@
             </li>
         <% } %>
     </ul>
+
+    </span> 
+
    
 <script>
     function addActionToDeleteForm(id){
