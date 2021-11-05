@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const cors = require('cors');
+// const flightController = require('./controllers/flightController');
 
 
 
@@ -13,6 +14,7 @@ mongoose.connect(mongoUrl,{ useNewUrlParser: true , useUnifiedTopology: true },(
 
 const port = process.env.PORT | 8000 ;
 const adminRoutes = require('./Routes/adminRoute');
+const indexRoutes = require('./Routes/index');
 
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
@@ -21,12 +23,13 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine","ejs");
 app.use(methodOverride("_method"));
 
+app.use('/', indexRoutes);
 app.use('/admin',adminRoutes);
 
-app.get('/',(req,res)=>{
-    res.render('Login');
-})
+
+
 
 app.listen(port,()=>{
     console.log(`Listening at http://localhost:${port}`)
 })
+
