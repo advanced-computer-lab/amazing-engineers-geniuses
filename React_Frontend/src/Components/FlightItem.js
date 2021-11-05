@@ -37,7 +37,7 @@ class FlightItem extends Component{
                     <li>FlightDate: {flight.FlightDate} </li> 
                     <li>EconomySeat: {flight.EconomySeats} </li>
                     <li>BusinessSeats: {flight.BusinessSeats} </li>
-                    <li>FirstclassNameSeats: {flight.FirstclassNameSeats} </li>
+                    <li>FirstClassSeats: {flight.FirstClassSeats} </li>
                     <li>FromAirport: {flight.FromAirport} </li>
                     <li>ToAirport: {flight.ToAirport} </li>
                     </ul>
