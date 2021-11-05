@@ -11,7 +11,7 @@ class ShowFlights extends Component{
             Departure: '',
             Arrival: '',
             FlightDate: '',
-            EconomySeat: '',
+            EconomySeats: '',
             BusinessSeats: '',
             FirstClassSeats: '',
             FromAirport: '',
@@ -33,16 +33,19 @@ class ShowFlights extends Component{
             })
             .catch((err)=>console.log(err));
     }
+   // axios.delete(`${api}/admin/flight/delete/${id}`).then(res=>{this.setSatete(previousState=>{return{flights: this.state.flights.filter((flight)=>(flight._id !== id}})})
 
      deleteFlight(id){
+        console.log(id);
         axios.delete(`${api}/admin/flight/delete/${id}`)
             .then(()=>{
-               console.log('Deleted');
+               console.log(`Deleted ${id}`);
                this.setState({
                    flights: this.state.flights.filter((flight)=>(flight._id !== id))
                })
             });
     }
+    
 
     changeText(event){
          let name = event.target.name;
@@ -52,15 +55,19 @@ class ShowFlights extends Component{
     }
 
     submitForm(e){
-        e.preventDefault();
+        e.preventDefault(); 
         const filerCriteria = this.state;
         axios.post(`${api}/admin/flight/show`,filerCriteria)
             .then((res)=>{
+               console.log('resdata'); 
+               console.log(res.data); 
+               const data= res.data;
                this.setState({
-                   flights: res.data
+                   flights: data
                });
-               console.log(res.data);
-            //    this.props.history.push('/admin/flight/show');
+               console.log("stateflight");
+               console.log(this.state.flights);
+               //this.props.history.push('/admin/flight/show');
                
             })
             .catch((err)=>{
@@ -68,45 +75,50 @@ class ShowFlights extends Component{
             })
     }
 
+
     render(){
 
         const flightList = this.state.flights.map((flight, key)=>
             <FlightItem flight={flight} key={key} deleteFlight={this.deleteFlight}  />
         )
+        console.log('Flightlist');
         console.log(flightList);
 
         return (
             <div>
-                <h1>Show Flights</h1>
-                <label>Flight Number</label>
-                <input type='number' placeholder='FlightNumber' name="FlightNumber"  onChange={this.changeText}/>
-                <br/>
-                <label>Departure Time</label>
-                <input type='time' name="Departure" onChange={this.changeText}/>
-                <br/>
-                <label>Arrival Time</label>
-                <input type='time' name="Arrival" onChange={this.changeText}/>
-                <br/>
-                <label>Flight Date</label>
-                <input type='date'  name="FlightDate" onChange={this.changeText}/>
-                <br/>
-                <label>Economy Seats</label>
-                <input type='number' placeholder='EconomySeats' name="EconomySeats" onChange={this.changeText}/>
-                <br/>
-                <label>Business Seats </label>
-                <input type='number' placeholder='BusinessSeats' name="BusinessSeats" onChange={this.changeText}/>
-                <br/>
-                <label>First Class seats</label>
-                <input type='number' placeholder='FirstClassSeats' name="FirstClassSeats" onChange={this.changeText}/>
-                <br/>
-                <label>From Airport </label>
-                <input type='text' placeholder='FromAirport' name="FromAirport" onChange={this.changeText}/>
-                <br/>
-                <label>To Airport </label>
-                <input type='text' placeholder='ToAirport' name="ToAirport" onChange={this.changeText}/>
-                <br/>
-                <button className='btn btn-warning' onClick={this.submitForm}>Filter</button>
-
+                <form onSubmit={this.submitForm}>
+                    <h1>Show Flights</h1>
+                    <label>Flight Number</label>
+                    <input type='number' placeholder='FlightNumber' name="FlightNumber"  onChange={this.changeText}/>
+                    <br/>
+                    <label>Departure Time</label>
+                    <input type='time' name="Departure" onChange={this.changeText}/>
+                    <br/>
+                    <label>Arrival Time</label>
+                    <input type='time' name="Arrival" onChange={this.changeText}/>
+                    <br/>
+                    <label>Flight Date</label>
+                    <input type='date'  name="FlightDate" onChange={this.changeText}/>
+                    <br/>
+                    <label>Economy Seats</label>
+                    <input type='number' placeholder='EconomySeats' name="EconomySeats" onChange={this.changeText}/>
+                    <br/>
+                    <label>Business Seats </label>
+                    <input type='number' placeholder='BusinessSeats' name="BusinessSeats" onChange={this.changeText}/>
+                    <br/>
+                    <label>First Class seats</label>
+                    <input type='number' placeholder='FirstClassSeats' name="FirstClassSeats" onChange={this.changeText}/>
+                    <br/>
+                    <label>From Airport </label>
+                    <input type='text' placeholder='FromAirport' name="FromAirport" onChange={this.changeText}/>
+                    <br/>
+                    <label>To Airport </label>
+                    <input type='text' placeholder='ToAirport' name="ToAirport" onChange={this.changeText}/>
+                    <br/>
+                    <button type='submit' className='btn btn-warning' >Filter</button>
+                    
+                </form>
+            
                 <div>
                     <ul>
                         {flightList}
