@@ -28,14 +28,26 @@ const showFlights = (req,res)=>{
    })
 };
 
-const filerFlights = (req,res)=>{
+const filterFlights = (req,res)=>{
    const bodyArr = Object.entries(req.body);
    const filtered = bodyArr.filter(([key,value]) => value !== '');
    const bodyObj = Object.fromEntries(filtered);
 
+   if(req.body.Departure !== ''){
+      let dep = new Date(`March 13, 08 ${req.body.Departure}`);
+      dep = getTime(dep);
+      bodyObj.Departure = dep;
+   }
+
+   if(req.body.Arrival !== ''){
+      let arr = new Date(`March 13, 08 ${req.body.Arrival}`);  
+      arr = getTime(arr);
+      bodyObj.Arrival = arr;
+   }
+   console.log(bodyObj);
    Flight.find(bodyObj,(err,flights)=>{
-      // res.render('showFlights',{flights: flights})
-      res.send(flights);
+     //res.render('showFlights',{flights: flights})
+     res.send(flights);
    })
 }
 
@@ -144,8 +156,9 @@ function sortByDate(arr){
 module.exports = {
     createFlight,
     showFlights,
-    filerFlights,
+    filterFlights,
     deleteFlight,
     updateFlight,
-    showSchedule
+    showSchedule,
+    getTime
 }

@@ -37,8 +37,7 @@
     </div>
 
     <h1><em>Show Flights..</em> </h1>
-    <form action='/admin/flight/show' method="post">
-
+    <form action='/admin/flight/showFlights' method="post">
         <label>Flight Number</label>
         <input type='number' placeholder='FlightNumber' name="FlightNumber" />
         <br />
@@ -66,7 +65,7 @@
         <label>To Airport </label>
         <input type='text' placeholder='ToAirport' name="ToAirport" />
         <br />
-        <button class="btn btn-warning">Filter</button>
+        <button type="submit" class="btn btn-warning">Filter</button>
     </form>
     <ul>
         <% for(i = 0;i < flights.length; i++) { %>
