@@ -13,6 +13,33 @@ router.get('/flight/create', (req,res)=>{
     
 });
 
+const updateFlight = async (req, res) => {
+   // const FlightNumber = req.body.FlightNumber
+   try{
+   await Flight.findOneAndUpdate({FlightNumber : req.body.FlightNumber} ,
+   {
+      Departure : req.body.Departure,
+      Arrival : req.body.Arrival,
+      EconomySeats : req.body.EconomySeats,
+      BusinessSeats : req.body.BusinessSeats,
+      FlightDate : req.body.FlightDate,
+      ToAirport : req.body.ToAirport,
+      FromAirport : req.body.FromAirport,
+   }, {new: true}, function(err, flight) {
+      if(err){
+         return res.json({message : err});
+      }
+      else{
+         return res.json({flight});
+      }
+   }).clone()
+   }
+   catch(err){
+      console.log(err);
+   }
+}
+router.post('/flight/updatedetails', updateFlight);
+
 router.post('/flight/create',(req,res)=>{
    let arr = new Date(`${req.body.FlightDate}T${req.body.Arrival}:00`);
    let dep = new Date(`${req.body.FlightDate}T${req.body.Departure}:00`);  
