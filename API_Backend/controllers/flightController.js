@@ -28,6 +28,18 @@ const showFlights = (req,res)=>{
    })
 };
 
+const showFlightbyID = (req,res)=>{
+   let id = req.params.id;
+   Flight.findById(id, (err,flight)=>{
+      if(err){
+         console.log(err);
+      }
+      else{
+         res.send(flight);
+      }
+   })
+}
+
 const filterFlights = (req,res)=>{
    const bodyArr = Object.entries(req.body);
    const filtered = bodyArr.filter(([key,value]) => value !== '');
@@ -44,7 +56,6 @@ const filterFlights = (req,res)=>{
       arr = getTime(arr);
       bodyObj.Arrival = arr;
    }
-   console.log(bodyObj);
    Flight.find(bodyObj,(err,flights)=>{
      //res.render('showFlights',{flights: flights})
      res.send(flights);
@@ -104,9 +115,9 @@ function getTime(time){
    const Period = time.getHours() >= 12 ? 'PM' : 'AM';
    let Hours = time.getHours();
       if(Period === 'PM' && time.getHours() != 12)
-         Hours = time.getHours() - 12;
+         Hours = time.getHours() - 12 + '';
       else if(Period === 'AM' && time.getHours() === 0)
-         Hours = 12;
+         Hours = '12';
    Hours = Hours < 10 ? '0' + Hours : Hours;
    Minutes = time.getMinutes() < 10 ? '0' + time.getMinutes() : time.getMinutes()+'',
    Time = {
@@ -114,6 +125,7 @@ function getTime(time){
       Minutes: Minutes,
       Period: Period
    }
+   Time.AsString = getTimeString(Time);
    return Time;
 
 }
@@ -146,16 +158,27 @@ function sortByTime(flights){
    } 
 }
 
+function getTimeString(time){
+   let hrs = time.Hours;
+   if(time.Period === 'PM' && time.Hours !== 12){
+     hrs = (Number.parseInt(time.Hours) + 12) + '';
+   }
+   else if(time.Period === 'AM' && time.Hours == 12){
+      hrs = '00';
+   }
+   return `${hrs}:${time.Minutes}`;
+}
+
 function sortByDate(arr){
     arr.sort((a,b)=> new Date(a.FlightDate) - new Date(b.FlightDate));
     sortByTime(arr);
 }
 
 
-
 module.exports = {
     createFlight,
     showFlights,
+    showFlightbyID,
     filterFlights,
     deleteFlight,
     updateFlight,

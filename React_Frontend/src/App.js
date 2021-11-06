@@ -16,7 +16,7 @@ class App extends Component {
         <Route path='/admin/flight/create' component={CreateFlightForm} />
         <Route path='/admin/flight/show' component={ShowFlights} />
         <Route path='/flightSchedule' component={FlightSchedule} />
-        <Route path='/admin/flight/update' component={UpdateFlight}/>
+        {/* <Route path='/admin/flight/update' component={UpdateFlight}/> */}
         <Route path='/admin/flight/update/:id' component={UpdateFlight}/>
 
     

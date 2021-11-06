@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import FlightItem from './FlightItem';
 import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
 const api = 'http://localhost:8000';
 
 class ShowFlights extends Component{
@@ -31,7 +30,6 @@ class ShowFlights extends Component{
                 this.setState({
                     flights: res.data
                 });
-                console.log(res.data);
             })
             .catch((err)=>console.log(err));
     }
@@ -61,15 +59,10 @@ class ShowFlights extends Component{
         const filerCriteria = this.state;
         axios.post(`${api}/admin/flight/show`,filerCriteria)
             .then((res)=>{
-               console.log('resdata'); 
-               console.log(res.data); 
                const data= res.data;
                this.setState({
                    flights: data
                });
-               console.log("stateflight");
-               console.log(this.state.flights);
-               //this.props.history.push('/admin/flight/show');
                
             })
             .catch((err)=>{
@@ -83,9 +76,6 @@ class ShowFlights extends Component{
         const flightList = this.state.flights.map((flight, key)=>
             <FlightItem hideBtn = {false} flight={flight} key={key} deleteFlight={this.deleteFlight}  />
         )
-        console.log('Flightlist');
-        console.log(flightList);
-
         return (
             <div>
                   
@@ -121,8 +111,8 @@ class ShowFlights extends Component{
                     <button type='submit' className='btn btn-warning' >Filter</button>
                     
                 </form>
-                <button className='btn btn-info' onClick={()=>{this.props.history.push('/admin/flight/show')}}>View Flights Schedule</button>
-                <Link to="/admin/flight/showFlights/" >Flight Schedule </Link>
+                <button className='btn btn-info'><Link style={{color: 'white'}} to="/flightSchedule" >Flight Schedule </Link></button>
+                
             
                 <div>
                     <ul>
