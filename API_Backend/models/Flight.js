@@ -50,6 +50,10 @@ const flightSchema = new Schema({
         type:String,
         required:true
     },
+    Terminal:{
+        type: Number,
+        required: true
+    }
 
 })
 

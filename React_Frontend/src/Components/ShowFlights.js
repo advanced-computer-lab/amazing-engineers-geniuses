@@ -17,6 +17,7 @@ class ShowFlights extends Component{
             FirstClassSeats: '',
             FromAirport: '',
             ToAirport: '',
+            Terminal:'',
             flights:[]
          }
          this.changeText = this.changeText.bind(this);
@@ -107,6 +108,9 @@ class ShowFlights extends Component{
                     <br/>
                     <label>To Airport </label>
                     <input type='text' placeholder='ToAirport' name="ToAirport" onChange={this.changeText}/>
+                    <br/>
+                    <label>Terminal</label>
+                    <input type='number' placeholder='Terminal' name="Terminal" onChange={this.changeText}/>
                     <br/>
                     <button type='submit' className='btn btn-warning' >Filter</button>
                     

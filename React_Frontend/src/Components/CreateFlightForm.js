@@ -84,6 +84,9 @@ class CreateFlightForm extends Component{
                     <label>To Airport </label>
                     <input type='text' placeholder='ToAirport' name="ToAirport" required onChange={this.changeText}/>
                     <br/>
+                    <label>Terminal</label>
+                    <input type='text' placeholder='Terminal' name="Terminal" required onChange={this.changeText}/>
+                    <br/>
                     <button type='submit'>Create</button>
                 </form>
             </div>

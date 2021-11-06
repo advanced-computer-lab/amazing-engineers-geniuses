@@ -13,7 +13,8 @@ const createFlight = (req,res)=>{
       BusinessSeats: req.body.BusinessSeats,
       FirstClassSeats: req.body.FirstClassSeats,
       FromAirport: req.body.FromAirport,
-      ToAirport: req.body.ToAirport
+      ToAirport: req.body.ToAirport,
+      Terminal: req.body.Terminal
 
    })
    newFlight.save()
@@ -87,7 +88,8 @@ const updateFlight = (req, res) => {
          BusinessSeats: req.body.BusinessSeats,
          FirstClassSeats: req.body.FirstClassSeats,
          FromAirport: req.body.FromAirport,
-         ToAirport: req.body.ToAirport
+         ToAirport: req.body.ToAirport,
+         Terminal: req.body.Terminal
       };
       Flight.findByIdAndUpdate(req.params.id, updatedFlight,(err, flight)=> {
          if(err){

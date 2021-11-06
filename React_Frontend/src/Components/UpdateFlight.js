@@ -17,6 +17,7 @@ export default function UpdateFlight(props) {
     const [FirstClassSeats, setFirstClassSeats] = React.useState(0);
     const [FromAirport,setFromAirport]= React.useState("");
     const [ToAirport,setToAirport]= React.useState("");
+    const [Terminal,setTerminal]= React.useState("");
 
     useEffect(() => {
         axios.get(`${api}/admin/flight/show/${id.id}`)
@@ -32,6 +33,7 @@ export default function UpdateFlight(props) {
             setFirstClassSeats(flight.FirstClassSeats);
             setFromAirport(flight.FromAirport);
             setToAirport(flight.ToAirport);
+            setTerminal(flight.Terminal);
         })
 
     }, [id.id])
@@ -48,6 +50,7 @@ const submitUpdate = () => {
         FirstClassSeats:FirstClassSeats,
         FromAirport:FromAirport,
         ToAirport:ToAirport,
+        Terminal:Terminal
 
     }).then((res) =>{
         console.log(res, 'update');
@@ -87,7 +90,10 @@ const submitUpdate = () => {
             <input type='text' placeholder='FromAirport' name="FromAirport" value={FromAirport} required onChange={(e) => setFromAirport(e.target.value)}/>
             <br/>
             <label>To Airport </label>
-            <input type='text' placeholder='ToAirport' name="ToAirport" value={ToAirport} required onChange={(e) => setToAirport(e.target.value)}/>     
+            <input type='text' placeholder='ToAirport' name="ToAirport" value={ToAirport} required onChange={(e) => setToAirport(e.target.value)}/>  
+            <br/>
+            <label>Terminal </label>
+            <input type='number' placeholder='Terminal' name="Terminal" value={Terminal} required onChange={(e) => setTerminal(e.target.value)}/>     
             <button onClick = {submitUpdate}>UPDATE</button>
         </div>
     )
