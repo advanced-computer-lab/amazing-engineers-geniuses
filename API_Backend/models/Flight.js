@@ -7,7 +7,8 @@ const Time = new Schema({
     Period: {
         type: String,
         enum: ['AM', 'PM']
-    }
+    },
+    AsString: String
 },{ _id : false })
 
 const flightSchema = new Schema({
@@ -49,6 +50,10 @@ const flightSchema = new Schema({
         type:String,
         required:true
     },
+    Terminal:{
+        type: Number,
+        required: true
+    }
 
 })
 

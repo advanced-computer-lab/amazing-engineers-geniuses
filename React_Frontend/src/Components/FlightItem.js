@@ -1,8 +1,5 @@
 import React, {Component} from 'react';
-import { useHistory } from "react-router-dom";
 const Router = require('react-router-dom');
-// import axios from 'axios';
-// const api = 'http://localhost:8000';
 
 const Link = Router.Link
 
@@ -20,14 +17,10 @@ class FlightItem extends Component{
 
 
     render(){
-
-        console.log(this.props.hideBtn);
         let hidden = '';
         if(this.props.hideBtn){
-            hidden = 'true'
-        }
-        console.log(hidden);
-        const flight = this.props.flight;
+            hidden = true
+        };
         const updateLink = '/admin/flight/update/'+this.props.flight._id;
 
         return(
@@ -61,13 +54,14 @@ class FlightItem extends Component{
                     <li>FirstClassSeats: {this.props.flight.FirstClassSeats} </li>
                     <li>FromAirport: {this.props.flight.FromAirport} </li>
                     <li>ToAirport: {this.props.flight.ToAirport} </li>
+                    <li>Terminal: {this.props.flight.Terminal} </li>
                     </ul>
                     <button className="btn btn-danger btn-sm ml-1" hidden={hidden}>
                         <a data-toggle="modal" data-target="#deletemodal">Delete</a>
                     </button>
 
-                    <button type='update' className='btn btn-outline-primary' onClick={()=>{this.history.push("/admin/flight/update")}}>Update</button>
-                    <Link to = {updateLink} >Update</Link>
+                    <button type='update' className='btn btn-outline-primary' hidden={hidden}><Link to = {updateLink} >Update</Link></button>
+                    
                     {/* <button className='btn btn-danger' onClick={this.df}>Delete</button> */}
 
                 </li>

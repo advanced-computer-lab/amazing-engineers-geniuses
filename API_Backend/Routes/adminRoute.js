@@ -14,8 +14,6 @@ router.get('/flight/create', (req,res)=>{
     
 });
 
-
-
 router.post('/flight/create',flightController.createFlight);
 
 router.get('/flight/showFlights',(req,res)=>{
@@ -51,6 +49,8 @@ router.post('/flight/showFlights',(req,res)=>{
 router.get('/flight/show',flightController.showFlights)
 
 router.post('/flight/show',flightController.filterFlights);
+
+router.get('/flight/show/:id',flightController.showFlightbyID);
 
 router.delete('/flight/delete/:id',flightController.deleteFlight);
 

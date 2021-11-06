@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import FlightItem from './FlightItem';
 const api = 'http://localhost:8000';
-//var flights=[];
 
 class FlightSchedule extends Component{
 
@@ -20,11 +19,7 @@ class FlightSchedule extends Component{
             ToAirport: '',
             flights:[]
          }
-
-        // this.test = this.test.bind(this);
     }
-
-//    const baseURL= `${api}/admin/flight/showFlights`;
 
     componentDidMount(){
         axios.get(`${api}/flightSchedule`)
@@ -32,12 +27,6 @@ class FlightSchedule extends Component{
             this.setState({
                 flights: res.data
             });
-
-           // flights= res.data;
-            console.log("BBBBBBBBBBBB");
-            console.log(this.state.flights);
-            console.log("----------------");
-            console.log(this.setState()); 
             
          })
          .catch((err)=>{
@@ -52,36 +41,17 @@ class FlightSchedule extends Component{
             this.setState({
                 flights: res.data
             });
-
-           // flights= res.data;
-            console.log("BBBBBBBBBBBB");
-            console.log(this.state.flights);
-            console.log("----------------");
-            console.log(this.setState()); 
-            
          })
          .catch((err)=>{
              console.log(err)
          })
     }
 
-    // const showFlights=()=>({
-    //     fetch()
-    // });
-
     render(){
 
         const flightList = this.state.flights.map((flight, key)=>
             <FlightItem hideBtn={true} flight={flight} key={key}/>
     )
-
-    //const flightList= this.state.flights.FlightNumber;
-
-    //const flightList = this.state.flights.map((flight,key) => <FlightItem flight={flight} key={key} /> )
-
-    console.log(flightList);
-    console.log("AAAAAAAAAAAAA");
-
        return (
           <div>
             <h1> <em>FLIGHT SCHEDULE</em></h1>
