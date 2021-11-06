@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import FlightItem from './FlightItem';
+import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 const api = 'http://localhost:8000';
 
 class ShowFlights extends Component{
@@ -71,7 +73,7 @@ class ShowFlights extends Component{
     render(){
 
         const flightList = this.state.flights.map((flight, key)=>
-            <FlightItem flight={flight} key={key} deleteFlight={this.deleteFlight}  />
+            <FlightItem hideBtn = {false} flight={flight} key={key} deleteFlight={this.deleteFlight}  />
         )
         console.log(flightList);
 
@@ -106,6 +108,9 @@ class ShowFlights extends Component{
                 <input type='text' placeholder='ToAirport' name="ToAirport" onChange={this.changeText}/>
                 <br/>
                 <button className='btn btn-warning' onClick={this.submitForm}>Filter</button>
+                
+                <button className='btn btn-info' onClick={()=>{this.props.history.push('/admin/flight/show')}}>View Flights Schedule</button>
+                <Link to="/admin/flight/showFlights/" >Flight Schedule </Link>
 
                 <div>
                     <ul>

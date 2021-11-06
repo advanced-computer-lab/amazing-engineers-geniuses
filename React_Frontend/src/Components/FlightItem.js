@@ -8,6 +8,12 @@ class FlightItem extends Component{
 
 
     render(){
+        console.log(this.props.hideBtn);
+        let hidden = '';
+        if(this.props.hideBtn){
+            hidden = 'true'
+        }
+        console.log(hidden);
         const flight = this.props.flight;
         return(
             <div>
@@ -41,7 +47,7 @@ class FlightItem extends Component{
                     <li>FromAirport: {flight.FromAirport} </li>
                     <li>ToAirport: {flight.ToAirport} </li>
                     </ul>
-                    <button className="btn btn-danger btn-sm ml-1">
+                    <button className="btn btn-danger btn-sm ml-1" hidden={hidden}>
                         <a data-toggle="modal" data-target="#deletemodal">Delete</a>
                     </button>
                     {/* <button className='btn btn-danger' onClick={()=>{this.props.deleteFlight(this.props.flight._id)}}>Delete</button> */}
