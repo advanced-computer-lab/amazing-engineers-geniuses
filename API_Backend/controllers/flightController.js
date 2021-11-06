@@ -63,6 +63,43 @@ const filterFlights = (req,res)=>{
    })
 }
 
+const findReturnFlights = async (req,res)=>{
+   const id = req.params.id;
+   const depFlight = await Flight.findById(id);
+   const flightDate = depFlight.FlightDate;
+   const flightArrHour = Number.parseInt(depFlight.Arrival.AsString.split(':')[0]);
+   const flightArrMin = Number.parseInt(depFlight.Arrival.AsString.split(':')[1]);
+   const newDep = depFlight.ToAirport;
+   const newRet = depFlight.FromAirport;
+   let possibleFlights = await Flight.find({FromAirport: newDep, ToAirport: newRet});
+
+   //Gets all Return Flights in later day
+   let returnFlights= possibleFlights.filter((flight)=>(
+      flight.FlightDate.getTime() > flightDate.getTime()
+   ))
+
+   //Gets all Return Flights in later hour
+   let returnFlights2= possibleFlights.filter((flight)=>(
+      flight.FlightDate.getTime() == flightDate.getTime()
+   )).filter((flight)=>(
+     Number.parseInt(flight.Departure.AsString.split(':')[0]) > flightArrHour
+   ));
+
+   //Gets all Return Flights in later minute
+   let returnFlights3 = possibleFlights.filter((flight)=>(
+      flight.FlightDate.getTime() == flightDate.getTime()
+   )).filter((flight)=>(
+     Number.parseInt(flight.Departure.AsString.split(':')[0]) == flightArrHour
+   )).filter((flight)=>(
+      Number.parseInt(flight.Departure.AsString.split(':')[1]) > flightArrMin
+   ))
+
+   //Merges all Return Flights
+   returnFlights.concat(returnFlights2).concat(returnFlights3);
+
+   res.send(returnFlights);
+}
+
 const deleteFlight = (req,res)=>{
    const id = req.params.id;
    Flight.findByIdAndDelete(id, (err, deleted) => {  
@@ -185,5 +222,6 @@ module.exports = {
     deleteFlight,
     updateFlight,
     showSchedule,
-    getTime
+    getTime,
+    findReturnFlights
 }
