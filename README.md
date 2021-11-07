@@ -8,7 +8,7 @@ It started with a crazy idea of going to college. Now we're stressed, depressed 
 Everything is Fine.
 
 ### Code Style
-A coding standard. Yes, we definitely have one of those.
+A coding standard. Yes, we **definitely** have one of those.
 
 ### Screenshots
 As the saying goes, a picture is equal to a thousand words. Most people will be interested if there is a visual representation of what the project is about. It helps them understand better. A visual representation can be snapshots of the project or a video of the functioning of the project.
