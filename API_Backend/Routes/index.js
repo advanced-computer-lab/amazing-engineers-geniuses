@@ -9,4 +9,6 @@ router.get('/',(req,res)=>{
 
 router.get('/flightSchedule',flightController.showSchedule);
 
+router.get('/findReturnFlights/:id',flightController.findReturnFlights);
+
 module.exports = router;

@@ -34,11 +34,7 @@ class CreateFlightForm extends Component{
             .then((res)=>{
                 console.log('Flight Created:\n' + newFlight);
                 this.props.history.push('/admin/flight/show');
-            })
-            .catch((err)=>{
-                console.log(err)
-            });
-        this.setState({
+                this.setState({
                     FlightNumber: '',
                     Departure: '',
                     Arrival: '',
@@ -49,6 +45,11 @@ class CreateFlightForm extends Component{
                     FromAirport: '',
                     ToAirport: ''
                 })
+            })
+            .catch((err)=>{
+                console.log(err)
+            });
+        
     }
 
     render(){
