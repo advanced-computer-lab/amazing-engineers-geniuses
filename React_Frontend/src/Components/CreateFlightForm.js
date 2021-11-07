@@ -33,7 +33,6 @@ class CreateFlightForm extends Component{
         axios.post(`${api}/admin/flight/create`,newFlight)
             .then((res)=>{
                 console.log('Flight Created:\n' + newFlight);
-                this.props.history.push('/admin/flight/show');
                 this.setState({
                     FlightNumber: '',
                     Departure: '',
@@ -45,6 +44,7 @@ class CreateFlightForm extends Component{
                     FromAirport: '',
                     ToAirport: ''
                 })
+                this.props.history.push('/admin/flight/show');
             })
             .catch((err)=>{
                 console.log(err)
