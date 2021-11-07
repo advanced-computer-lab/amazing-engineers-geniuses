@@ -14,7 +14,7 @@ A coding standard. Yes, we **definitely** have one of those.
 As the saying goes, a picture is equal to a thousand words. Most people will be interested if there is a visual representation of what the project is about. It helps them understand better. A visual representation can be snapshots of the project or a video of the functioning of the project.
 
 ### Tech/Framework used
-We used the MERN stack for this project. If you don't know what that is then you shouldn't be reading this section in the first place.
+We used the MERN stack for this project. If you don't know what that is, then you shouldn't be reading this section in the first place.
 
 ### Features
 So far, the Admin has god-mode privileges.
@@ -26,14 +26,14 @@ This is where you try to compress your project and make the reader understand wh
 Just clone and npm install.
 
 ### API reference
-GET '/' Homepage
-GET '/admin/flight/show' Shows all flights
-POST '/admin/flight/show'  Filters flights
-GET '/admin/flight/create'
-POST '/admin/flight/create'
-GET '/admin/flight/update/:id'
-PUT '/admin/flight/update/:id'
-GET '/flightSchedule'
+GET '/' Homepage 
+GET '/admin/flight/show' Shows all flights  
+POST '/admin/flight/show'  Filters flights  
+GET '/admin/flight/create'  
+POST '/admin/flight/create'  
+GET '/admin/flight/update/:id'  
+PUT '/admin/flight/update/:id'  
+GET '/flightSchedule'  
 
 ### Tests
 This is the section where you mention all the different tests that can be performed with code examples
