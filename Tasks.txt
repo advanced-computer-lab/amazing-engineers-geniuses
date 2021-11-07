@@ -1,0 +1,8 @@
+Sprint 1
+Name        Requirement No.         
+Khaled      3,4,5,6
+David       7
+Amira       8
+Mohannad    9
+Shahd       10
+Team Members did the frontend of their respective Requirement   
