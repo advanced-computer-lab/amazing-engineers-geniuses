@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 const Router = require('react-router-dom');
 
 
@@ -60,6 +61,7 @@ class FlightItem extends Component{
                     }
                 </li>
                 <br/>
+                
             </div>
             
         )
