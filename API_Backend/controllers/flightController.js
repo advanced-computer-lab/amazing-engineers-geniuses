@@ -19,12 +19,14 @@ const createFlight = (req,res)=>{
    })
    newFlight.save()
    .then((newFlight)=>{res.send(newFlight)})
-   .catch((err)=>{console.log(err)});
+   .catch((err)=>{res.send(err)});
 }
 
 const showFlights = (req,res)=>{
    Flight.find({},(err,flights)=>{
-      
+      if(err){
+         res.send(err)
+      }
       res.send(flights);
    })
 };
@@ -33,7 +35,7 @@ const showFlightbyID = (req,res)=>{
    let id = req.params.id;
    Flight.findById(id, (err,flight)=>{
       if(err){
-         console.log(err);
+         res.send(err);
       }
       else{
          res.send(flight);
@@ -104,7 +106,7 @@ const deleteFlight = (req,res)=>{
    const id = req.params.id;
    Flight.findByIdAndDelete(id, (err, deleted) => {  
       if (err) 
-        console.log(err);
+        res.send(err);
       else {
         console.log(`Deleted: ${deleted}`);
         res.send('Deleted: ' + deleted);
@@ -131,6 +133,7 @@ const updateFlight = (req, res) => {
       Flight.findByIdAndUpdate(req.params.id, updatedFlight,(err, flight)=> {
          if(err){
             console.log(err);
+            res.send(err);
             return res.json({message : err});
          }
          else{
