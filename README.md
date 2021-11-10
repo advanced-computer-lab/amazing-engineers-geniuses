@@ -1,33 +1,39 @@
-
 # Amazing-Engineers-Geniuses
-A little brief about what the project is about. It should be like a small summary format informing about the main purpose of the project.
+This is an Airline System for handling Reservations, Flights and anything related to Amazing Airline.
 
 ### Motivation
-This section is for letting the reader know why you created this project, the reason behind pursuing such a project, and why you have decided to do it.
+It started with a crazy idea of going to college. Now we're stressed, depressed and doing projects for the grades.
 
 ### Build Status
-This basically explains the current build status of the project. If there is a bug /error which needs addressing. This is done so for two different reasons The user understands that this is an issue and does not spend more time figuring if it was a mistake on their part.A developer who is familiar with the issue can suggest some solutions directly without going through the whole code.
+Everything is Fine.
 
 ### Code Style
-This lets the users know that you have used a particular code style and helps them when contributing to your project so that the whole project code style stays the same. Some common code styles: standard, xo, etc.
+A coding standard. Yes, we **definitely** have one of those.
 
 ### Screenshots
 As the saying goes, a picture is equal to a thousand words. Most people will be interested if there is a visual representation of what the project is about. It helps them understand better. A visual representation can be snapshots of the project or a video of the functioning of the project.
 
 ### Tech/Framework used
-This is used to help the reader understand which tech or frameworks have been used to do the project. It helps the reader understand which all tech stack he has to be familiar with to understand the whole project.
+We used the MERN stack for this project. If you don't know what that is, then you shouldn't be reading this section in the first place.
 
 ### Features
-This is where you write what all extra features have been done in your project. Basically this is where you try to make your project stand out from the rest.
+So far, the Admin has god-mode privileges.
 
 ### Code Examples
 This is where you try to compress your project and make the reader understand what it does as simply as possible. This should help the reader understand if your code solves their issue.
 
 ### Installation
-If your project needs installation of certain software or configurations to the system. Do mention it in this section as it helps a lot for the reader to use your project. The steps mentioned should be precise and explanatory.  If possible, you can add links that can help them better understand how to configure/install the necessary files or softwares.
+Just clone and npm install.
 
 ### API reference
-If your project is small, then we can add the reference docs in the readme. For larger projects, it is better to provide links to where the API reference documentation is documented.
+GET '/' Homepage 
+GET '/admin/flight/show' Shows all flights  
+POST '/admin/flight/show'  Filters flights  
+GET '/admin/flight/create'  
+POST '/admin/flight/create'  
+GET '/admin/flight/update/:id'  
+PUT '/admin/flight/update/:id'  
+GET '/flightSchedule'  
 
 ### Tests
 This is the section where you mention all the different tests that can be performed with code examples
@@ -43,4 +49,3 @@ Giving proper credit is most important. Mention any links/repos which helped you
 
 ### License
 A short description of the license. (MIT, Apache, etc.)
-
