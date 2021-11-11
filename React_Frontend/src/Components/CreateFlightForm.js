@@ -49,7 +49,7 @@ class CreateFlightForm extends Component{
                 this.props.history.push('/admin/flight/show');
             })
             .catch((err)=>{
-                console.log(err.response.data.message)
+                console.log(err.response.data.message);
             });
         
     }

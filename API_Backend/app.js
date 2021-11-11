@@ -3,10 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const cors = require('cors');
-const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const User = require('./models/User');
-
+const middleware = require('./middleware');
 
 
 require('dotenv').config();
@@ -25,18 +22,18 @@ app.use(express.static(__dirname + "/public"));
 app.set("view engine","ejs");
 app.use(methodOverride("_method"));
 
-app.use(passport.initialize());
-app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
-
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 app.use('/', indexRoutes);
-app.use('/admin',adminRoutes);
+app.use('/admin', middleware.isAdmin, adminRoutes);
 
 
 
+//Error handler
+// app.use((err,req,res,next)=>{
+//     const {status = 500, message='Something Went Wrong'} = err;
+//     res.status(status).send(message);
+//     //console.log(err);
+// })
 
 app.listen(port,()=>{
     console.log(`Listening at http://localhost:${port}`)

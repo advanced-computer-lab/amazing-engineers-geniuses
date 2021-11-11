@@ -31,7 +31,7 @@ const createFlight = async (req,res)=>{
          let messageText ='Error creating flight. ErrorBody: '+err; 
          if(err.code == 11000)
             messageText = `Flight Number ${req.body.FlightNumber} is already taken.`
-         res.status(500).send({message: messageText})
+         res.status(500).send({message: messageText});
       }
       else{
          res.send(flight)
@@ -56,7 +56,7 @@ const showFlightbyID = (req,res)=>{
    let id = req.params.id;
    Flight.findById(id, (err,flight)=>{
       if(err){
-         res.status.send({message: 'Could not show flight'});
+         res.status(500).send({message: 'Could not show flight'});
       }
       else{
          res.send(flight);

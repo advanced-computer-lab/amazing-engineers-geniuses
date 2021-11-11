@@ -83,8 +83,6 @@
                         <%= flights[i].Arrival.Hours %>:<%= flights[i].Arrival.Minutes %>
                                 <%= flights[i].Arrival.Period %>
                     </li>
-                    <li>Date:
-                        <%= flights[i].FlightDate.getDate() %>/<%= flights[i].FlightDate.getMonth() + 1%>/<%= flights[i].FlightDate.getFullYear()%>
                 </ul>
                 <button id=<%= flights[i]._id %> class="btn btn-danger btn-sm ml-1" onclick="addActionToDeleteForm(this.id)">
                     <a data-toggle="modal" data-target="#deletemodal">
