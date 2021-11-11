@@ -3,7 +3,9 @@ const app = express();
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const cors = require('cors');
-// const flightController = require('./controllers/flightController');
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require('./models/User');
 
 
 
@@ -22,6 +24,13 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.static(__dirname + "/public"));
 app.set("view engine","ejs");
 app.use(methodOverride("_method"));
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use('/', indexRoutes);
 app.use('/admin',adminRoutes);
