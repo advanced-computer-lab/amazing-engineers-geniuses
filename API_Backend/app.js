@@ -25,7 +25,7 @@ app.use(methodOverride("_method"));
 
 app.use('/', indexRoutes);
 app.use('/auth',authRoutes);
-app.use('/admin', middleware.isAdmin, adminRoutes);
+app.use('/admin', adminRoutes);
 
 
 
