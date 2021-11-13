@@ -5,22 +5,32 @@ import FlightSchedule from './Components/FlightSchedule';
 import Homepage from './Components/HomePage';
 import Login from './Components/Login';
 import Register from './Components/Register';
-import AdminRoute from './Components/AdminRoute';
+import AdminRoutes from './Components/AdminRoutes';
+import Auth from './services/Auth';
 
 const api = 'http://localhost:8000';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      currentUser: {}
+    }
+  }
+  componentDidMount(){
+    this.setState({
+      currentUser: Auth.getCurrentUser()
+    })
+  }
 
   render() {
     return (
       <Router>
-        <Switch>
           <Route exact path='/' component={Homepage} />
-          <AdminRoute/>
           <Route path='/flightSchedule' component={FlightSchedule} />
+          {this.state.currentUser.isAdmin && <AdminRoutes/>}
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
-        </Switch>
       </Router>
     );
   }

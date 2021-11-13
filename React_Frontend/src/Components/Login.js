@@ -2,7 +2,9 @@ import axios from 'axios';
 import React, {useState} from 'react'
 import { useHistory } from 'react-router';
 import { Alert } from 'react-bootstrap';
+import Auth from "../services/Auth";
 const api = 'http://localhost:8000';
+
 
 export default function Login(props){
     const [username,setUsername] = useState('');
@@ -12,16 +14,11 @@ export default function Login(props){
     const history = useHistory()
     
     const handleLogin = ()=>{
-        // axios.post(`${api}/login`,{username,password})
-        //     .then((res)=>{
-        //         console.log(res.data);
-        //     })
-        //     .catch((err)=>{
-        //         console.log(err.response.data);
-        //         if( err.response.data == 'Unauthorized')
-        //             setErrMsg('The username or password is incorrect');
-        //         setFlash(true)
-        //     })
+        Auth.login(username, password)
+        .then((res)=>{
+            history.push('/');
+        })
+        
     }
 
     return(

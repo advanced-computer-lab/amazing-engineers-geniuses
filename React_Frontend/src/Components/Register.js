@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {useState} from 'react'
 import { useHistory } from 'react-router';
 import { Alert } from 'react-bootstrap';
+import Auth from '../services/Auth';
 const api = 'http://localhost:8000';
 
 export default function Register(props){
@@ -12,15 +13,16 @@ export default function Register(props){
     const history = useHistory()
     
     const handleRegister = ()=>{
-        // axios.post(`${api}/register`,{username,password})
-        //     .then((res)=>{
-        //         console.log(res.data);
-        //     })
-        //     .catch((err)=>{
-        //         console.log(err.response.data);
-        //         setErrMsg(err.response.data);
-        //         setFlash(true)
-        //     })
+        Auth.register(username,password)
+            .then((res)=>{
+                console.log(res.data);
+                 history.push('/');
+            })
+            .catch((err)=>{
+                //console.log(err.response);
+                setErrMsg(err.response.data.message);
+                setFlash(true)
+            })
     }
 
     return(

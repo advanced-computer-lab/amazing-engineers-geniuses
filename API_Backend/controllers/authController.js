@@ -6,16 +6,18 @@ const login = async (req,res,next) =>{
         let user = await User.findOne({
             username: req.body.username
         });
-        let {id, username} = user;
+        let {id, username, isAdmin} = user;
         let isMatch = await user.comparePassword(req.body.password);
         if(isMatch){
             let token = jwt.sign({
                 id: id,
-                username: username
+                username: username,
+                isAdmin: isAdmin
             },process.env.SECRET_KEY);
             return res.status(200).send({
                 id,
                 username,
+                isAdmin,
                 token
             });
         }

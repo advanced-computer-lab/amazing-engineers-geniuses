@@ -33,7 +33,7 @@ app.use('/admin', middleware.isAdmin, adminRoutes);
 app.use((err,req,res,next)=>{
     const {status = 500, message='Something Went Wrong'} = err;
     console.log(err);
-    return res.status(status).send({err: {message}});
+    return res.status(status).send({message: message});
 })
 
 app.listen(port,()=>{
