@@ -32,8 +32,8 @@ class FlightItem extends Component{
         const updateLink = '/admin/flight/update/'+this.props.flight._id;
         const dep = new Date(this.props.flight.DepDate);
         const arr = new Date(this.props.flight.ArrDate);
-        console.log("SeatList");
-        console.log(this.props.flight.SeatsList);
+        // console.log("SeatList");
+        // console.log(this.props.flight.SeatsList);
         // console.log(date);
         return(
             <div>
