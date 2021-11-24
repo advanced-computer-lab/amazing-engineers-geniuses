@@ -2,7 +2,7 @@
       display: none;
     }
 
-.dropdown{
+.dropdown, .nav-link{
     font-size: large;
     margin-left: 30px;
 }

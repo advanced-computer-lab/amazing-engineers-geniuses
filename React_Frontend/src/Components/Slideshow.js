@@ -20,11 +20,13 @@ export default function Slideshow(){
                 
             </Carousel.Item>
             <Carousel.Item>
-                <img
-                className="d-block w-100"
-                src="/stock2.jpg"
-                alt="Second slide"
-                />
+               <div class='pickgradient'>
+                    <img
+                    className="d-block w-100"
+                    src="/stock2.jpg"
+                    alt="Second slide"
+                    />
+                </div>
 
                 <Carousel.Caption>
                 <h3>Second slide label</h3>
