@@ -10,11 +10,13 @@ export default function Slideshow(){
                 <h3>Fly on Top-Tier Planes</h3>
                 <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
                 </Carousel.Caption>
-                <img
-                className="d-block w-100"
-                src="/stock1.jpg"
-                alt="First slide"
-                />
+                <div class='pickgradient'>
+                    <img
+                    className="d-block w-100"
+                    src="/stock1.jpg"
+                    alt="First slide"
+                    />
+                </div>
                 
             </Carousel.Item>
             <Carousel.Item>
