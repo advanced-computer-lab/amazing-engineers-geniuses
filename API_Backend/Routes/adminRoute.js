@@ -17,6 +17,7 @@ router.get('/flight/create', (req,res)=>{
 router.post('/flight/create',flightController.createFlight);
 
 router.get('/flight/showFlights',(req,res)=>{
+   console.log(req.user);
    Flight.find({},(err,flights)=>{
       // console.log(flights);
       res.render('showFlights',{flights: flights})

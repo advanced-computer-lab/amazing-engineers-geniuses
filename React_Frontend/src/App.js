@@ -1,25 +1,36 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import CreateFlightForm from './Components/CreateFlightForm';
-import ShowFlights from './Components/ShowFlights'
+import { Switch } from 'react-router';
 import FlightSchedule from './Components/FlightSchedule';
-import UpdateFlight from './Components/UpdateFlight';
 import Homepage from './Components/HomePage';
+import Login from './Components/Login';
+import Register from './Components/Register';
+import AdminRoutes from './Components/AdminRoutes';
+import Auth from './services/Auth';
+
+const api = 'http://localhost:8000';
 
 class App extends Component {
-  
+  constructor(props){
+    super(props);
+    this.state = {
+      currentUser: {}
+    }
+  }
+  componentDidMount(){
+    this.setState({
+      currentUser: Auth.getCurrentUser()
+    })
+  }
+
   render() {
     return (
       <Router>
-        <div>
-        <Route exact path='/' component={Homepage} />
-        <Route path='/admin/flight/create' component={CreateFlightForm} />
-        <Route path='/admin/flight/show' component={ShowFlights} />
-        <Route path='/flightSchedule' component={FlightSchedule} />
-        <Route path='/admin/flight/update/:id' component={UpdateFlight}/>
-
-    
-        </div>
+          <Route exact path='/' component={Homepage} />
+          <Route path='/flightSchedule' component={FlightSchedule} />
+          {this.state.currentUser.isAdmin && <AdminRoutes/>}
+          <Route path='/login' component={Login}/>
+          <Route path='/register' component={Register}/>
       </Router>
     );
   }

@@ -12,7 +12,8 @@ class ShowFlights extends Component{
             FlightNumber: '',
             Departure: '',
             Arrival: '',
-            FlightDate: '',
+            DepDate:'',
+            ArrDate:'',
             EconomySeats: '',
             BusinessSeats: '',
             FirstClassSeats: '',
@@ -33,7 +34,7 @@ class ShowFlights extends Component{
                     flights: res.data
                 });
             })
-            .catch((err)=>console.log(err));
+            .catch((err)=>console.log(err.response));
     }
    // axios.delete(`${api}/admin/flight/delete/${id}`).then(res=>{this.setSatete(previousState=>{return{flights: this.state.flights.filter((flight)=>(flight._id !== id}})})
 
@@ -45,6 +46,8 @@ class ShowFlights extends Component{
                this.setState({
                    flights: this.state.flights.filter((flight)=>(flight._id !== id))
                })
+            }).catch((err)=>{
+                console.log(err.response);
             });
     }
     
@@ -68,7 +71,7 @@ class ShowFlights extends Component{
                
             })
             .catch((err)=>{
-                console.log(err)
+                console.log(err.response.data.message)
             })
     }
 
@@ -79,22 +82,20 @@ class ShowFlights extends Component{
             <FlightItem hideBtn = {false} flight={flight} key={key} deleteFlight={this.deleteFlight}  />
         )
         return (
-            <div>
-                  
+            <div> 
                 <form onSubmit={this.submitForm}>
                     <h1>Show Flights</h1>
                     <label>Flight Number</label>
                     <input type='number' placeholder='FlightNumber' name="FlightNumber"  onChange={this.changeText}/>
                     <br/>
-                    <label>Departure Time</label>
+                     <label>Departure</label>
                     <input type='time' name="Departure" onChange={this.changeText}/>
+                    <input type='date' name="DepDate" onChange={this.changeText}/>
                     <br/>
-                    <label>Arrival Time</label>
+                    <label>Arrival</label>
                     <input type='time' name="Arrival" onChange={this.changeText}/>
-                    <br/>
-                    <label>Flight Date</label>
-                    <input type='date'  name="FlightDate" onChange={this.changeText}/>
-                    <br/>
+                    <input type='date'  name="ArrDate" onChange={this.changeText}/>
+                    <br/>               
                     <label>Economy Seats</label>
                     <input type='number' placeholder='EconomySeats' name="EconomySeats" onChange={this.changeText}/>
                     <br/>

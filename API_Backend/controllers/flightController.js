@@ -1,31 +1,52 @@
 const Flight = require('../models/Flight');
 
-const createFlight = (req,res)=>{
-   let arr = new Date(`${req.body.FlightDate}T${req.body.Arrival}:00`);
-   let dep = new Date(`${req.body.FlightDate}T${req.body.Departure}:00`);  
+const createFlight = async (req,res)=>{
+   const flightsCheck = await Flight.find({FlightNumber: req.body.FlightNumber});
+   // if(flightsCheck.size > 0){
+   //    res.send()
+   // }
 
-   const newFlight = new Flight({
+   let arr = new Date(`${req.body.DepDate}T${req.body.Arrival}:00`);
+   let dep = new Date(`${req.body.ArrDate}T${req.body.Departure}:00`);  
+
+   let seatList = createSeatsList(req.body.EconomySeats, req.body.BusinessSeats, req.body.FirstClassSeats);
+
+   const newFlight = {
       FlightNumber: req.body.FlightNumber,
       Departure: getTime(dep),
       Arrival: getTime(arr),
-      FlightDate: req.body.FlightDate,
+      DepDate: req.body.DepDate,
+      ArrDate: req.body.ArrDate,
       EconomySeats: req.body.EconomySeats,
       BusinessSeats: req.body.BusinessSeats,
       FirstClassSeats: req.body.FirstClassSeats,
       FromAirport: req.body.FromAirport,
       ToAirport: req.body.ToAirport,
-      Terminal: req.body.Terminal
+      Terminal: req.body.Terminal,
+      SeatsList: seatList
 
+   }
+   Flight.create(newFlight,(err,flight)=>{
+      if(err){
+         let messageText ='Error creating flight. ErrorBody: '+err; 
+         if(err.code == 11000)
+            messageText = `Flight Number ${req.body.FlightNumber} is already taken.`
+         res.status(500).send({message: messageText});
+      }
+      else{
+         res.send(flight)
+      }
    })
-   newFlight.save()
-   .then((newFlight)=>{res.send(newFlight)})
-   .catch((err)=>{res.send(err)});
+
+   // newFlight.save()
+   // .then((newFlight)=>{res.send(newFlight)})
+   // .catch((err)=>{res.send({message: 'Could not create flight'})});
 }
 
 const showFlights = (req,res)=>{
    Flight.find({},(err,flights)=>{
       if(err){
-         res.send(err)
+         res.status(500).send({message: 'Could not show flights'});
       }
       res.send(flights);
    })
@@ -35,7 +56,7 @@ const showFlightbyID = (req,res)=>{
    let id = req.params.id;
    Flight.findById(id, (err,flight)=>{
       if(err){
-         res.send(err);
+         res.status(500).send({message: 'Could not show flight'});
       }
       else{
          res.send(flight);
@@ -77,19 +98,19 @@ const findReturnFlights = async (req,res)=>{
 
    //Gets all Return Flights in later day
    let returnFlights= possibleFlights.filter((flight)=>(
-      flight.FlightDate.getTime() > flightDate.getTime()
+      flight.DepDate.getTime() > flightDate.getTime()
    ))
 
    //Gets all Return Flights in later hour
    let returnFlights2= possibleFlights.filter((flight)=>(
-      flight.FlightDate.getTime() == flightDate.getTime()
+      flight.DepDate.getTime() == flightDate.getTime()
    )).filter((flight)=>(
      Number.parseInt(flight.Departure.AsString.split(':')[0]) > flightArrHour
    ));
 
    //Gets all Return Flights in later minute
    let returnFlights3 = possibleFlights.filter((flight)=>(
-      flight.FlightDate.getTime() == flightDate.getTime()
+      flight.DepDate.getTime() == flightDate.getTime()
    )).filter((flight)=>(
      Number.parseInt(flight.Departure.AsString.split(':')[0]) == flightArrHour
    )).filter((flight)=>(
@@ -106,7 +127,7 @@ const deleteFlight = (req,res)=>{
    const id = req.params.id;
    Flight.findByIdAndDelete(id, (err, deleted) => {  
       if (err) 
-        res.send(err);
+        res.status(500).send({message: 'Could not delete flight'});
       else {
         console.log(`Deleted: ${deleted}`);
         res.send('Deleted: ' + deleted);
@@ -116,13 +137,14 @@ const deleteFlight = (req,res)=>{
 
 const updateFlight = (req, res) => {
    try{
-      let arr = new Date(`${req.body.FlightDate}T${req.body.Arrival}:00`);
-      let dep = new Date(`${req.body.FlightDate}T${req.body.Departure}:00`);  
+      let arr = new Date(`${req.body.ArrDate}T${req.body.Arrival}:00`);
+      let dep = new Date(`${req.body.DepDate}T${req.body.Departure}:00`);  
       const updatedFlight = {
          FlightNumber: req.body.FlightNumber,
          Departure: getTime(dep),
          Arrival: getTime(arr),
-         FlightDate: req.body.FlightDate,
+         DepDate: req.body.DepDate,
+         ArrDate: req.body.ArrDate,
          EconomySeats: req.body.EconomySeats,
          BusinessSeats: req.body.BusinessSeats,
          FirstClassSeats: req.body.FirstClassSeats,
@@ -133,8 +155,8 @@ const updateFlight = (req, res) => {
       Flight.findByIdAndUpdate(req.params.id, updatedFlight,(err, flight)=> {
          if(err){
             console.log(err);
-            res.send(err);
-            return res.json({message : err});
+            res.status(500).send({message: 'Could not update flight'});
+            //return res.json({message : err});
          }
          else{
             return res.send(flight);
@@ -214,6 +236,33 @@ function getTimeString(time){
 function sortByDate(arr){
     arr.sort((a,b)=> new Date(a.FlightDate) - new Date(b.FlightDate));
     sortByTime(arr);
+}
+
+function createSeatsList(Economy,Business,First){
+   let econlist = [];
+   let buslist = [];
+   let firstlist = [];
+   for(i = 1; i<=Economy; i++){
+      let newSeat = `E${i}`;
+      econlist = [...econlist,newSeat];
+   }
+   for(i = 1; i<=Business; i++){
+      let newSeat = `B${i}`;
+      buslist = [...buslist,newSeat];
+   }
+   for(i = 1; i<=First; i++){
+      let newSeat = `F${i}`;
+      firstlist = [...firstlist,newSeat];
+   }
+   let list = {
+      Econ: econlist,
+      Bus: buslist,
+      First: firstlist,
+      Available: [...econlist,...buslist,...firstlist]
+   };
+
+   return list;
+
 }
 
 
