@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useState} from 'react'
 import { useHistory } from 'react-router';
-import { Alert } from 'react-bootstrap';
+import { Alert,Form,Button } from 'react-bootstrap';
 import Auth from "../services/Auth";
 const api = 'http://localhost:8000';
 
@@ -16,9 +16,12 @@ export default function Login(props){
     const handleLogin = ()=>{
         Auth.login(username, password)
         .then((res)=>{
-            history.push('/');
-        })
-        
+            window.location.reload();
+        }).catch((err)=>{
+                //console.log(err.response);
+                setErrMsg(err.response.data.message);
+                setFlash(true)
+            })
     }
 
     return(
@@ -29,10 +32,24 @@ export default function Login(props){
                     {errMsg}
                 </Alert>
            }
-           <h1>Login</h1>
-           <input type='text' placeholder='username' name='username' onChange={(e)=>setUsername(e.target.value)}/>
+           <h3 style={{textAlign:'center'}}>Login</h3>
+           {/* <input type='text' placeholder='username' name='username' onChange={(e)=>setUsername(e.target.value)}/>
            <input type='password' placeholder='password' name='password' onChange={(e)=>setPassword(e.target.value)} />
-           <button onClick={handleLogin}>Login</button>
+           <button onClick={handleLogin}>Login</button> */}
+           <Form>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Username</Form.Label>
+                    <Form.Control type="text" placeholder="Enter Username" onChange={(e)=>setUsername(e.target.value)} />
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Password</Form.Label>
+                    <Form.Control type="password" placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
+                </Form.Group>
+                <Button variant="primary" onClick={handleLogin}>
+                    Login
+                </Button>
+            </Form>
        </div>
 
     )

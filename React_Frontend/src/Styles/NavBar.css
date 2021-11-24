@@ -1,0 +1,18 @@
+.dropdown-toggle::after {
+      display: none;
+    }
+
+.dropdown{
+    font-size: large;
+    margin-left: 30px;
+}
+
+.navbar-brand{
+    font-size: xx-large;
+}
+
+#logo{
+    margin-right: 10px;
+}
+
+
