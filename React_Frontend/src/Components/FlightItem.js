@@ -100,7 +100,7 @@ class FlightItem extends Component{
                                     <li>First Class Seats: {this.props.flight.FirstClassSeats} </li>
                                     <li>Terminal: {this.props.flight.Terminal} </li>
                                 </ul>  
-                                <Seats Seats={this.props.flight.SeatsList}/>
+                                {/* <Seats Seats={this.props.flight.SeatsList}/> */}
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
