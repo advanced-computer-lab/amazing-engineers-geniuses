@@ -14,8 +14,13 @@
     font-size: xx-large;
 }
 
+.bg-dark{
+    background-color: #002677 !important;
+}
+
 #logo{
     margin-right: 10px;
 }
+
 
 

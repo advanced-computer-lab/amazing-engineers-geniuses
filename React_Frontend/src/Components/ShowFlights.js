@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import FlightItem from './FlightItem';
 import { Link } from 'react-router-dom';
+import { Accordion } from 'react-bootstrap';
 
 const api = 'http://localhost:8000';
 
@@ -117,13 +118,13 @@ class ShowFlights extends Component{
                     <button type='submit' className='btn btn-warning' >Filter</button>
                     
                 </form>
-                <button className='btn btn-info'><Link style={{color: 'white'}} to="/flightSchedule" >Flight Schedule </Link></button>
+                <button className='btn btn-info'><Link style={{color: 'white'}} to="/admin/flight/create" >Create New Fight</Link></button>
                 
             
                 <div>
-                    <ul>
+                   <Accordion>
                         {flightList}
-                    </ul>
+                    </Accordion>
                 </div>
 
 

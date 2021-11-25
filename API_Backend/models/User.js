@@ -24,7 +24,7 @@ const userSchema = new Schema({
   Phone:[String],
   Email:{
     type: String,
-    uniqure: true
+    unique: true
   },
   Passport:String,
   // Reservations:[Reservations]

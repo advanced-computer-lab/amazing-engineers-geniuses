@@ -47,8 +47,11 @@ export default function NavBar(){
                         {currentUser !== undefined && currentUser.username === 'Guest' 
                         ? <Nav.Link onClick={()=>setModalShow(true)}><i class="fas fa-user"></i>  My Account</Nav.Link>
                         :<NavDropdown title={<span><i class="fas fa-user"></i>  Hello {currentUser.username}</span>} id="acc-dropdown" show={showAcc} onMouseEnter={showDropdown} onMouseLeave={(e)=>setAcc(false)}>
-                            <NavDropdown.Item href="/flightSchedule" eventKey="2.1">My Profile</NavDropdown.Item>
-                            <NavDropdown.Item eventKey="2.2">My Bookings</NavDropdown.Item>
+                            <NavDropdown.Item href="/profile" eventKey="2.1">My Profile</NavDropdown.Item>
+                            {!currentUser.isAdmin 
+                            ? <NavDropdown.Item eventKey="2.2">My Bookings</NavDropdown.Item>
+                            : <NavDropdown.Item href='/admin/flight/show' eventKey="2.2">Manage Flights</NavDropdown.Item>
+                            }
                             <NavDropdown.Item eventKey="2.3" onClick={logout}>Logout</NavDropdown.Item>
                         </NavDropdown>
                     }

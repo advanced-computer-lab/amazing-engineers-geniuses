@@ -16,7 +16,7 @@ export default function AccountModal(props){
                 Account
                 </Modal.Title>
             </Modal.Header>
-            <ModalBody>
+            <ModalBody style={{padding:'30px'}}>
                 <Container>
                     <Row>
                         <Col>

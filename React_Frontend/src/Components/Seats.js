@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import {Container, Row, Col} from 'react-bootstrap'
+import '../Styles/Seats.css';
 
 export default function Seats(props){
     const [chosenSeats,setChosen] = useState([]);
@@ -14,65 +15,102 @@ export default function Seats(props){
             let index = chosenSeats.indexOf(seat);
             //if seat wasn't chosen before
             if(index === -1){
-                e.target.style.backgroundColor = 'Orange'
-                e.target.style.fill = 'Yellow'
+                e.currentTarget.style.color = 'lightblue'
                 setChosen([...chosenSeats,seat]);
             }
             else{
-                e.target.style.backgroundColor = ''
+                e.currentTarget.style.color = 'lightgrey'
                 let newSeats = chosenSeats.filter(s => s !== seat);
                 setChosen(newSeats);
             }
         }
     }    
 
-    const econSeats = props.Seats.Econ.map((seat,index)=>{
+    const econSeats1 = props.Seats.Econ.map((seat,index)=>{
         if(index % 2 === 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
-            let color = available ? 'white' : 'Red';
-            return (<button key={index} style={{backgroundColor: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
-              <img style={{height: '1em', width: '1em'}} src='/seat.svg'/>     
-            </button>)
+            let color = available ? 'lightgrey' : 'Red';
+            return (<Col style={{maxWidth:'37px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>   
+            <i class="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
     const econSeats2 = props.Seats.Econ.map((seat,index)=>{
         if(index % 2 !== 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
-            let color = available ? '' : 'Red';
-            return (<button key={index} style={{backgroundColor: color}} onClick={(e)=>chooseSeat(e,seat,available)}>{seat}</button>)
+            let color = available ? 'lightgrey' : 'Red';
+            return (<Col style={{maxWidth:'37px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i class="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
-    const busSeats = props.Seats.Bus.map((seat,index)=>{
-        let available = props.Seats.Available.indexOf(seat) > -1 ? true : false
-        return (<button key={index} onClick={(e)=>chooseSeat(e,seat,available)}>{seat}</button>)
+    const busSeats1 = props.Seats.Bus.map((seat,index)=>{
+       if(index % 2 === 0){
+            let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
+            let color = available ? 'lightgrey' : 'Red';
+            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i class="fas fa-square fa-2x"></i></button></Col>)
+        }
     })
 
-    const firstSeats = props.Seats.First.map((seat,index)=>{
-        let available = props.Seats.Available.indexOf(seat) > -1 ? true : false
-        return (<button key={index} onClick={(e)=>chooseSeat(e,seat,available)}>{seat}</button>)
+    const busSeats2 = props.Seats.Bus.map((seat,index)=>{
+       if(index % 2 !== 0){
+            let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
+            let color = available ? 'lightgrey' : 'Red';
+            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i class="fas fa-square fa-2x"></i></button></Col>)
+        }
+    })
+
+    const firstSeats1 = props.Seats.First.map((seat,index)=>{
+         if(index % 2 === 0){
+            let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
+            let color = available ? 'lightgrey' : 'Red';
+            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i class="fas fa-square fa-2x"></i></button></Col>)
+        }
+    })
+
+    const firstSeats2 = props.Seats.First.map((seat,index)=>{
+         if(index % 2 !== 0){
+            let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
+            let color = available ? 'lightgrey' : 'Red';
+            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i class="fas fa-square fa-2x"></i></button></Col>)
+        }
     })
 
     return(
         <div>
             <div>
                 <Container>
-                    <h2>Economy Seats</h2>
+                    <h2>Economy Class Seats</h2>
                     <Row style={{maxWidth: '350px'}}>
-                        <Col sm="5">{econSeats}</Col>
-                        <Col>|</Col>
-                        <Col sm="5">{econSeats2}</Col>
+                        <Col xs="5"><Row>{econSeats1}</Row></Col>
+                        <Col style={{borderLeft:"thin solid grey", borderRight:"thin solid grey" }}></Col>
+                        <Col style={{direction:'rtl'}} xs="5"><Row>{econSeats2}</Row></Col>
                     </Row>
                 </Container>
             </div>
             <div>
-                <h2>Bus Seats</h2>
-                {busSeats}
+                <Container>
+                    <h2>Business Class Seats</h2>
+                    <Row style={{maxWidth: '350px'}}>
+                        <Col xs="5"><Row>{busSeats1}</Row></Col>
+                        <Col style={{borderLeft:"thin solid grey", borderRight:"thin solid grey" }}></Col>
+                        <Col style={{direction:'rtl'}} xs="5"><Row>{busSeats2}</Row></Col>
+                    </Row>
+                </Container>
             </div>
             <div>
-                <h2>First Seats</h2>
-                {firstSeats}
+               <Container>
+                    <h2>First Class Seats</h2>
+                    <Row style={{maxWidth: '350px'}}>
+                        <Col xs="5"><Row>{firstSeats1}</Row></Col>
+                        <Col style={{borderLeft:"thin solid grey", borderRight:"thin solid grey" }}></Col>
+                        <Col style={{direction:'rtl'}} xs="5"><Row>{firstSeats2}</Row></Col>
+                    </Row>
+                </Container>
             </div>
             <button onClick={confirmSeats}>Confirm Seats</button>
         </div>

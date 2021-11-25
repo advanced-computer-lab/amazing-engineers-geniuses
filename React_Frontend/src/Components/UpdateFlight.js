@@ -11,7 +11,8 @@ export default function UpdateFlight(props) {
     const [FlightNumber, setFlightNo]= React.useState(0);
     const [Departure, setDepTime] = React.useState("");
     const [Arrival, setArrTime]= React.useState([]);
-    const [FlightDate, setFlightDate] = React.useState(new Date());
+    const [DepDate, setDepDate] = React.useState(new Date());
+    const [ArrDate, setArrDate] = React.useState(new Date());
     const [EconomySeats, setEconomySeats] = React.useState(0);
     const [BusinessSeats,setBusniessClass]= React.useState(0);
     const [FirstClassSeats, setFirstClassSeats] = React.useState(0);
@@ -23,11 +24,13 @@ export default function UpdateFlight(props) {
         axios.get(`${api}/admin/flight/show/${id.id}`)
         .then((res)=>{
             let flight = res.data;
-            let dateString = flight.FlightDate.split('T')[0];          
+            let depdateString = flight.DepDate.split('T')[0];   
+            let arrdateString = flight.ArrDate.split('T')[0];         
             setFlightNo(flight.FlightNumber);
             setDepTime(flight.Departure.AsString);
             setArrTime(flight.Arrival.AsString);
-            setFlightDate(dateString);
+            setDepDate(depdateString);
+            setArrDate(arrdateString);
             setEconomySeats(flight.EconomySeats);
             setBusniessClass(flight.BusinessSeats);
             setFirstClassSeats(flight.FirstClassSeats);
@@ -44,7 +47,8 @@ const submitUpdate = () => {
         FlightNumber: FlightNumber,
         Departure:Departure,
         Arrival:Arrival,
-        FlightDate:FlightDate,
+        DepDate:DepDate,
+        ArrDate:ArrDate,
         EconomySeats:EconomySeats,
         BusinessSeats:BusinessSeats,
         FirstClassSeats:FirstClassSeats,
@@ -70,12 +74,11 @@ const submitUpdate = () => {
             <br/>
             <label>Departure Time</label>
             <input type='time' name="Departure" value={Departure} required onChange={(e) => setDepTime(e.target.value)}/>
+            <input type='date' name="DepDate" value={DepDate} onChange={(e)=> setDepDate(e.target.value)}/>
             <br/>
             <label>Arrival Time</label>
             <input type='time' name="Arrival" value={Arrival} required onChange={(e) => setArrTime(e.target.value)}/>
-            <br/>
-            <label>Flight Date</label>
-            <input type='date'  name="FlightDate" value={FlightDate} required onChange={(e) => setFlightDate(e.target.value)}/>
+            <input type='date' name="ArrDate" value={ArrDate} onChange={(e)=> setArrDate(e.target.value)}/>
             <br/>
             <label>Economy Seats</label>
             <input type='number' placeholder='EconomySeats' name="EconomySeats" value={EconomySeats} required onChange={(e) => setEconomySeats(e.target.value)}/>
