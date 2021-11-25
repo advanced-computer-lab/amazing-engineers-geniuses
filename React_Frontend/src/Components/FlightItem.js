@@ -37,7 +37,25 @@ class FlightItem extends Component{
         const depTime = `${this.props.flight.Departure.Hours}:${this.props.flight.Departure.Minutes}`
         const depPer = `${this.props.flight.Departure.Period}`;
         const arrPer = `${this.props.flight.Arrival.Period}`;
-        const daysDiff = `( +${arr.getDate() - dep.getDate()} )`;
+        let diff = arr.getDate() - dep.getDate();
+        let daysDiff = '';
+        if(diff < 0 && arr.getMonth()-dep.getMonth() == 1){
+            diff = 30-dep.getDate() + arr.getDate()
+            daysDiff = `( +${diff} )`;
+        }
+        else if(diff < 0 && (arr.getMonth()-dep.getMonth() > 1 || arr.getMonth()+12 - dep.getMonth() > 1)){
+            if(arr.getMonth()-dep.getMonth() < 0)
+                daysDiff = `( + ~${arr.getMonth()+12 - dep.getMonth() } months)`;
+            else
+                daysDiff = `( + ~${arr.getMonth()-dep.getMonth()} months)`;
+        }
+        else{
+            diff = arr.getDate()-dep.getDate();
+            daysDiff = `( +${diff} )`;
+        }
+
+
+        
         // console.log("SeatList");
         // console.log(this.props.flight.SeatsList);
         // console.log(date);
@@ -82,6 +100,7 @@ class FlightItem extends Component{
                                     <li>First Class Seats: {this.props.flight.FirstClassSeats} </li>
                                     <li>Terminal: {this.props.flight.Terminal} </li>
                                 </ul>  
+                                <Seats Seats={this.props.flight.SeatsList}/>
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
