@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { Alert } from 'react-bootstrap';
 const api = 'http://localhost:8000';
 
 class CreateFlightForm extends Component{
@@ -15,16 +16,25 @@ class CreateFlightForm extends Component{
             BusinessSeats: '',
             FirstClassSeats: '',
             FromAirport: '',
-            ToAirport: ''
+            ToAirport: '',
+            displayFlash: false,
+            errMsg: 'Error'
          }
          this.changeText = this.changeText.bind(this);
          this.submitForm = this.submitForm.bind(this);
+         this.closeError = this.closeError.bind(this);
     }
 
     changeText(event){
          let name = event.target.name;
         this.setState({
             [name]: event.target.value
+        })
+    }
+
+    closeError(e){
+        this.setState({
+            displayFlash: false
         })
     }
 
@@ -50,6 +60,10 @@ class CreateFlightForm extends Component{
             })
             .catch((err)=>{
                 console.log(err.response.data.message);
+                this.setState({
+                    errMsg: err.response.data.message,
+                    displayFlash: true
+                })
             });
         
     }
@@ -75,6 +89,12 @@ class CreateFlightForm extends Component{
 
         return (
             <div>
+                {
+                    this.state.displayFlash &&
+                        <Alert variant='warning' onClose={this.closeError} dismissible>
+                            {this.state.errMsg}
+                        </Alert>
+                }
                 <form onSubmit = {this.submitForm}>
                     <h1>Create Flight</h1>
                     <label>Flight Number</label>

@@ -4,7 +4,7 @@ import "../Styles/Slideshow.css";
 
 export default function Slideshow(){
     return(
-        <Carousel fade>
+        <Carousel fade interval={5000}>
             <Carousel.Item>
                 <Carousel.Caption>
                 <h3>Fly on Top-Tier Planes</h3>

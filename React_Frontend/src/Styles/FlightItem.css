@@ -1,0 +1,13 @@
+.row{
+    width:100%;
+}
+
+.timeDisp{
+    font-size: 40px;
+    width: fit-content;
+}
+
+.portDisp{
+    font-size: 20px;
+    font-weight: 300;
+}

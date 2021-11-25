@@ -14,8 +14,11 @@ export default function NavBar(){
         // console.log(e.target.id);
         if(e.target.id === 'plan-dropdown')
             setPlan(!showPlan);
-        else
-            setAcc(!showAcc)
+        else{
+            if(e.target.id === 'acc-dropdown')
+                setAcc(!showAcc)
+        }
+           
     }
 
     useEffect(() => {
@@ -42,10 +45,13 @@ export default function NavBar(){
                             <NavDropdown.Item eventKey="1.3">Something else here</NavDropdown.Item>
                         </NavDropdown>
                         {currentUser !== undefined && currentUser.username === 'Guest' 
-                        ? <Nav.Link onClick={()=>setModalShow(true)}>My Account</Nav.Link>
+                        ? <Nav.Link onClick={()=>setModalShow(true)}><i class="fas fa-user"></i>  My Account</Nav.Link>
                         :<NavDropdown title={<span><i class="fas fa-user"></i>  Hello {currentUser.username}</span>} id="acc-dropdown" show={showAcc} onMouseEnter={showDropdown} onMouseLeave={(e)=>setAcc(false)}>
-                            <NavDropdown.Item href="/flightSchedule" eventKey="2.1">My Profile</NavDropdown.Item>
-                            <NavDropdown.Item eventKey="2.2">My Bookings</NavDropdown.Item>
+                            <NavDropdown.Item href="/profile" eventKey="2.1">My Profile</NavDropdown.Item>
+                            {!currentUser.isAdmin 
+                            ? <NavDropdown.Item eventKey="2.2">My Bookings</NavDropdown.Item>
+                            : <NavDropdown.Item href='/admin/flight/show' eventKey="2.2">Manage Flights</NavDropdown.Item>
+                            }
                             <NavDropdown.Item eventKey="2.3" onClick={logout}>Logout</NavDropdown.Item>
                         </NavDropdown>
                     }

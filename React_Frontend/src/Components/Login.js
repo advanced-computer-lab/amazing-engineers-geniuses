@@ -32,7 +32,7 @@ export default function Login(props){
                     {errMsg}
                 </Alert>
            }
-           <h3 style={{textAlign:'center'}}>Login</h3>
+           <h3 style={{fontWeight:600, marginBottom:'20px', color:'darkblue'}}>Login</h3>
            {/* <input type='text' placeholder='username' name='username' onChange={(e)=>setUsername(e.target.value)}/>
            <input type='password' placeholder='password' name='password' onChange={(e)=>setPassword(e.target.value)} />
            <button onClick={handleLogin}>Login</button> */}

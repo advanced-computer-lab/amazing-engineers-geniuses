@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import FlightItem from './FlightItem';
+import { Accordion } from 'react-bootstrap';
 const api = 'http://localhost:8000';
 
 class FlightSchedule extends Component{
@@ -57,9 +58,9 @@ class FlightSchedule extends Component{
             <h1> <em>FLIGHT SCHEDULE</em></h1>
 
             <div>
-              <ol>
+              <Accordion>
                {flightList}
-              </ol>
+              </Accordion>
             </div>
 
           </div> 

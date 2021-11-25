@@ -4,15 +4,23 @@
 
 .dropdown, .nav-link{
     font-size: large;
-    margin-left: 30px;
+    /* margin-left: 30px; */
+}
+.dropdown-menu{
+    /* margin-left:30px; */
 }
 
 .navbar-brand{
     font-size: xx-large;
 }
 
+.bg-dark{
+    background-color: #002677 !important;
+}
+
 #logo{
     margin-right: 10px;
 }
+
 
 
