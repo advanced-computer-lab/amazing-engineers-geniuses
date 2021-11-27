@@ -9,8 +9,6 @@ import AdminRoutes from './Components/AdminRoutes';
 import Auth from './services/Auth';
 import NavBar from './Components/NavBar.js'
 
-const api = 'http://localhost:8000';
-
 class App extends Component {
   constructor(props){
     super(props);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import FlightItem from './FlightItem';
 import { Link } from 'react-router-dom';
 import { Accordion } from 'react-bootstrap';
+import FilterModal from './FilterModal';
 
 const api = 'http://localhost:8000';
 
@@ -21,11 +22,14 @@ class ShowFlights extends Component{
             FromAirport: '',
             ToAirport: '',
             Terminal:'',
-            flights:[]
+            flights:[],
+            showFilter: false
          }
          this.changeText = this.changeText.bind(this);
          this.submitForm = this.submitForm.bind(this);
          this.deleteFlight = this.deleteFlight.bind(this);
+         this.showFilter = this.showFilter.bind(this);
+         this.submitForm2 = this.submitForm2.bind(this);
     }
 
     componentDidMount(){
@@ -62,8 +66,11 @@ class ShowFlights extends Component{
 
     submitForm(e){
         e.preventDefault(); 
-        const filerCriteria = this.state;
-        axios.post(`${api}/admin/flight/show`,filerCriteria)
+        this.setState({
+            showFilter: false
+        })
+        const filterCriteria = this.state;
+        axios.post(`${api}/admin/flight/show`,filterCriteria)
             .then((res)=>{
                const data= res.data;
                this.setState({
@@ -74,6 +81,31 @@ class ShowFlights extends Component{
             .catch((err)=>{
                 console.log(err.response.data.message)
             })
+    }
+
+    submitForm2(e,filterCriteria){
+        console.log('in submitform2');
+        e.preventDefault(); 
+        this.setState({
+            showFilter: false
+        })
+        axios.post(`${api}/admin/flight/show`,filterCriteria)
+            .then((res)=>{
+               const data= res.data;
+               this.setState({
+                   flights: data
+               });
+               
+            })
+            .catch((err)=>{
+                console.log(err.response.data.message)
+            })
+    }
+
+    showFilter(e){
+        this.setState({
+            showFilter: true
+        })
     }
 
 
@@ -118,9 +150,9 @@ class ShowFlights extends Component{
                     <button type='submit' className='btn btn-warning' >Filter</button>
                     
                 </form>
+                <button onClick={this.showFilter}>Open Filter</button>
                 <button className='btn btn-info'><Link style={{color: 'white'}} to="/admin/flight/create" >Create New Fight</Link></button>
-                
-            
+                <FilterModal show={this.state.showFilter} onHide={()=>this.setState({showFilter: false})} submitForm={this.submitForm2}/>
                 <div>
                    <Accordion>
                         {flightList}
