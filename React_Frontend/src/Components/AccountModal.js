@@ -1,7 +1,7 @@
 import React from 'react';
 import {Modal,Button,Container,Row,Col, ModalBody} from 'react-bootstrap';
 import Login from './Login';
-import Register from './Register';
+//import Register from './Register';
 
 export default function AccountModal(props){
     return(

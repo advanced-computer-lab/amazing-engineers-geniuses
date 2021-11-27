@@ -19,6 +19,7 @@ class Auth {
 
   logout() {
     localStorage.removeItem("user");
+    window.location.replace('/');
   }
 
   register(username, password) {

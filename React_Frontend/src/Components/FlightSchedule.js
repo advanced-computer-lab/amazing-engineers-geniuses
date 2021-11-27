@@ -36,18 +36,6 @@ class FlightSchedule extends Component{
 
     }
 
-    componentDidUpdate(){
-        axios.get(`${api}/flightSchedule`)
-        .then((res)=>{
-            this.setState({
-                flights: res.data
-            });
-         })
-         .catch((err)=>{
-             console.log(err)
-         })
-    }
-
     render(){
 
         const flightList = this.state.flights.map((flight, key)=>

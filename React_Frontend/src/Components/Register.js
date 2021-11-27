@@ -1,9 +1,7 @@
-import axios from 'axios';
 import React, {useState} from 'react'
 import { useHistory } from 'react-router';
 import { Alert,Form,Button } from 'react-bootstrap';
 import Auth from '../services/Auth';
-const api = 'http://localhost:8000';
 
 export default function Register(props){
     const [username,setUsername] = useState('');
