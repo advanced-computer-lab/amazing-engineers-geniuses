@@ -1,6 +1,7 @@
 import React,{ Component, useEffect,useState } from 'react';
 import axios from 'axios';
 import FlightItem from './FlightItem';
+import FlightSearchUser from './FlightSearchUser'; // import child
 import { Accordion } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
 
@@ -10,6 +11,7 @@ export default function AvailableFlights(props){
   const location = useLocation();
   const [flights,SetFlights] = useState(location.state.flights);
   const [flightList, setFlightList] = useState()  
+
   
   // const Book =()=>{
   //   axios.post(`${api}/createBooking`,{
@@ -28,7 +30,6 @@ export default function AvailableFlights(props){
     console.log(location.state.RetDate);
     setFlightList(flights.map((flight, key)=>
         <FlightItem hideBtn={true} showSelect={true} flight={flight} key={key}/> ))
-  }, [location]); 
       
   return(
     <div>

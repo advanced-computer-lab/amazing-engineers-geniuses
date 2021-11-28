@@ -14,11 +14,16 @@ export default function SearchFlight(props){
     const[Departure,setDeparture]=React.useState('');
     const[Arrival,setArrival]=React.useState('');
     const[DepDate,setDepDate]=React.useState('');
+
     const[RetDate,setRetDate]=React.useState('');
+
+   
+
     const[PassengersNumber,setPassengersNumber]=React.useState('');
     //const flights=[];
 
     const flightsAvailable = () =>{
+
         
         axios.post(`${api}/filterFlights`,{
            FromAirport:FromAirport,
@@ -28,13 +33,19 @@ export default function SearchFlight(props){
            Departure:'',
            Arrival:''
         }).then((res) =>{
+
+       
+        
+
             let flights=res.data;
             console.log(flights);
             flights = flights.filter(flight=> flight.SeatsList.Available.filter(seat => seat.charAt(0) === CabinClass ).length >= PassengersNumber)
             console.log(flights);
             history.push({
                 pathname: '/availableFlights',
+
                 state: { flights: flights, RetDate: RetDate }
+
             });
             
                    
@@ -64,8 +75,10 @@ export default function SearchFlight(props){
                             </Col>
                             <Col>
                                  <InputGroup className="mb-3">
+
                                 <InputGroup.Text>To</InputGroup.Text>
                                 <Form.Control type="text" value={ToAirport} placeholder="Enter Arrival Airport" onChange={(e) => setToAirport(e.target.value)}/>
+
                                 </InputGroup>
                             </Col>
                         </Row>
@@ -100,7 +113,10 @@ export default function SearchFlight(props){
                     <Form.Group controlId="formGridDepartue">
                      <InputGroup className="mb-3">
                       <InputGroup.Text>Departure</InputGroup.Text>
+
                         {/* <Form.Control  type="time" name="Departure" onChange={(e)=>setDeparture(e.target.value)} /> */}
+
+                      
                         <Form.Control  type="date" name="DepDate" onChange={(e)=>setDepDate(e.target.value)} />
                         </InputGroup>
                     </Form.Group>
@@ -108,9 +124,11 @@ export default function SearchFlight(props){
                 <Col md="auto">
                     <Form.Group  controlId="formGridArrival">
                       <InputGroup className="mb-3">
+
                       <InputGroup.Text>Return</InputGroup.Text>
                         {/* <Form.Control   type="time" name="Arrival" onChange={(e)=>setArrival(e.target.value)} /> */}
                         <Form.Control   type="date" name="RetDate" onChange={(e)=>setRetDate(e.target.value)} />
+
                         </InputGroup>
                     </Form.Group>
                 </Col>
