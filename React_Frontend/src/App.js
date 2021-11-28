@@ -10,8 +10,6 @@ import Auth from './services/Auth';
 import NavBar from './Components/NavBar.js';
 import AvailableFlights from './Components/AvailableFlights';
 
-const api = 'http://localhost:8000';
-
 class App extends Component {
   constructor(props){
     super(props);

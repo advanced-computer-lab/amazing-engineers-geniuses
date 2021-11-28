@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Modal, Accordion, Row, Col} from 'react-bootstrap';
-import Seats from './Seats';
+// import Seats from './Seats';
 import '../Styles/FlightItem.css'
 
 const Router = require('react-router-dom');
@@ -68,12 +68,12 @@ class FlightItem extends Component{
                                     <Col xs='9'>
                                         <Row>
                                             <Col>
-                                                <Row><span class='timeDisp'>{depTime}</span>{depPer}</Row>
-                                                <Row><span class='portDisp'>{this.props.flight.FromAirport.toUpperCase()}</span></Row>
+                                                <Row><span className='timeDisp'>{depTime}</span>{depPer}</Row>
+                                                <Row><span className='portDisp'>{this.props.flight.FromAirport.toUpperCase()}</span></Row>
                                             </Col>
                                             <Col>
-                                                <Row><span class='timeDisp'>{arrTime}</span>{arrPer} {daysDiff}</Row>
-                                                <Row><span class='portDisp'>{this.props.flight.ToAirport.toUpperCase()}</span></Row>
+                                                <Row><span className='timeDisp'>{arrTime}</span>{arrPer} {daysDiff}</Row>
+                                                <Row><span className='portDisp'>{this.props.flight.ToAirport.toUpperCase()}</span></Row>
                                             </Col>
                                         </Row>
                                     </Col>
@@ -82,7 +82,7 @@ class FlightItem extends Component{
                                         {!hidden && 
                                         <div>
                                             <Link className='btn btn-success' to = {updateLink} >Update</Link>
-                                            <button className='btn btn-danger' onClick={()=>{this.setState({showPop: true})}}>Delete</button>
+                                            <div className='btn btn-danger' onClick={()=>{this.setState({showPop: true})}}>Delete</div>
                                         </div>}
                                         
                                     </Col>

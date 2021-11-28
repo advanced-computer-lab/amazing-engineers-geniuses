@@ -20,8 +20,8 @@ const createFlight = async (req,res)=>{
       EconomySeats: req.body.EconomySeats,
       BusinessSeats: req.body.BusinessSeats,
       FirstClassSeats: req.body.FirstClassSeats,
-      FromAirport: req.body.FromAirport,
-      ToAirport: req.body.ToAirport,
+      FromAirport: req.body.FromAirport.toUpperCase(),
+      ToAirport: req.body.ToAirport.toUpperCase(),
       Terminal: req.body.Terminal,
       SeatsList: seatList
 
@@ -196,7 +196,7 @@ function getTime(time){
 
 function sortByTime(flights){
     for(i = 0;i < flights.length-1; i++){
-      if(+flights[i].FlightDate==+flights[i+1].FlightDate){ 
+      if(+flights[i].DepDate==+flights[i+1].DepDate){ 
         var h1,h2=0; 
         if(flights[i].Departure.Period=='PM' && flights[i].Departure.Hours!=12){
             h1= flights[i].Departure.Hours+12;
@@ -211,8 +211,8 @@ function sortByTime(flights){
         else{
             h2=flights[i+1].Departure.Hours;
         }
-        var d1 = new Date(flights[i].FlightDate.getFullYear(), flights[i].FlightDate.getMonth(), flights[i].FlightDate.getDate(), h1,flights[i].Departure.Minutes);
-        var d2 = new Date(flights[i+1].FlightDate.getFullYear(), flights[i+1].FlightDate.getMonth(), flights[i+1].FlightDate.getDate(), h2,flights[i+1].Departure.Minutes);
+        var d1 = new Date(flights[i].DepDate.getFullYear(), flights[i].DepDate.getMonth(), flights[i].DepDate.getDate(), h1,flights[i].Departure.Minutes);
+        var d2 = new Date(flights[i+1].DepDate.getFullYear(), flights[i+1].DepDate.getMonth(), flights[i+1].DepDate.getDate(), h2,flights[i+1].Departure.Minutes);
         if (d1>d2){
             var temp = flights[i];
             flights[i] = flights[i+1];
@@ -234,9 +234,11 @@ function getTimeString(time){
 }
 
 function sortByDate(arr){
-    arr.sort((a,b)=> new Date(a.FlightDate) - new Date(b.FlightDate));
+    arr.sort((a,b)=> new Date(a.DepDate) - new Date(b.DepDate));
     sortByTime(arr);
 }
+
+
 
 function createSeatsList(Economy,Business,First){
    let econlist = [];
