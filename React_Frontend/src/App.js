@@ -7,7 +7,8 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import AdminRoutes from './Components/AdminRoutes';
 import Auth from './services/Auth';
-import NavBar from './Components/NavBar.js'
+import NavBar from './Components/NavBar.js';
+import AvailableFlights from './Components/AvailableFlights';
 
 const api = 'http://localhost:8000';
 
@@ -33,6 +34,7 @@ class App extends Component {
           {this.state.currentUser.isAdmin && <AdminRoutes/>}
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
+          <Route path='/availableFlights' component={AvailableFlights}/>
       </Router>
     );
   }
