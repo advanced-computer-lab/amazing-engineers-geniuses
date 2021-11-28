@@ -14,29 +14,27 @@ export default function SearchFlight(props){
     const[Departure,setDeparture]=React.useState('');
     const[Arrival,setArrival]=React.useState('');
     const[DepDate,setDepDate]=React.useState('');
-    const[ArrDate,setArrDate]=React.useState('');
+    const[RetDate,setRetDate]=React.useState('');
     const[PassengersNumber,setPassengersNumber]=React.useState('');
     //const flights=[];
 
     const flightsAvailable = () =>{
-        console.log("arfffff");
+        
         axios.post(`${api}/filterFlights`,{
            FromAirport:FromAirport,
            ToAirport:ToAirport,
-           Departure:Departure,
-           Arrival:Arrival,
            DepDate:DepDate,
-           ArrDate:ArrDate,
-
+           ArrDate:'',
+           Departure:'',
+           Arrival:''
         }).then((res) =>{
-        
             let flights=res.data;
             console.log(flights);
             flights = flights.filter(flight=> flight.SeatsList.Available.filter(seat => seat.charAt(0) === CabinClass ).length >= PassengersNumber)
             console.log(flights);
             history.push({
                 pathname: '/availableFlights',
-                state: { flights: flights }
+                state: { flights: flights, RetDate: RetDate }
             });
             
                    
@@ -45,7 +43,6 @@ export default function SearchFlight(props){
                 console.log(error);
             }
         })
-        console.log("arfffff tanyyyy");
     }
 
 
@@ -67,8 +64,8 @@ export default function SearchFlight(props){
                             </Col>
                             <Col>
                                  <InputGroup className="mb-3">
-                                <InputGroup.Text>From</InputGroup.Text>
-                                <Form.Control type="text" value={ToAirport} placeholder="Enter Arrival Airport" onChange={(e) => setToAirport}/>
+                                <InputGroup.Text>To</InputGroup.Text>
+                                <Form.Control type="text" value={ToAirport} placeholder="Enter Arrival Airport" onChange={(e) => setToAirport(e.target.value)}/>
                                 </InputGroup>
                             </Col>
                         </Row>
@@ -103,7 +100,7 @@ export default function SearchFlight(props){
                     <Form.Group controlId="formGridDepartue">
                      <InputGroup className="mb-3">
                       <InputGroup.Text>Departure</InputGroup.Text>
-                        <Form.Control  type="time" name="Departure" onChange={(e)=>setDeparture(e.target.value)} />
+                        {/* <Form.Control  type="time" name="Departure" onChange={(e)=>setDeparture(e.target.value)} /> */}
                         <Form.Control  type="date" name="DepDate" onChange={(e)=>setDepDate(e.target.value)} />
                         </InputGroup>
                     </Form.Group>
@@ -111,9 +108,9 @@ export default function SearchFlight(props){
                 <Col md="auto">
                     <Form.Group  controlId="formGridArrival">
                       <InputGroup className="mb-3">
-                      <InputGroup.Text>Arrival</InputGroup.Text>
-                        <Form.Control   type="time" name="Arrival" onChange={(e)=>setArrival(e.target.value)} />
-                        <Form.Control   type="date" name="Arrival"onChange={(e)=>setArrDate(e.target.value)} />
+                      <InputGroup.Text>Return</InputGroup.Text>
+                        {/* <Form.Control   type="time" name="Arrival" onChange={(e)=>setArrival(e.target.value)} /> */}
+                        <Form.Control   type="date" name="RetDate" onChange={(e)=>setRetDate(e.target.value)} />
                         </InputGroup>
                     </Form.Group>
                 </Col>
