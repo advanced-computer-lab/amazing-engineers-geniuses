@@ -1,14 +1,16 @@
 import React from 'react';
 import {Carousel} from 'react-bootstrap';
 import "../Styles/Slideshow.css";
+import SearchFlight from './SearchFlight';
 
 export default function Slideshow(){
     return(
         <Carousel fade interval={5000}>
             <Carousel.Item>
                 <Carousel.Caption>
-                <h3>Fly on Top-Tier Planes</h3>
-                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                <div>
+                    <SearchFlight/>
+                </div>
                 </Carousel.Caption>
                 <div class='pickgradient'>
                     <img
@@ -29,10 +31,14 @@ export default function Slideshow(){
                 </div>
 
                 <Carousel.Caption>
-                <h3>Second slide label</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+
+                <div>
+                    <SearchFlight/>
+                </div>
                 </Carousel.Caption>
             </Carousel.Item>
+               
+            
         </Carousel>
     )
 }
