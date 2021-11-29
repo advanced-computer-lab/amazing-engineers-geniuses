@@ -27,7 +27,7 @@ const userSchema = new Schema({
     unique: true
   },
   Passport:String,
-  // Reservations:[Reservations]
+  Reservations:[]
 
 }, { timestamps: true });
 

@@ -1,5 +1,6 @@
 const Flight = require('../models/Flight');
 
+
 const createFlight = async (req,res)=>{
    const flightsCheck = await Flight.find({FlightNumber: req.body.FlightNumber});
    // if(flightsCheck.size > 0){
@@ -266,6 +267,8 @@ function createSeatsList(Economy,Business,First){
 }
 
 
+
+
 module.exports = {
     createFlight,
     showFlights,
@@ -275,5 +278,6 @@ module.exports = {
     updateFlight,
     showSchedule,
     getTime,
-    findReturnFlights
+    findReturnFlights,
+
 }
