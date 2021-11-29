@@ -167,6 +167,7 @@ const updateFlight = (req, res) => {
          First: req.body.FirstBag,
          Bus: req.body.BusBag,
       }
+      let duration = calcFlightDuration(dep,arr);
       
       const updatedFlight = {
          FlightNumber: req.body.FlightNumber,
@@ -182,6 +183,7 @@ const updateFlight = (req, res) => {
          Terminal: req.body.Terminal,
          Price: Price,
          BaggageAllowance: Bag,
+         Duration: duration
       };
       Flight.findByIdAndUpdate(req.params.id, updatedFlight,(err, flight)=> {
          if(err){
@@ -210,7 +212,7 @@ function calcFlightDuration (departure,arrival){
    //let departure = new Date(`${depDate}T${depTime}:00`); //date obj
 
    const dur=(arrival.getTime()-departure.getTime())/3600000 ;
-   const diff=Math.floor(dur)+":"+((dur%1) *60);
+   const diff=Math.floor(dur)+":"+Math.floor((dur%1) *60);
 
    return diff;
 

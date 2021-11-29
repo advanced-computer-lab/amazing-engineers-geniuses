@@ -156,7 +156,7 @@ class FlightItem extends Component{
                   </Row>
                 </Accordion.Header>
                 <Accordion.Body>
-                  {this.state.currentUser.isAdmin && (
+                  {/* {this.state.currentUser.isAdmin && (
                     <ul>
                       <li>Flight Number: {this.props.flight.FlightNumber}</li>
                       <li>
@@ -186,11 +186,11 @@ class FlightItem extends Component{
                         Price: {this.props.flight.Price.First}$ | Baggage
                         Allowance: {this.props.flight.BaggageAllowance.First}kg
                       </li>
-                      <li>Duration: {this.props.flight.Duration}</li>
+                      <li>Duration: {this.props.flight.Duration.split(':')[0]} hours {this.props.flight.Duration.split(':')[1] !== '0' && <span>and {this.props.flight.Duration.split(':')[1]} minutes</span>}</li>
                       <li>Terminal: {this.props.flight.Terminal} </li>
                     </ul>
                   )}
-                  {!this.state.currentUser.isAdmin && (
+                  {!this.state.currentUser.isAdmin && ( */}
                     <ul>
                       <li>Flight Number: {this.props.flight.FlightNumber}</li>
                       <li>
@@ -205,32 +205,30 @@ class FlightItem extends Component{
                         {this.props.flight.Arrival.Period} | {arr.getDate()}-
                         {arr.getMonth() + 1}-{arr.getFullYear()}
                       </li>
-                      {this.props.CabinClass == "E" && (
+                      {(this.props.CabinClass == "E" || this.state.currentUser.isAdmin) &&
                         <li>
-                          Economy Class Seats: {this.props.flight.EconomySeats}
-                          | Price: {this.props.flight.Price.Econ}$ | Baggage
-                          Allowance: {this.props.flight.BaggageAllowance.Econ}Kg
+                          Economy Class Seats: {this.props.flight.EconomySeats} | 
+                          Price: {this.props.flight.Price.Econ}$ | 
+                          Baggage Allowance: {this.props.flight.BaggageAllowance.Econ} kg
                         </li>
-                      )}
-                      {this.props.CabinClass == "B" && (
+                      }
+                      {(this.props.CabinClass == "B" || this.state.currentUser.isAdmin) &&
                         <li>
-                          Business Class Seats:
-                          {this.props.flight.BusinessSeats}| Price:
-                          {this.props.flight.Price.Bus}$ | Baggage Allowance:
-                          {this.props.flight.BaggageAllowance.Bus}kg
+                          Business Class Seats: {this.props.flight.BusinessSeats} | 
+                          Price: {this.props.flight.Price.Bus}$ | 
+                          Baggage Allowance: {this.props.flight.BaggageAllowance.Bus} kg
                         </li>
-                      )}
-                      {this.props.CabinClass == "F" && (
+                      }
+                      {(this.props.CabinClass == "F" || this.state.currentUser.isAdmin) && 
                         <li>
-                          First Class Seats: {this.props.flight.FirstClassSeats}
-                          | Price: {this.props.flight.Price.First}$ | Baggage
-                          Allowance: {this.props.flight.BaggageAllowance.First}Kg
+                          First Class Seats: {this.props.flight.FirstClassSeats} | 
+                          Price: {this.props.flight.Price.First}$ | 
+                          Baggage Allowance: {this.props.flight.BaggageAllowance.First} kg
                         </li>
-                      )}
-                      <li>Duration: {this.props.flight.Duration}</li>
+                      }
+                      <li>Duration: {this.props.flight.Duration.split(':')[0]} hours {this.props.flight.Duration.split(':')[1] !== '0' && <span>and {this.props.flight.Duration.split(':')[1]} minutes</span>}</li>
                       <li>Terminal: {this.props.flight.Terminal} </li>
                     </ul>
-                  )}
                   {/* <Seats Seats={this.props.flight.SeatsList}/> */}
                 </Accordion.Body>
               </Accordion.Item>
