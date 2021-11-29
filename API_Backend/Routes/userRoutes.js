@@ -5,5 +5,6 @@ const flightController = require('../controllers/flightController');
 
 router.post('/availableFlights',flightController.filterFlights);
 
+router.get('/findReturnFlights/:id',flightController.findReturnFlights);
 
 module.exports = router;

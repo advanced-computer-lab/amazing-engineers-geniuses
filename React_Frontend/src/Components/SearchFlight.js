@@ -44,7 +44,7 @@ export default function SearchFlight(props){
             history.push({
                 pathname: '/availableFlights',
 
-                state: { flights: flights, RetDate: RetDate }
+                state: { flights: flights, RetDate: RetDate, CabinClass: CabinClass }
 
             });
             

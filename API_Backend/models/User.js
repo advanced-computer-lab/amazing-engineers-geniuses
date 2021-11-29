@@ -27,7 +27,10 @@ const userSchema = new Schema({
     unique: true
   },
   Passport:String,
-  // Reservations:[Reservations]
+  // Bookings:[{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Booking"
+    // }]
 
 }, { timestamps: true });
 

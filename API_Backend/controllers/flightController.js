@@ -6,33 +6,41 @@ const createFlight = async (req,res)=>{
    //    res.send()
    // }
 
-   let arr = new Date(`${req.body.DepDate}T${req.body.Arrival}:00`);
-   let dep = new Date(`${req.body.ArrDate}T${req.body.Departure}:00`);  
+   let dep = new Date(`${req.body.DepDate}T${req.body.Departure}:00`);
+   let arr = new Date(`${req.body.ArrDate}T${req.body.Arrival}:00`);  
 
    let seatList = createSeatsList(req.body.EconomySeats, req.body.BusinessSeats, req.body.FirstClassSeats);
-   let duration =calcFlightDuration(dep,arr);
+   let duration = calcFlightDuration(dep,arr);
    console.log(duration);
+   const Price = {
+      Econ:req.body.EconPrice,
+      First:req.body.FirstPrice,
+      Bus:req.body.BusPrice,
+   }
+   
+   const Bag = {
+     Econ: req.body.EconBag,
+     First: req.body.FirstBag,
+     Bus: req.body.BusBag,
+   }
 
    const newFlight = {
-      FlightNumber: req.body.FlightNumber,
-      Departure: getTime(dep),
-      Arrival: getTime(arr),
-      DepDate: req.body.DepDate,
-      ArrDate: req.body.ArrDate,
-      EconomySeats: req.body.EconomySeats,
-      BusinessSeats: req.body.BusinessSeats,
-      FirstClassSeats: req.body.FirstClassSeats,
-      FromAirport: req.body.FromAirport.toUpperCase(),
-      ToAirport: req.body.ToAirport.toUpperCase(),
-      BaggageAllowance:req.body.BaggageAllowance,
-      EconPrice:req.body.EconPrice,
-      FirstPrice:req.body.FirstPrice,
-      BusPrice:req.body.BusPrice,
-      Terminal: req.body.Terminal,
-      SeatsList: seatList,
-      Duration: duration
-
-   }
+     FlightNumber: req.body.FlightNumber,
+     Departure: getTime(dep),
+     Arrival: getTime(arr),
+     DepDate: req.body.DepDate,
+     ArrDate: req.body.ArrDate,
+     EconomySeats: req.body.EconomySeats,
+     BusinessSeats: req.body.BusinessSeats,
+     FirstClassSeats: req.body.FirstClassSeats,
+     FromAirport: req.body.FromAirport.toUpperCase(),
+     ToAirport: req.body.ToAirport.toUpperCase(),
+     BaggageAllowance: Bag,
+     Price: Price,
+     Terminal: req.body.Terminal,
+     SeatsList: seatList,
+     Duration: duration,
+   };
 
    Flight.create(newFlight,(err,flight)=>{
       if(err){
@@ -147,7 +155,19 @@ const deleteFlight = (req,res)=>{
 const updateFlight = (req, res) => {
    try{
       let arr = new Date(`${req.body.ArrDate}T${req.body.Arrival}:00`);
-      let dep = new Date(`${req.body.DepDate}T${req.body.Departure}:00`);  
+      let dep = new Date(`${req.body.DepDate}T${req.body.Departure}:00`); 
+      const Price = {
+         Econ:req.body.EconPrice,
+         First:req.body.FirstPrice,
+         Bus:req.body.BusPrice,
+      }
+      
+      const Bag = {
+         Econ: req.body.EconBag,
+         First: req.body.FirstBag,
+         Bus: req.body.BusBag,
+      }
+      
       const updatedFlight = {
          FlightNumber: req.body.FlightNumber,
          Departure: getTime(dep),
@@ -159,7 +179,9 @@ const updateFlight = (req, res) => {
          FirstClassSeats: req.body.FirstClassSeats,
          FromAirport: req.body.FromAirport,
          ToAirport: req.body.ToAirport,
-         Terminal: req.body.Terminal
+         Terminal: req.body.Terminal,
+         Price: Price,
+         BaggageAllowance: Bag,
       };
       Flight.findByIdAndUpdate(req.params.id, updatedFlight,(err, flight)=> {
          if(err){
@@ -188,7 +210,7 @@ function calcFlightDuration (departure,arrival){
    //let departure = new Date(`${depDate}T${depTime}:00`); //date obj
 
    const dur=(arrival.getTime()-departure.getTime())/3600000 ;
-   const diff=(dur/1 - dur%1)+":"+(dur%1) *60;
+   const diff=Math.floor(dur)+":"+((dur%1) *60);
 
    return diff;
 
@@ -295,6 +317,7 @@ module.exports = {
     deleteFlight,
     updateFlight,
     showSchedule,
+    calcFlightDuration,
     getTime,
     findReturnFlights
 }

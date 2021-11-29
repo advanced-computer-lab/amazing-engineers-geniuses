@@ -19,6 +19,39 @@ const SeatList = new Schema({
 },{ _id : false })
 
 
+const Price = new Schema({
+    Econ:{
+        type: Number,
+        min: 0
+    },
+    Bus:{
+        type: Number,
+        min: 0
+    },
+    First:{
+        type: Number,
+        min: 0
+    },
+},{ _id : false })
+
+const BaggageAllowance = new Schema(
+  {
+    Econ: {
+      type: Number,
+      min: 0,
+    },
+    Bus: {
+      type: Number,
+      min: 0,
+    },
+    First: {
+      type: Number,
+      min: 0,
+    }
+  },{ _id: false });
+
+
+
 
 const flightSchema = new Schema({
     //as flight number, departure and arrival times, dates, number of Economy seats, number of Business class seats, and airport.
@@ -78,31 +111,18 @@ const flightSchema = new Schema({
     },
 
     BaggageAllowance:{
-        type:Number,
-        required: true,
-        min: 0  
+        type:  BaggageAllowance,
+        required: true
     },
 
-    EconPrice:{
-        type:Number,
-        required:true,
-        min: 0
+    Price:{
+        type:Price,
+        required:true
     },
-    FirstPrice:{
-        type:Number,
-        required:true,
-        min: 0
-    },
-    BusPrice:{
-        type:Number,
-        required:true,
-        min: 0
-    },
+  
     Duration:{
-        type:string,
-        required:true,
-        min: 0
-
+        type:String,
+        required:true
     },
 
 })
