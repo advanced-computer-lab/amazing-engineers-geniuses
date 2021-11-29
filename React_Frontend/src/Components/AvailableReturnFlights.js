@@ -7,7 +7,7 @@ const api = 'http://localhost:8000';
 
 export default function AvailableReturnFlights(props){
   const location = useLocation();
-  const [returnFlights,SetReturnFlights] = useState(location.state.returnFlights);
+  const [returnFlights,SetReturnFlights] = useState();
   const [bookedFlight, setBookedFlight] = useState(location.state.bookedFlight);
 
 
@@ -15,10 +15,11 @@ export default function AvailableReturnFlights(props){
     console.log(location.pathname);
     console.log(location.state.returnFlights);
     console.log(location.state.bookedFlight);
-    SetReturnFlights(returnFlights.map((returnFlights, key)=>
-        <FlightItem hideBtn={true} showSelect={true} CabinClass={location.state.CabinClass} returnFlights={returnFlights} key={key}/> )) 
+    SetReturnFlights(location.state.returnFlights.map((returnFlight, key)=>
+        <FlightItem hideBtn={true} showSelect={true} CabinClass={location.state.CabinClass} flight={returnFlight} key={key}/> )) 
   },[])
-      
+  
+
   return(
     <div>
           <h2> <em>Available Return Flights </em></h2>
