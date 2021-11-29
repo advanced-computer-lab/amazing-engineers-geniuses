@@ -28,7 +28,7 @@ export default function AvailableFlights(props){
     console.log(location.state.flights);
     console.log(location.state.RetDate);
     setFlightList(flights.map((flight, key)=>
-        <FlightItem hideBtn={true} showSelect={true} CabinClass={location.state.CabinClass} flight={flight} key={key}/> )) 
+        <FlightItem hideBtn={true} showSelect={true} showSelect2={false} CabinClass={location.state.CabinClass} flight={flight} key={key}/> )) 
   },[])
       
   return(
