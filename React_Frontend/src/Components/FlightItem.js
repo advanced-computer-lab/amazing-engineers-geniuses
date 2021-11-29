@@ -47,12 +47,12 @@ class FlightItem extends Component{
            });
            //this.setState({ redirect: "/someRoute" });
            //let returnFlights=res.data; //LIST OF RETURN FLIGHTS
-           console.log(this.state.returnFlights);
+          console.log(this.state.returnFlights);
           this.props.history.push({
-               pathname: '/availableReturnFlights',
+              pathname: '/availableReturnFlights',
               state: { returnFlights: this.state.returnFlights, bookedFlight: bookedFlight , CabinClass:this.state.CabinClass}
            });   
-          //this.props.history.push("/availableReturnFlights");
+          //this.props.history.push("/availableReturnFlights",{state: { returnFlights: this.state.returnFlights, bookedFlight: bookedFlight , CabinClass:this.state.CabinClass}});
                
        }).catch((error) =>{
            if(error){
@@ -85,7 +85,7 @@ class FlightItem extends Component{
             else
                 daysDiff = `( + ~${arr.getMonth()-dep.getMonth()} months)`;
         }
-        else{
+        else if(diff !== 0){
             diff = arr.getDate()-dep.getDate();
             daysDiff = `( +${diff} )`;
         }

@@ -106,7 +106,7 @@ const filterFlights = (req,res)=>{
 const findReturnFlights = async (req,res)=>{
    const id = req.params.id;
    const depFlight = await Flight.findById(id);
-   const flightDate = depFlight.FlightDate;
+   const flightDate = depFlight.DepDate;
    const flightArrHour = Number.parseInt(depFlight.Arrival.AsString.split(':')[0]);
    const flightArrMin = Number.parseInt(depFlight.Arrival.AsString.split(':')[1]);
    const newDep = depFlight.ToAirport;
