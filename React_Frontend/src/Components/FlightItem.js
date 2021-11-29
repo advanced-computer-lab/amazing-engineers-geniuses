@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {Button, Modal, Accordion, Row, Col} from 'react-bootstrap';
 // import Seats from './Seats';
-import '../Styles/FlightItem.css'
+import '../Styles/FlightItem.css';
 
 const Router = require('react-router-dom');
 
+const api = 'http://localhost:8000';
 
 
 const Link = Router.Link
@@ -16,13 +17,20 @@ class FlightItem extends Component{
         super(props);
         this.state ={
             showPop: false
+            
         }
         this.df = this.df.bind(this);
+        this.Book = this.Book.bind(this);
     }
 
     df(){
         console.log(this.props.flight);
         this.props.deleteFlight(this.props.flight._id);
+    }
+    Book(){
+        const bookedFlight = this.props.flight;
+        // this.history.push()
+        // push to ReturnFlights Component, pass state bookedflight
     }
 
     render(){
@@ -84,6 +92,12 @@ class FlightItem extends Component{
                                             <Link className='btn btn-success' to = {updateLink} >Update</Link>
                                             <div className='btn btn-danger' onClick={()=>{this.setState({showPop: true})}}>Delete</div>
                                         </div>}
+                                        {
+                                            this.props.showSelect &&
+                                            <div>
+                                                <div className='btn btn-primary' onClick={this.Book}>Book </div>
+                                            </div>
+                                        }
                                         
                                     </Col>
                                 </Row>

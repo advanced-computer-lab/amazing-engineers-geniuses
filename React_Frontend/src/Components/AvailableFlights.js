@@ -11,13 +11,25 @@ export default function AvailableFlights(props){
   const location = useLocation();
   const [flights,SetFlights] = useState(location.state.flights);
   const [flightList, setFlightList] = useState()  
-          
+
+  
+  // const Book =()=>{
+  //   axios.post(`${api}/createBooking`,{
+  //     DepartureFlight: 
+      
+  //    }).then((res) =>{
+
+  //   })
+
+  // }
+  
+
   useEffect(() => {
     console.log(location.pathname);
     console.log(location.state.flights);
+    console.log(location.state.RetDate);
     setFlightList(flights.map((flight, key)=>
-        <FlightItem hideBtn={true} flight={flight} key={key}/> ))
-  }, [location]); 
+        <FlightItem hideBtn={true} showSelect={true} flight={flight} key={key}/> ))
       
   return(
     <div>

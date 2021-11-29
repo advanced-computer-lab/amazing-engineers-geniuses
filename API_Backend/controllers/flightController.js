@@ -10,6 +10,8 @@ const createFlight = async (req,res)=>{
    let dep = new Date(`${req.body.ArrDate}T${req.body.Departure}:00`);  
 
    let seatList = createSeatsList(req.body.EconomySeats, req.body.BusinessSeats, req.body.FirstClassSeats);
+   let duration =calcFlightDuration(dep,arr);
+   console.log(duration);
 
    const newFlight = {
       FlightNumber: req.body.FlightNumber,
@@ -22,10 +24,16 @@ const createFlight = async (req,res)=>{
       FirstClassSeats: req.body.FirstClassSeats,
       FromAirport: req.body.FromAirport.toUpperCase(),
       ToAirport: req.body.ToAirport.toUpperCase(),
+      BaggageAllowance:req.body.BaggageAllowance,
+      EconPrice:req.body.EconPrice,
+      FirstPrice:req.body.FirstPrice,
+      BusPrice:req.body.BusPrice,
       Terminal: req.body.Terminal,
-      SeatsList: seatList
+      SeatsList: seatList,
+      Duration: duration
 
    }
+
    Flight.create(newFlight,(err,flight)=>{
       if(err){
          let messageText ='Error creating flight. ErrorBody: '+err; 
@@ -42,6 +50,7 @@ const createFlight = async (req,res)=>{
    // .then((newFlight)=>{res.send(newFlight)})
    // .catch((err)=>{res.send({message: 'Could not create flight'})});
 }
+
 
 const showFlights = (req,res)=>{
    Flight.find({},(err,flights)=>{
@@ -174,6 +183,16 @@ const showSchedule = async(req,res)=>{
     res.send(flights);
 }
 
+function calcFlightDuration (departure,arrival){
+   //let arrival = new Date(`${arrDate}T${arrTime}:00`); //date obj
+   //let departure = new Date(`${depDate}T${depTime}:00`); //date obj
+
+   const dur=(arrival.getTime()-departure.getTime())/3600000 ;
+   const diff=(dur/1 - dur%1)+":"+(dur%1) *60;
+
+   return diff;
+
+}
 
 function getTime(time){
    const Period = time.getHours() >= 12 ? 'PM' : 'AM';
