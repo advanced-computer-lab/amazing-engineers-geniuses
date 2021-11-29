@@ -103,9 +103,49 @@ const filterFlights = (req,res)=>{
    })
 }
 
-const findReturnFlights = async (req,res)=>{
-   const id = req.params.id;
-   const depFlight = await Flight.findById(id);
+const searchFlights = async (req,res) =>{
+   const bodyArr = Object.entries(req.body);
+   const filtered = bodyArr.filter(([key,value]) => value !== '' || key !== 'RetDate');
+   const bodyObj = Object.fromEntries(filtered);
+   // console.log(req.body.RetDate);
+   let flights=[];
+
+   // console.log("Bodyobj",bodyObj);
+
+   // Flight.find(bodyObj,(err,flights)=>{
+   //   if(err){
+   //      return res.status(500).send({message: err})
+   //   }
+   //   else{
+   //      flights = flights.filter((flight)=>(
+   //         findReturnFlights(flight,req.body.RetDate).length !== 0
+   //      ))
+   //   }
+   // })
+
+   flights = await Flight.find(bodyObj);
+   // console.log("Flights before RetDate filter",flights)
+   flights = flights.filter(async(flight)=>(
+           await findReturnFlights(flight,req.body.RetDate).length !== 0
+        ))
+   // console.log("Flights after RetDate filter",flights)   
+   let result = [];
+   
+   for(const flight of flights){
+      returnFlights = await findReturnFlights(flight,req.body.RetDate);
+      result = [...result,{DepFlight: flight,ReturnFlights: returnFlights}];
+   }
+
+   
+   // console.log("result final",result);
+
+   res.send(result);
+}
+
+
+
+const findReturnFlights = async(depFlight, retDate)=>{
+   let RetDate = new Date(retDate);
    const flightDate = depFlight.DepDate;
    const flightArrHour = Number.parseInt(depFlight.Arrival.AsString.split(':')[0]);
    const flightArrMin = Number.parseInt(depFlight.Arrival.AsString.split(':')[1]);
@@ -137,7 +177,11 @@ const findReturnFlights = async (req,res)=>{
    //Merges all Return Flights
    returnFlights.concat(returnFlights2).concat(returnFlights3);
 
-   res.send(returnFlights);
+   returnFlights = returnFlights.filter((flight) => (flight.ArrDate.getTime() === RetDate.getTime()))
+
+  // res.send(returnFlights);
+//   console.log('return', returnFlights);
+  return returnFlights
 }
 
 const deleteFlight = (req,res)=>{
@@ -321,5 +365,6 @@ module.exports = {
     showSchedule,
     calcFlightDuration,
     getTime,
-    findReturnFlights
+    findReturnFlights,
+    searchFlights
 }

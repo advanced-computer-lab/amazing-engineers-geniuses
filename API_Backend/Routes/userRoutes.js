@@ -4,6 +4,7 @@ const Flight = require('../models/Flight');
 const flightController = require('../controllers/flightController');
 
 router.post('/availableFlights',flightController.filterFlights);
+router.post('/searchFlights',flightController.searchFlights);
 
 router.get('/findReturnFlights/:id',flightController.findReturnFlights);
 

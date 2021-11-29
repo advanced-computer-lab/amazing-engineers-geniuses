@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
 import {Button, Modal, Accordion, Row, Col} from 'react-bootstrap';
 import axios from 'axios';
-import { withRouter , useNavigate} from "react-router-dom";
-// import Seats from './Seats';
+import { withRouter} from "react-router-dom";
+import Seats from './Seats';
 import Auth from "../services/Auth";
 import '../Styles/FlightItem.css';
-
-
-// const navigate = useNavigate()
-// navigate("/404")
 
 const Router = require('react-router-dom');
 const api = 'http://localhost:8000';
@@ -20,13 +16,8 @@ class FlightItem extends Component{
         super(props);
         this.state ={
             showPop: false,
-            currentUser: Auth.getCurrentUser(),
-            CabinClass:'',
-            returnFlights:[]
+            currentUser: Auth.getCurrentUser()
         }
-
-       
-
         this.df = this.df.bind(this);
         this.Book = this.Book.bind(this);
     }
@@ -35,30 +26,32 @@ class FlightItem extends Component{
         console.log(this.props.flight);
         this.props.deleteFlight(this.props.flight._id);
     }
+
     Book(){
-        
-        const bookedFlight = this.props.flight; //DEPARTURE FLIGHT
-        const bookedId = this.props.flight._id;
-        console.log("aaaaaaaa");
-        axios.get(`${api}/findReturnFlights/${bookedId}`)
-        .then((res) =>{
-           this.setState({
-             returnFlights: res.data,
-           });
-           //this.setState({ redirect: "/someRoute" });
-           //let returnFlights=res.data; //LIST OF RETURN FLIGHTS
-          console.log(this.state.returnFlights);
-          this.props.history.push({
+      const bookedFlight = this.props.flight; //DEPARTURE FLIGHT
+      const bookedId = this.props.flight._id;
+      console.log("aaaaaaaa");
+      //   axios.get(`${api}/findReturnFlights/${bookedId}`)
+      //   .then((res) =>{
+      //     const returnFlights = res.data;
+      //     // returnFlights = returnFlights.filter((flight)=>(
+      //     //   flight.ArrDate.getTime() == this.props.RetDate.getTime()
+      //     // ))
+      //     console.log(returnFlights);
+      //     this.props.history.push({
+      //         pathname: '/availableReturnFlights',
+      //         state: { returnFlights: returnFlights, bookedFlight: bookedFlight , CabinClass:this.props.CabinClass}
+      //      });   
+      //  }).catch((error) =>{
+      //      if(error){
+      //          console.log(error);
+      //      }
+      //  })
+      const returnFlights = this.props.returnFlights;
+      this.props.history.push({
               pathname: '/availableReturnFlights',
-              state: { returnFlights: this.state.returnFlights, bookedFlight: bookedFlight , CabinClass:this.state.CabinClass}
-           });   
-          //this.props.history.push("/availableReturnFlights",{state: { returnFlights: this.state.returnFlights, bookedFlight: bookedFlight , CabinClass:this.state.CabinClass}});
-               
-       }).catch((error) =>{
-           if(error){
-               console.log(error);
-           }
-       })
+              state: { returnFlights: returnFlights, bookedFlight: bookedFlight , CabinClass:this.props.CabinClass}
+           });  
     }
 
     render(){
@@ -89,13 +82,7 @@ class FlightItem extends Component{
             diff = arr.getDate()-dep.getDate();
             daysDiff = `( +${diff} )`;
         }
-  
 
-
-        
-        // console.log("SeatList");
-        // console.log(this.props.flight.SeatsList);
-        // console.log(date);
         return (
           <div>
             <Accordion>
