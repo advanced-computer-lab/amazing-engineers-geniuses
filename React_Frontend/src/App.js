@@ -9,6 +9,7 @@ import AdminRoutes from './Components/AdminRoutes';
 import Auth from './services/Auth';
 import NavBar from './Components/NavBar.js';
 import AvailableFlights from './Components/AvailableFlights';
+import AvailableReturnFlights from './Components/AvailableReturnFlights'
 
 class App extends Component {
   constructor(props){
@@ -33,6 +34,8 @@ class App extends Component {
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
           <Route path='/availableFlights' component={AvailableFlights}/>
+          <Route path='/availableReturnFlights' component={AvailableReturnFlights}/>
+
       </Router>
     );
   }

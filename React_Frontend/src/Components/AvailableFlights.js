@@ -1,7 +1,6 @@
 import React,{ Component, useEffect,useState } from 'react';
 import axios from 'axios';
 import FlightItem from './FlightItem';
-import FlightSearchUser from './FlightSearchUser'; // import child
 import { Accordion } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
 
@@ -29,11 +28,12 @@ export default function AvailableFlights(props){
     console.log(location.state.flights);
     console.log(location.state.RetDate);
     setFlightList(flights.map((flight, key)=>
-        <FlightItem hideBtn={true} showSelect={true} flight={flight} key={key}/> ))
+        <FlightItem hideBtn={true} showSelect={true} CabinClass={location.state.CabinClass} flight={flight} key={key}/> )) 
+  },[])
       
   return(
     <div>
-          <h2> <em>Flights Available</em></h2>
+          <h2> <em>Available Departure Flights</em></h2>
           <div>
             <Accordion>
               {flightList}

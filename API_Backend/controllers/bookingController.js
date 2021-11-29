@@ -3,14 +3,14 @@ const Booking = require('../models/Booking');
 
 const createBooking = async (req,res)=>{
  
-    //let price=
+    //let TotalCost=(req.body.DepartureFlight.Price + req.body.ReturnFlight.Price)*req.body.NumberOfSeats; based on cabin class
     
     const newBooking={
         DepartureFlight:req.body.DepartureFlight,
         ReturnFlight:req.body.ReturnFlight,
-        Price:req.body.Price,
+        TotalCost:req.body.Cost,
         NumberOfSeats:req.body.NumberOfSeats,
-        Seat:req.body.Seat,
+        Seats:req.body.Seats,
         Cabin:req.body.Cabin,
     }
     Booking.create(newBooking,(err,booking)=>{
@@ -25,5 +25,5 @@ const createBooking = async (req,res)=>{
 }
 
 module.exports = {
-    createBooking
+    createBooking,
 }
