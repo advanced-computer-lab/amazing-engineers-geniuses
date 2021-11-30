@@ -8,27 +8,23 @@ const api = 'http://localhost:8000';
 
 export default function AvailableFlights(props){
   const location = useLocation();
-  const [flights,SetFlights] = useState(location.state.flights);
+  const [flights,setFlights] = useState(location.state.flightsWithReturn.map((tuple,i)=>(
+               tuple.DepFlight 
+            )));
+  const [returnFlights, setReturns] = useState(location.state.flightsWithReturn.map((tuple,i)=>(
+               tuple.ReturnFlights 
+            )));
   const [flightList, setFlightList] = useState()  
 
-  
-  // const Book =()=>{
-  //   axios.post(`${api}/createBooking`,{
-  //     DepartureFlight: 
-      
-  //    }).then((res) =>{
 
-  //   })
-
-  // }
-  
 
   useEffect(() => {
     console.log(location.pathname);
-    console.log(location.state.flights);
-    console.log(location.state.RetDate);
+    console.log(location.state.flightsWithReturn);
+    //console.log(location.state.RetDate);
     setFlightList(flights.map((flight, key)=>
-        <FlightItem hideBtn={true} showSelect={true} showSelect2={false} CabinClass={location.state.CabinClass} flight={flight} key={key}/> )) 
+
+        <FlightItem hideBtn={true} showSelect={true} showSelect2={false} CabinClass={location.state.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> )) 
   },[])
       
   return(

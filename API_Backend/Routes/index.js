@@ -9,6 +9,8 @@ router.get('/findReturnFlights/:id',flightController.findReturnFlights);
 
 router.post('/filterFlights', flightController.filterFlights);
 
+router.post('/searchFlights', flightController.searchFlights);
+
 router.post('/createBooking',bookingController.createBooking);
 
 module.exports = router;

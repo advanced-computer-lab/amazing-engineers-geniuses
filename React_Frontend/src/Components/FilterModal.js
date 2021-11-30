@@ -62,7 +62,7 @@ export default function FilterModal(props){
                         <Row>
                             <Col>
                                 <Form.Label>From</Form.Label>
-                                <Form.Control type="text" value={filterCriteria.FromAirport} placeholder="Enter Deprature Airport" onChange={(e) => setFilter({...filterCriteria,FromAirport: e.target.value.toUpperCase()})}/>
+                                <Form.Control type="text" value={filterCriteria.FromAirport} placeholder="Enter Departure Airport" onChange={(e) => setFilter({...filterCriteria,FromAirport: e.target.value.toUpperCase()})}/>
                             </Col>
                             <Col>
                                 <Form.Label>To</Form.Label>

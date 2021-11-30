@@ -12,7 +12,7 @@ export default function Slideshow(){
                     <SearchFlight/>
                 </div>
                 </Carousel.Caption>
-                <div class='pickgradient'>
+                <div className='pickgradient'>
                     <img
                     className="d-block w-100"
                     src="/stock1.jpg"
@@ -22,7 +22,7 @@ export default function Slideshow(){
                 
             </Carousel.Item>
             <Carousel.Item>
-               <div class='pickgradient'>
+               <div className='pickgradient'>
                     <img
                     className="d-block w-100"
                     src="/stock2.jpg"
