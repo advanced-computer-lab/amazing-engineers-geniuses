@@ -72,8 +72,8 @@ class CreateFlightForm extends Component{
     render(){
         let today = new Date();
        // console.log(today);
-        const dd = today.getDate();
-        const mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+        let dd = today.getDate();
+        let mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
         const yyyy = today.getFullYear();
         const hh = today.getHours();
         const min = today.getMinutes();

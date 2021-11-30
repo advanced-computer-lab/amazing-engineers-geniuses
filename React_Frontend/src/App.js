@@ -6,11 +6,10 @@ import Homepage from './Components/HomePage';
 import Login from './Components/Login';
 import Register from './Components/Register';
 import AdminRoutes from './Components/AdminRoutes';
-import MyBookedFlights from './Components/MyBookedFlights';
+import MyBookings from './Components/MyBookings';
 import Auth from './services/Auth';
-import NavBar from './Components/NavBar.js'
-
-const api = 'http://localhost:8000';
+import NavBar from './Components/NavBar.js';
+import AvailableFlights from './Components/AvailableFlights';
 
 class App extends Component {
   constructor(props){
@@ -31,10 +30,11 @@ class App extends Component {
           <NavBar/>
           <Route exact path='/' component={Homepage} />
           <Route path='/flightSchedule' component={FlightSchedule} />
-          <Route path='/viewMyFlights' component={MyBookedFlights} />
+          <Route path='/viewMyBookings' component={MyBookings} />
           {this.state.currentUser.isAdmin && <AdminRoutes/>}
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
+          <Route path='/availableFlights' component={AvailableFlights}/>
       </Router>
     );
   }
