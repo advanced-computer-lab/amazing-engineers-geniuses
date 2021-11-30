@@ -2,9 +2,10 @@ import React, {Component} from 'react';
 import {Button, Modal, Accordion, Row, Col} from 'react-bootstrap';
 import axios from 'axios';
 import { withRouter} from "react-router-dom";
-import Seats from './Seats';
 import Auth from "../services/Auth";
 import '../Styles/FlightItem.css';
+import { useLocation } from "react-router-dom";
+
 
 const Router = require('react-router-dom');
 const api = 'http://localhost:8000';
@@ -16,10 +17,17 @@ class FlightItem extends Component{
         super(props);
         this.state ={
             showPop: false,
-            currentUser: Auth.getCurrentUser()
+            currentUser: Auth.getCurrentUser(),
+            CabinClass:'',
+            returnFlights:[],
+            showBookingConfirmation: false,
+            PassengersNumber: '',
+            departureFlight:'',
+            //returnFlight:''
         }
         this.df = this.df.bind(this);
-        this.Book = this.Book.bind(this);
+        this.bookDepFlight = this.bookDepFlight.bind(this);
+        this.bookReturnFlight = this.bookReturnFlight.bind(this);
     }
 
     df(){
@@ -27,7 +35,8 @@ class FlightItem extends Component{
         this.props.deleteFlight(this.props.flight._id);
     }
 
-    Book(){
+   
+    bookDepFlight(){
       const bookedFlight = this.props.flight; //DEPARTURE FLIGHT
       const bookedId = this.props.flight._id;
       console.log("aaaaaaaa");
@@ -52,6 +61,23 @@ class FlightItem extends Component{
               pathname: '/availableReturnFlights',
               state: { returnFlights: returnFlights, bookedFlight: bookedFlight , CabinClass:this.props.CabinClass}
            });  
+    }
+    //---------------------------------------------------
+    bookReturnFlight(){
+      const returnFlight = this.props.flight; //RETURN FLIGHT
+      const depFlight = this.props.depFlight;
+      //console.log(this.state.departureFlight);
+
+      // this.setState({
+      //   returnFlight: this.props.fligh
+      // });
+
+      this.props.history.push({
+        pathname: '/chooseSeats',
+        state: { returnFlight: returnFlight, departureFlight: depFlight , CabinClass:this.props.CabinClass, PassengersNumber: this.props.PassengersNumber}
+     });   
+
+
     }
 
     render(){
@@ -82,7 +108,6 @@ class FlightItem extends Component{
             diff = arr.getDate()-dep.getDate();
             daysDiff = `( +${diff} )`;
         }
-
         return (
           <div>
             <Accordion>
@@ -134,11 +159,26 @@ class FlightItem extends Component{
                       )}
                       {this.props.showSelect && (
                         <div>
-                          <div className="btn btn-primary" onClick={this.Book}>
+                          <div className="btn btn-primary" onClick={this.bookDepFlight}>
                             Book Departure Flight
                           </div>
                         </div>
                       )}
+                      
+                      {this.props.showSelect2 && (
+                        <div>
+                          <div 
+                            className="btn btn-primary" 
+                            // onClick={() => {
+                            //   this.setState({ showBookingConfirmation: true });
+                            // }}
+                            onClick={this.bookReturnFlight}
+                          > 
+                            Book Return Flight
+                          </div>
+                        </div>
+                      )}
+
                     </Col>
                   </Row>
                 </Accordion.Header>
@@ -194,23 +234,31 @@ class FlightItem extends Component{
                       </li>
                       {(this.props.CabinClass == "E" || this.state.currentUser.isAdmin) &&
                         <li>
-                          Economy Class Seats: {this.props.flight.EconomySeats} | 
+
+                          Cabin Class: {"Economy"}  
+                          Seats: {this.props.flight.EconomySeats} | 
                           Price: {this.props.flight.Price.Econ}$ | 
                           Baggage Allowance: {this.props.flight.BaggageAllowance.Econ} kg
                         </li>
                       }
                       {(this.props.CabinClass == "B" || this.state.currentUser.isAdmin) &&
                         <li>
-                          Business Class Seats: {this.props.flight.BusinessSeats} | 
+
+                          Cabin Class: {"Business"}  
+                          Seats: {this.props.flight.BusinessSeats} | 
                           Price: {this.props.flight.Price.Bus}$ | 
                           Baggage Allowance: {this.props.flight.BaggageAllowance.Bus} kg
+
                         </li>
                       }
                       {(this.props.CabinClass == "F" || this.state.currentUser.isAdmin) && 
                         <li>
-                          First Class Seats: {this.props.flight.FirstClassSeats} | 
+
+                          Cabin Class: {"First Class"}  
+                          Seats: {this.props.flight.FirstClassSeats} | 
                           Price: {this.props.flight.Price.First}$ | 
                           Baggage Allowance: {this.props.flight.BaggageAllowance.First} kg
+
                         </li>
                       }
                       <li>Duration: {this.props.flight.Duration.split(':')[0]} hours {this.props.flight.Duration.split(':')[1] !== '0' && <span>and {this.props.flight.Duration.split(':')[1]} minutes</span>}</li>
@@ -253,6 +301,46 @@ class FlightItem extends Component{
                 </Button>
               </Modal.Footer>
             </Modal>
+
+            <Modal
+            show={this.state.showBookingConfirmation}
+            onHide={() => {
+              this.setState({ showBookingConfirmation: false });
+            }}            
+            backdrop="static"
+            keyboard={false}
+           >
+
+            <Modal.Header closeButton>
+                <Modal.Title>Booking Confirmation</Modal.Title>
+            </Modal.Header>
+
+            <Modal.Body>
+                 Are you sure you want to book this flight?
+            </Modal.Body>
+
+            <Modal.Footer>
+            <Button
+                  variant="secondary"
+                  onClick={() => {
+                    this.setState({ showBookingConfirmation: false });
+                  }}
+                >
+                  Close
+                </Button>
+
+                 <Button
+                  variant="primary"
+                  onClick={() => {
+                    this.setState({ showBookingConfirmation: false });
+                    this.bookReturnFlight();
+                  }}
+                 >
+                   Confirm
+                </Button>
+            </Modal.Footer>
+          </Modal>
+
           </div>
         );
     }

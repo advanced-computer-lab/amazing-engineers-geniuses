@@ -7,18 +7,19 @@ const api = 'http://localhost:8000';
 
 export default function AvailableReturnFlights(props){
   const location = useLocation();
-  const [returnFlights,SetReturnFlights] = useState();
-  const [bookedFlight, setBookedFlight] = useState(location.state.bookedFlight);
-
+  const [returnFlights,setReturnFlights] = useState();
+  const [departureFlight, setDepartureFlight] = useState(location.state.departureFlight);
+  const[cabinClass,setCabinClass]= useState(location.state.CabinClass);
 
   useEffect(() => {
-    console.log(location.pathname);
-    console.log(location.state.returnFlights);
-    console.log(location.state.bookedFlight);
-    SetReturnFlights(location.state.returnFlights.map((returnFlight, key)=>
-        <FlightItem hideBtn={true} showSelect={true} CabinClass={location.state.CabinClass} flight={returnFlight} key={key}/> )) 
+    //console.log(location.pathname);
+    //console.log(location.state.returnFlights);
+    //console.log(location.state.bookedFlight);
+
+    setCabinClass(location.state.CabinClass);
+    setReturnFlights(location.state.returnFlights.map((returnFlight, key)=>
+        <FlightItem hideBtn={true} showSelect={false} showSelect2={true} CabinClass={location.state.CabinClass} depFlight = {departureFlight} flight={returnFlight} key={key}/> )) 
   },[])
-  
 
   return(
     <div>
@@ -28,6 +29,8 @@ export default function AvailableReturnFlights(props){
               {returnFlights}
             </Accordion>
           </div>
-        </div> 
+
+   </div>
+
   );
 }

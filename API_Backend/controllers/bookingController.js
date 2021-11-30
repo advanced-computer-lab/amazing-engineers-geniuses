@@ -1,7 +1,7 @@
 const Booking = require('../models/Booking');
 
 
-const createBooking = async (req,res)=>{
+const createBooking =(req,res)=>{
  
     //let TotalCost=(req.body.DepartureFlight.Price + req.body.ReturnFlight.Price)*req.body.NumberOfSeats; based on cabin class
     

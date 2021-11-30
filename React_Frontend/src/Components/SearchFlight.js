@@ -15,8 +15,6 @@ export default function SearchFlight(props){
 
     const[RetDate,setRetDate]=React.useState('');
 
-   
-
     const[PassengersNumber,setPassengersNumber]=React.useState('');
     //const flights=[];
 
@@ -63,7 +61,9 @@ export default function SearchFlight(props){
                             <Col>
                                 <InputGroup className="mb-3">
                                 <InputGroup.Text>From</InputGroup.Text>
+
                                 <Form.Control  type="text" value={FromAirport} placeholder="Enter Deprature Airport" required onChange={(e) => setFromAirport(e.target.value)}/>
+
                                 </InputGroup>
                             </Col>
                             <Col>
