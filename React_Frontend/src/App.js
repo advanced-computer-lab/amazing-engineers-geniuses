@@ -12,6 +12,8 @@ import AvailableFlights from './Components/AvailableFlights';
 import AvailableReturnFlights from './Components/AvailableReturnFlights';
 import ChooseSeats from './Components/ChooseSeats';
 import CreateBooking from './Components/CreateBooking';
+import Profile from './Components/Profile';
+import EditInfo from './Components/EditInfo'
 
 class App extends Component {
   constructor(props){
@@ -41,7 +43,8 @@ class App extends Component {
           <Route path='/chooseSeats' component={ChooseSeats}/>
 
           <Route path='/createBooking' component={CreateBooking}/>
-
+          <Route path='/profile' component={Profile}/>
+          <Route path='/profile/edit' component={EditInfo}/>
       </Router>
     );
   }

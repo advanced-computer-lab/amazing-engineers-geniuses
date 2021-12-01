@@ -36,7 +36,8 @@ export default function FlightSummary(props){
             setCabin('Business');
             setCb('Bus');
         }
-    }
+    }    
+
     
     return(
         <div>
@@ -48,7 +49,7 @@ export default function FlightSummary(props){
                 {Object.keys(bookingInfo.DepartureFlight).length !== 0 && 
                     <div>
                     <h4>{bookingInfo.DepartureFlight.FromAirport} <i className="fas fa-plane-departure"> {bookingInfo.DepartureFlight.ToAirport}</i></h4>
-                    <h5>{bookingInfo.DepartureFlight.DepDate.split("T")[0]} </h5>
+                    <h5>{bookingInfo.DepartureFlight.DepDate.split('T')[0]} | {bookingInfo.DepartureFlight.Departure.Hours}:{bookingInfo.DepartureFlight.Departure.Minutes} {bookingInfo.DepartureFlight.Departure.Period} </h5>
                     <br/>
                     <h5>Price/Person = {bookingInfo.DepartureFlight.Price[cb]} <i className="fas fa-dollar-sign"></i></h5>
                     
@@ -60,7 +61,7 @@ export default function FlightSummary(props){
                 {Object.keys(bookingInfo.ReturnFlight).length !== 0 && 
                 <div>
                     <h4>{bookingInfo.ReturnFlight.FromAirport} <i className="fas fa-plane-arrival"></i> {bookingInfo.ReturnFlight.ToAirport} </h4>
-                    <h5>{bookingInfo.ReturnFlight.DepDate.split("T")[0]} </h5>
+                    <h5>{bookingInfo.ReturnFlight.DepDate.split('T')[0]} | {bookingInfo.ReturnFlight.Departure.Hours}:{bookingInfo.ReturnFlight.Departure.Minutes} {bookingInfo.ReturnFlight.Departure.Period} </h5>
                     <br/>
 
                     <h5>Price/Person = {bookingInfo.ReturnFlight.Price[cb]} <i className="fas fa-dollar-sign"></i></h5>
