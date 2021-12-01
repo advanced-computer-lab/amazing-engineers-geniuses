@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const Flight = require('../models/Flight');
 
 
 const bookingSchema = new Schema({
@@ -21,16 +22,23 @@ const bookingSchema = new Schema({
     min: 0,
   },
 
-  NumberOfSeats: {
+  NumberOfPassengers: {
     type: Number,
     required: true,
     min: 1,
   },
-  Seats: {
+
+  DepSeats: {
     type: [String],
     required: true,
   },
-  Cabin: {
+
+  RetSeats: {
+    type: [String],
+    required: true,
+  },
+
+  CabinClass: {
     type: String,
     required: true,
   },

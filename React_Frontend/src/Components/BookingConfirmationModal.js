@@ -10,9 +10,9 @@ export default function BookModal(props){
 
     return(
     <>
-        <Button variant="primary" onClick={handleShow}>
+        {/* <Button variant="primary" onClick={handleShow}>
           TEST MODAL
-        </Button>
+        </Button> */}
 
         <Modal
             show={show}

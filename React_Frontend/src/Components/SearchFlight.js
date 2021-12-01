@@ -18,9 +18,8 @@ export default function SearchFlight(props){
     const[PassengersNumber,setPassengersNumber]=React.useState('');
     //const flights=[];
 
-    const flightsAvailable = () =>{
-
-        
+    const flightsAvailable = (e) =>{
+        e.preventDefault();
         axios.post(`${api}/searchFlights`,{
            FromAirport:FromAirport,
            ToAirport:ToAirport,
@@ -37,8 +36,9 @@ export default function SearchFlight(props){
             flightsWithReturn = flightsWithReturn.filter(tuple=> tuple.DepFlight.SeatsList.Available.filter(seat => seat.charAt(0) === CabinClass ).length >= PassengersNumber)
             console.log(flightsWithReturn);
             history.push({
-                pathname: '/availableFlights',
-                state: { flightsWithReturn: flightsWithReturn, RetDate: RetDate, CabinClass: CabinClass }
+                // pathname: '/availableFlights',
+                pathname: 'createBooking',
+                state: { flightsWithReturn: flightsWithReturn, RetDate: RetDate, CabinClass: CabinClass, PassengersNumber: PassengersNumber}
             });    
         }).catch((error) =>{
             if(error){
@@ -49,7 +49,7 @@ export default function SearchFlight(props){
 
 
    return(
-        <Form>
+        <Form onSubmit={flightsAvailable}>
                <Container  style={{
             //    backgroundColor:'#00BFFF',
             //    width:'800px',
@@ -62,7 +62,7 @@ export default function SearchFlight(props){
                                 <InputGroup className="mb-3">
                                 <InputGroup.Text>From</InputGroup.Text>
 
-                                <Form.Control  type="text" value={FromAirport} placeholder="Enter Deprature Airport" required onChange={(e) => setFromAirport(e.target.value)}/>
+                                <Form.Control  type="text" value={FromAirport} placeholder="Enter Departure Airport" required onChange={(e) => setFromAirport(e.target.value)}/>
 
                                 </InputGroup>
                             </Col>
@@ -130,7 +130,7 @@ export default function SearchFlight(props){
 
             </Row>
                
-            <Button className='btn btn-primary' onClick={flightsAvailable} >Search</Button>
+            <Button className='btn btn-primary' type='submit' >Search</Button>
             </Container>
         </Form>
        
