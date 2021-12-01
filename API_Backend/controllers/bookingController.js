@@ -10,9 +10,12 @@ const createBooking =(req,res)=>{
         ReturnFlight:req.body.ReturnFlight,
         TotalCost:req.body.TotalCost,
         NumberOfPassengers:req.body.NumberOfPassengers,
+        KidPassengers:req.body.KidPassengers,
+        AdultPassengers:req.body.AdultPassengers,
         DepSeats:req.body.DepSeats,
         RetSeats:req.body.RetSeats,
-        CabinClass:req.body.CabinClass,
+        DepCabinClass:req.body.DepCabinClass,
+        RetCabinClass:req.body.RetCabinClass,
     }
 
     Booking.create(newBooking,(err,booking)=>{

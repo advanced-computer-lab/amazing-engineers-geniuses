@@ -22,6 +22,8 @@ class FlightItem extends Component {
       returnFlights: [],
       showBookingConfirmation: false,
       PassengersNumber: '',
+      AdultPassengers:'',
+      KidPassengers:'',
       departureFlight: '',
       //returnFlight:''
     }
@@ -222,33 +224,29 @@ class FlightItem extends Component {
                         {arr.getMonth() + 1}-{arr.getFullYear()}
                 </li>
                 {(this.props.CabinClass == "E" || this.state.currentUser.isAdmin) &&
-                  <li>
-
-                    Cabin Class: {"Economy"}
-                          Seats: {this.props.flight.EconomySeats} |
-                          Price: {this.props.flight.Price.Econ}$ |
-                          Baggage Allowance: {this.props.flight.BaggageAllowance.Econ} kg
-                        </li>
+                  <div>
+                    <li>Cabin Class: Economy </li>
+                    <li>Seats: {this.props.flight.EconomySeats}</li>
+                    <li> Price: {this.props.flight.Price.Econ}$ </li>
+                    <li> Baggage Allowance: {this.props.flight.BaggageAllowance.Econ} kg</li>
+                  </div>
                 }
                 {(this.props.CabinClass == "B" || this.state.currentUser.isAdmin) &&
-                  <li>
-
-                    Cabin Class: {"Business"}
-                          Seats: {this.props.flight.BusinessSeats} |
-                          Price: {this.props.flight.Price.Bus}$ |
-                          Baggage Allowance: {this.props.flight.BaggageAllowance.Bus} kg
-
-                        </li>
+                <div>
+                   <li> Cabin Class: Business </li>
+                   <li> Seats: {this.props.flight.BusinessSeats} </li>
+                   <li>Price: {this.props.flight.Price.Bus}$ </li>
+                   <li>Baggage Allowance: {this.props.flight.BaggageAllowance.Bus} kg </li>
+                </div>
                 }
                 {(this.props.CabinClass == "F" || this.state.currentUser.isAdmin) &&
-                  <li>
-
-                    Cabin Class: {"First Class"}
-                          Seats: {this.props.flight.FirstClassSeats} |
-                          Price: {this.props.flight.Price.First}$ |
-                          Baggage Allowance: {this.props.flight.BaggageAllowance.First} kg
-
-                        </li>
+                    <div>
+                     <li>Cabin Class: First Class</li>  
+                      <li> Seats: {this.props.flight.FirstClassSeats} </li> 
+                      <li>  Price: {this.props.flight.Price.First}$ </li> 
+                      <li>  Baggage Allowance: {this.props.flight.BaggageAllowance.First} kg </li>
+                      </div>
+  
                 }
                 <li>Duration: {this.props.flight.Duration.split(':')[0]} hours {this.props.flight.Duration.split(':')[1] !== '0' && <span>and {this.props.flight.Duration.split(':')[1]} minutes</span>}</li>
                 <li>Terminal: {this.props.flight.Terminal} </li>

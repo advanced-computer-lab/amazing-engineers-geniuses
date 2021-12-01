@@ -7,8 +7,9 @@ import { Accordion,Row,Col } from 'react-bootstrap';
 const api = 'http://localhost:8000';
 
 export default function ChooseSeats(props){
-    const[cabinClass,setCabinClass]= useState(props.bookingInfo.CabinClass);
-    const [passengersNumber, setPassengersNumber] = useState(props.bookingInfo.NumberOfPassengers);
+    const[depClass,setDepClass]= useState(props.bookingInfo.DepCabinClass);
+    const[retClass, setRetClass] = useState(props.bookingInfo.RetCabinClass);
+    const[passengersNumber, setPassengersNumber] = useState(props.bookingInfo.NumberOfPassengers);
     const[departureFlight,setDepFlight]= useState(props.bookingInfo.DepartureFlight);
     const[returnFlight,setReturnFlight]= useState(props.bookingInfo.ReturnFlight);
 
@@ -18,14 +19,14 @@ export default function ChooseSeats(props){
            <Col>
                 <h2> <em>DEPARTURE FLIGHT: </em></h2>
                 <div>
-                    <Seats Seats={departureFlight.SeatsList} CabinClass={cabinClass} setSeats={props.setDepSeats} PassengersNumber={passengersNumber} showAlert={props.showAlert} />
+                    <Seats Seats={departureFlight.SeatsList} CabinClass={depClass} setSeats={props.setDepSeats} PassengersNumber={passengersNumber} showAlert={props.showAlert} />
                 </div>
            </Col>
 
             <Col>
               <h2> <em>RETURN FLIGHT: </em></h2>
               <div>
-                <Seats Seats={returnFlight.SeatsList} CabinClass={cabinClass} setSeats={props.setRetSeats} PassengersNumber={passengersNumber} showAlert={props.showAlert}/>
+                <Seats Seats={returnFlight.SeatsList} CabinClass={retClass} setSeats={props.setRetSeats} PassengersNumber={passengersNumber} showAlert={props.showAlert}/>
               </div>
             </Col>
           </Row>

@@ -14,7 +14,7 @@ export default function Pay(props){
 
     const createBooking= (e)=>{
         e.preventDefault();
-        props.createBooking();
+        props.Book();
     }
     
     return(
@@ -36,7 +36,7 @@ export default function Pay(props){
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="CreditCardNumber">
                             <Form.Label>Credit Card Number</Form.Label>
-                            <Form.Control required type="number" placeholder="XXXX XXXX XXXX XXXX"  onChange={(e)=>setPayment({...paymentDetails, CreditCard: e.target.value})}/>
+                            <Form.Control required type="number" maxLength="16" minLength="16" placeholder="XXXX XXXX XXXX XXXX"  onChange={(e)=>setPayment({...paymentDetails, CreditCard: e.target.value})}/>
                         </Form.Group>
                     </Row>
                     <Row className="mb-3">
@@ -52,7 +52,7 @@ export default function Pay(props){
                         </Form.Group>
                         <Form.Group as={Col} controlId="CVV">
                             <Form.Label>CVV</Form.Label>
-                            <Form.Control required type="number" placeholder="ex:123" onChange={(e) => setPayment({ ...paymentDetails, CVV: e.target.value })}/>
+                            <Form.Control required type="number" maxLength="3" minLength="3" placeholder="ex:123" onChange={(e) => setPayment({ ...paymentDetails, CVV: e.target.value })}/>
                         </Form.Group>
                     </Row>
                 </Form>
