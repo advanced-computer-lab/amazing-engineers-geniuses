@@ -6,6 +6,8 @@ import ChooseSeats from './ChooseSeats';
 import FlightSummary from './FlightSummary';
 import { useLocation,useHistory } from "react-router-dom";
 import axios from 'axios';
+import Pay from './Pay';
+import Invoice from './Invoice';
 
 const api = 'http://localhost:8000';
 
@@ -18,6 +20,8 @@ export default function CreateBooking(props){
     const [alert, setAlert] = useState({msg:'', show:false});
     const [msg, setMsg] = useState('');
     const [showConfirm, setConfirm] = useState(false);
+    const [showPay, setPay] = useState(false);
+    const [showSummary, setSummary] = useState(true);
     const [cb,setCb] = useState('Econ');
 
     const [bookingInfo, setBookingInfo] = useState({
@@ -42,7 +46,7 @@ export default function CreateBooking(props){
             setDisplay('seats')
         }
         else if(daState === 'seats'){
-            console.log('last step');
+           setDisplay('invoice');
         }
     }
 
@@ -67,6 +71,10 @@ export default function CreateBooking(props){
         setBookingInfo({...bookingInfo, RetSeats: seats})
     }
 
+    // function setInvoice(){
+    //     getNext('seats');
+    // }
+
     function getClass() {
         if(bookingInfo.CabinClass ==='E'){
             setCb('Econ');
@@ -82,6 +90,11 @@ export default function CreateBooking(props){
     function showConfirmModal(){
         setConfirm(true);
     }
+
+    function showPayModal(){
+        setConfirm(false);
+        setPay(true);
+    }
     
     function showAlert(message,show){
         setAlert({
@@ -95,15 +108,17 @@ export default function CreateBooking(props){
         .then((res)=>{
             console.log("XXXXXXXXX");
             console.log(res.data);
-            setConfirm(false);
-            history.push('/');
+            setPay(false);
+            getNext('seats');
+            setSummary(false);
         })
         .catch((error)=>{
             if(error){
                 console.log(error);
             };
         })
-
+       
+        
     }
 
     return(
@@ -124,10 +139,13 @@ export default function CreateBooking(props){
                         <ChooseSeats bookingInfo={bookingInfo} showAlert={showAlert} setDepSeats={setDepSeats} setRetSeats={setRetSeats}/>
                         // <Button></Button>
                     }
+                    {display === 'invoice' &&
+                        <Invoice bookingInfo={bookingInfo}/>
+                    }
                 </Col>
-                <Col xs={3}>
+                {showSummary && <Col xs={3}>
                     <FlightSummary bookingInfo={bookingInfo} showConfirm={showConfirmModal} />
-                </Col>
+                </Col>}
             </Row>
 
             <Modal
@@ -155,12 +173,13 @@ export default function CreateBooking(props){
 
             <Button
               variant="primary"
-              onClick={createBooking} //CREATE BOOKING
+              onClick={showPayModal} //CREATE BOOKING
             >
               Confirm
                 </Button>
           </Modal.Footer>
         </Modal>
+            <Pay show={showPay} createBooking={createBooking} onHide={()=>{setPay(false)}}/>
          </Container>
     )
 
