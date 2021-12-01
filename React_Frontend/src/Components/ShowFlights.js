@@ -116,7 +116,7 @@ class ShowFlights extends Component{
         )
         return (
             <div> 
-                <form onSubmit={this.submitForm}>
+                {/* <form onSubmit={this.submitForm}>
                     <h1>Show Flights</h1>
                     <label>Flight Number</label>
                     <input type='number' placeholder='FlightNumber' name="FlightNumber"  onChange={this.changeText}/>
@@ -149,7 +149,7 @@ class ShowFlights extends Component{
                     <br/>
                     <button type='submit' className='btn btn-warning' >Filter</button>
                     
-                </form>
+                </form> */}
                 <button onClick={this.showFilter}>Open Filter</button>
                 <button className='btn btn-info'><Link style={{color: 'white'}} to="/admin/flight/create" >Create New Fight</Link></button>
                 <FilterModal show={this.state.showFilter} onHide={()=>this.setState({showFilter: false})} submitForm={this.submitForm2}/>

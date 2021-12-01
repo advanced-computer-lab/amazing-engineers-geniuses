@@ -1,6 +1,7 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
+import {Form,Row,Col,Button,Container} from 'react-bootstrap';
 const api = 'http://localhost:8000';
 
 
@@ -8,17 +9,26 @@ export default function UpdateFlight(props) {
 
     let history = useHistory();
     const id = props.match.params;
-    const [FlightNumber, setFlightNo]= React.useState(0);
-    const [Departure, setDepTime] = React.useState("");
-    const [Arrival, setArrTime]= React.useState([]);
-    const [DepDate, setDepDate] = React.useState(new Date());
-    const [ArrDate, setArrDate] = React.useState(new Date());
-    const [EconomySeats, setEconomySeats] = React.useState(0);
-    const [BusinessSeats,setBusniessClass]= React.useState(0);
-    const [FirstClassSeats, setFirstClassSeats] = React.useState(0);
-    const [FromAirport,setFromAirport]= React.useState("");
-    const [ToAirport,setToAirport]= React.useState("");
-    const [Terminal,setTerminal]= React.useState("");
+    const base = {
+        FlightNumber: 0,
+        Departure: '',
+        DepDate: '',
+        Arrival: '',
+        ArrDate: '',
+        EconomySeats: 0,
+        BusinessSeats: 0,
+        FirstClassSeats: 0,
+        FromAirport: '',
+        ToAirport: '',
+        Terminal: 0,
+        EconPrice: 0,
+        BusPrice: 0,
+        FirstPrice: 0,
+        EconBag: 0,
+        BusBag: 0,
+        FirstBag: 0
+    }
+    const [updateBody,setUpdate] = useState(base);
 
     useEffect(() => {
         axios.get(`${api}/admin/flight/show/${id.id}`)
@@ -26,37 +36,33 @@ export default function UpdateFlight(props) {
             let flight = res.data;
             let depdateString = flight.DepDate.split('T')[0];   
             let arrdateString = flight.ArrDate.split('T')[0];         
-            setFlightNo(flight.FlightNumber);
-            setDepTime(flight.Departure.AsString);
-            setArrTime(flight.Arrival.AsString);
-            setDepDate(depdateString);
-            setArrDate(arrdateString);
-            setEconomySeats(flight.EconomySeats);
-            setBusniessClass(flight.BusinessSeats);
-            setFirstClassSeats(flight.FirstClassSeats);
-            setFromAirport(flight.FromAirport);
-            setToAirport(flight.ToAirport);
-            setTerminal(flight.Terminal);
+            setUpdate({
+                FlightNumber: flight.FlightNumber,
+                Departure: flight.Departure.AsString,
+                DepDate: depdateString,
+                Arrival: flight.Arrival.AsString,
+                ArrDate: arrdateString,
+                EconomySeats: flight.EconomySeats,
+                BusinessSeats: flight.BusinessSeats,
+                FirstClassSeats: flight.FirstClassSeats,
+                FromAirport: flight.FromAirport,
+                ToAirport: flight.ToAirport,
+                Terminal: flight.Terminal,
+                EconPrice: flight.Price.Econ,
+                BusPrice: flight.Price.Bus,
+                FirstPrice: flight.Price.First,
+                EconBag: flight.BaggageAllowance.Econ,
+                BusBag: flight.BaggageAllowance.Bus,
+                FirstBag: flight.BaggageAllowance.First
+            })
+           // console.log('onmount ',flight.Departure.AsString)
         })
 
     }, [id.id])
     
 const submitUpdate = () => {
-    axios.put(`${api}/admin/flight/update/${id.id}`, {
-        
-        FlightNumber: FlightNumber,
-        Departure:Departure,
-        Arrival:Arrival,
-        DepDate:DepDate,
-        ArrDate:ArrDate,
-        EconomySeats:EconomySeats,
-        BusinessSeats:BusinessSeats,
-        FirstClassSeats:FirstClassSeats,
-        FromAirport:FromAirport,
-        ToAirport:ToAirport,
-        Terminal:Terminal
-
-    }).then((res) =>{
+    axios.put(`${api}/admin/flight/update/${id.id}`, updateBody)
+    .then((res) =>{
         console.log(res, 'update');
         history.push('/admin/flight/show');
     }).catch((error)=>{
@@ -68,36 +74,80 @@ const submitUpdate = () => {
 
     return(
         <div>
-            <h1>Update Flight</h1>
-            <label>Flight Number</label>
-            <input type='number' placeholder='FlightNumber' name="FlightNumber" value={FlightNumber}  required  onChange={(e) => setFlightNo(e.target.value)}/>
-            <br/>
-            <label>Departure Time</label>
-            <input type='time' name="Departure" value={Departure} required onChange={(e) => setDepTime(e.target.value)}/>
-            <input type='date' name="DepDate" value={DepDate} onChange={(e)=> setDepDate(e.target.value)}/>
-            <br/>
-            <label>Arrival Time</label>
-            <input type='time' name="Arrival" value={Arrival} required onChange={(e) => setArrTime(e.target.value)}/>
-            <input type='date' name="ArrDate" value={ArrDate} onChange={(e)=> setArrDate(e.target.value)}/>
-            <br/>
-            <label>Economy Seats</label>
-            <input type='number' placeholder='EconomySeats' name="EconomySeats" value={EconomySeats} required onChange={(e) => setEconomySeats(e.target.value)}/>
-            <br/>
-            <label>Business Seats </label>
-            <input type='number' placeholder='BusinessSeats' name="BusinessSeats" value={BusinessSeats} required onChange={(e) => setBusniessClass(e.target.value)}/>
-            <br/>
-            <label>First Class seats</label>
-            <input type='number' placeholder='FirstClassSeats' name="FirstClassSeats" value={FirstClassSeats} required onChange={(e) => setFirstClassSeats(e.target.value)}/>
-            <br/>
-            <label>From Airport </label>
-            <input type='text' placeholder='FromAirport' name="FromAirport" value={FromAirport} required onChange={(e) => setFromAirport(e.target.value)}/>
-            <br/>
-            <label>To Airport </label>
-            <input type='text' placeholder='ToAirport' name="ToAirport" value={ToAirport} required onChange={(e) => setToAirport(e.target.value)}/>  
-            <br/>
-            <label>Terminal </label>
-            <input type='number' placeholder='Terminal' name="Terminal" value={Terminal} required onChange={(e) => setTerminal(e.target.value)}/>     
-            <button onClick = {submitUpdate}>UPDATE</button>
+            
+            <Container>
+                <h1>Update Flight</h1>
+                <Form>
+                    <Form.Group className="mb-3" controlId="FlightNo">
+                       <Row>
+                            <Col>
+                                <Form.Label>Flight No.</Form.Label>
+                                <Form.Control type="number" value={updateBody.FlightNumber} placeholder="Enter flight #" min={0} onChange={(e) => setUpdate({...updateBody,FlightNumber: e.target.value})}/>
+                            </Col>
+                            <Col>
+                                <Form.Label>Terminal</Form.Label>
+                                <Form.Control type="number" value={updateBody.Terminal} placeholder="Enter Terminal #" onChange={(e) => setUpdate({...updateBody,Terminal: e.target.value})}/>
+                            </Col>
+                       </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="Departure">
+                        <Form.Label>Departure</Form.Label>
+                        <Row>
+                            <Col><Form.Control type="time" value={updateBody.Departure} onChange={(e) =>setUpdate({...updateBody,Departure: e.target.value})}/></Col>
+                            <Col><Form.Control type="date" value={updateBody.DepDate} onChange={(e) => setUpdate({...updateBody,DepDate: e.target.value})}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="Arrival">
+                        <Form.Label>Arrival</Form.Label>
+                        <Row>
+                            <Col><Form.Control type="time" value={updateBody.Arrival} onChange={(e) => setUpdate({...updateBody,Arrival: e.target.value})}/></Col>
+                            <Col><Form.Control type="date" value={updateBody.ArrDate} onChange={(e) => setUpdate({...updateBody,ArrDate: e.target.value})}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="SeatsNo">
+                        <Form.Label>Number of Seats</Form.Label>
+                        <Row>
+                            <Col><Form.Control type="number" value={updateBody.EconomySeats} placeholder="Economy Class" min={0} onChange={(e) => setUpdate({...updateBody,EconomySeats: e.target.value})}/></Col>
+                            <Col><Form.Control type="number" value={updateBody.BusinessSeats} placeholder="Business Class" min={0} onChange={(e) => setUpdate({...updateBody,BusinessSeats: e.target.value})}/></Col>
+                            <Col><Form.Control type="number" value={updateBody.FirstClassSeats} placeholder="First Class" min={0} onChange={(e) => setUpdate({...updateBody,FirstClassSeats: e.target.value})}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="SeatsNo">
+                        <Form.Label>Price</Form.Label>
+                        <Row>
+                            <Col><Form.Control type="number" value={updateBody.EconPrice} placeholder="Economy Class" min={0} onChange={(e) => setUpdate({...updateBody,EconPrice: e.target.value})}/></Col>
+                            <Col><Form.Control type="number" value={updateBody.BusPrice} placeholder="Business Class" min={0} onChange={(e) => setUpdate({...updateBody,BusPrice: e.target.value})}/></Col>
+                            <Col><Form.Control type="number" value={updateBody.FirstPrice} placeholder="First Class" min={0} onChange={(e) => setUpdate({...updateBody,FirstPrice: e.target.value})}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="SeatsNo">
+                        <Form.Label>Baggage Allowance /Kg </Form.Label>
+                        <Row>
+                            <Col><Form.Control type="number" value={updateBody.EconBag} placeholder="Economy Class" min={0} onChange={(e) => setUpdate({...updateBody,EconBag: e.target.value})}/></Col>
+                            <Col><Form.Control type="number" value={updateBody.BusBag} placeholder="Business Class" min={0} onChange={(e) => setUpdate({...updateBody,BusBag: e.target.value})}/></Col>
+                            <Col><Form.Control type="number" value={updateBody.FirstBag} placeholder="First Class" min={0} onChange={(e) => setUpdate({...updateBody,FirstBag: e.target.value})}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="Airports">
+                        <Row>
+                            <Col>
+                                <Form.Label>From</Form.Label>
+                                <Form.Control type="text" value={updateBody.FromAirport} placeholder="Enter Deprature Airport" onChange={(e) => setUpdate({...updateBody,FromAirport: e.target.value.toUpperCase()})}/>
+                            </Col>
+                            <Col>
+                                <Form.Label>To</Form.Label>
+                                <Form.Control type="text" value={updateBody.ToAirport} placeholder="Enter Arrival Airport" onChange={(e) => setUpdate({...updateBody,ToAirport: e.target.value.toUpperCase()})}/>
+                            </Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="Terminal">
+                        
+                    </Form.Group>
+                    <Button variant="warning" onClick={submitUpdate} >
+                        Update
+                    </Button>
+                </Form>
+            </Container>
         </div>
     )
 }

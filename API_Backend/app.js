@@ -9,8 +9,7 @@ const port = process.env.PORT | 8000 ;
 const adminRoutes = require('./Routes/adminRoute');
 const indexRoutes = require('./Routes/index');
 const authRoutes = require('./Routes/authRoutes');
-const userRoutes = require('./Routes/userRoutes');
-const nodemailer = require('nodemailer');
+const userRoutes = require('./Routes/userRoutes')
 
 
 const mongoUrl = process.env.DATABASE_URL;
@@ -29,6 +28,7 @@ app.use('/', indexRoutes);
 app.use('/auth',authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/user', userRoutes);
+
 
 
 

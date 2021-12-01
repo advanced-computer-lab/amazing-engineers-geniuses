@@ -10,5 +10,8 @@ router.post('/availableFlights',flightController.filterFlights);
 router.get('/flight/viewReservations', userController.viewReservations);
 router.post('/flight/cancelReservations', userController.cancelReservation);
 router.post('/sendConfirmation', userController.sendEmail);    
+router.post('/searchFlights',flightController.searchFlights);
+
+router.get('/findReturnFlights/:id',flightController.findReturnFlights);
 
 module.exports = router;

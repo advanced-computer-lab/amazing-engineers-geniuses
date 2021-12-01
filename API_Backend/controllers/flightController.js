@@ -7,26 +7,42 @@ const createFlight = async (req,res)=>{
    //    res.send()
    // }
 
-   let arr = new Date(`${req.body.DepDate}T${req.body.Arrival}:00`);
-   let dep = new Date(`${req.body.ArrDate}T${req.body.Departure}:00`);  
+   let dep = new Date(`${req.body.DepDate}T${req.body.Departure}:00`);
+   let arr = new Date(`${req.body.ArrDate}T${req.body.Arrival}:00`);  
 
    let seatList = createSeatsList(req.body.EconomySeats, req.body.BusinessSeats, req.body.FirstClassSeats);
+   let duration = calcFlightDuration(dep,arr);
+   console.log(duration);
+   const Price = {
+      Econ:req.body.EconPrice,
+      First:req.body.FirstPrice,
+      Bus:req.body.BusPrice,
+   }
+   
+   const Bag = {
+     Econ: req.body.EconBag,
+     First: req.body.FirstBag,
+     Bus: req.body.BusBag,
+   }
 
    const newFlight = {
-      FlightNumber: req.body.FlightNumber,
-      Departure: getTime(dep),
-      Arrival: getTime(arr),
-      DepDate: req.body.DepDate,
-      ArrDate: req.body.ArrDate,
-      EconomySeats: req.body.EconomySeats,
-      BusinessSeats: req.body.BusinessSeats,
-      FirstClassSeats: req.body.FirstClassSeats,
-      FromAirport: req.body.FromAirport,
-      ToAirport: req.body.ToAirport,
-      Terminal: req.body.Terminal,
-      SeatsList: seatList
+     FlightNumber: req.body.FlightNumber,
+     Departure: getTime(dep),
+     Arrival: getTime(arr),
+     DepDate: req.body.DepDate,
+     ArrDate: req.body.ArrDate,
+     EconomySeats: req.body.EconomySeats,
+     BusinessSeats: req.body.BusinessSeats,
+     FirstClassSeats: req.body.FirstClassSeats,
+     FromAirport: req.body.FromAirport.toUpperCase(),
+     ToAirport: req.body.ToAirport.toUpperCase(),
+     BaggageAllowance: Bag,
+     Price: Price,
+     Terminal: req.body.Terminal,
+     SeatsList: seatList,
+     Duration: duration,
+   };
 
-   }
    Flight.create(newFlight,(err,flight)=>{
       if(err){
          let messageText ='Error creating flight. ErrorBody: '+err; 
@@ -43,6 +59,7 @@ const createFlight = async (req,res)=>{
    // .then((newFlight)=>{res.send(newFlight)})
    // .catch((err)=>{res.send({message: 'Could not create flight'})});
 }
+
 
 const showFlights = (req,res)=>{
    Flight.find({},(err,flights)=>{
@@ -87,10 +104,50 @@ const filterFlights = (req,res)=>{
    })
 }
 
-const findReturnFlights = async (req,res)=>{
-   const id = req.params.id;
-   const depFlight = await Flight.findById(id);
-   const flightDate = depFlight.FlightDate;
+const searchFlights = async (req,res) =>{
+   const bodyArr = Object.entries(req.body);
+   const filtered = bodyArr.filter(([key,value]) => value !== '' || key !== 'RetDate');
+   const bodyObj = Object.fromEntries(filtered);
+   // console.log(req.body.RetDate);
+   let flights=[];
+
+   // console.log("Bodyobj",bodyObj);
+
+   // Flight.find(bodyObj,(err,flights)=>{
+   //   if(err){
+   //      return res.status(500).send({message: err})
+   //   }
+   //   else{
+   //      flights = flights.filter((flight)=>(
+   //         findReturnFlights(flight,req.body.RetDate).length !== 0
+   //      ))
+   //   }
+   // })
+
+   flights = await Flight.find(bodyObj);
+   // console.log("Flights before RetDate filter",flights)
+   flights = flights.filter(async(flight)=>(
+           await findReturnFlights(flight,req.body.RetDate).length !== 0
+        ))
+   // console.log("Flights after RetDate filter",flights)   
+   let result = [];
+   
+   for(const flight of flights){
+      returnFlights = await findReturnFlights(flight,req.body.RetDate);
+      result = [...result,{DepFlight: flight,ReturnFlights: returnFlights}];
+   }
+
+   
+   // console.log("result final",result);
+
+   res.send(result);
+}
+
+
+
+const findReturnFlights = async(depFlight, retDate)=>{
+   let RetDate = new Date(retDate);
+   const flightDate = depFlight.DepDate;
    const flightArrHour = Number.parseInt(depFlight.Arrival.AsString.split(':')[0]);
    const flightArrMin = Number.parseInt(depFlight.Arrival.AsString.split(':')[1]);
    const newDep = depFlight.ToAirport;
@@ -121,7 +178,11 @@ const findReturnFlights = async (req,res)=>{
    //Merges all Return Flights
    returnFlights.concat(returnFlights2).concat(returnFlights3);
 
-   res.send(returnFlights);
+   returnFlights = returnFlights.filter((flight) => (flight.ArrDate.getTime() === RetDate.getTime()))
+
+  // res.send(returnFlights);
+//   console.log('return', returnFlights);
+  return returnFlights
 }
 
 const deleteFlight = (req,res)=>{
@@ -139,7 +200,20 @@ const deleteFlight = (req,res)=>{
 const updateFlight = (req, res) => {
    try{
       let arr = new Date(`${req.body.ArrDate}T${req.body.Arrival}:00`);
-      let dep = new Date(`${req.body.DepDate}T${req.body.Departure}:00`);  
+      let dep = new Date(`${req.body.DepDate}T${req.body.Departure}:00`); 
+      const Price = {
+         Econ:req.body.EconPrice,
+         First:req.body.FirstPrice,
+         Bus:req.body.BusPrice,
+      }
+      
+      const Bag = {
+         Econ: req.body.EconBag,
+         First: req.body.FirstBag,
+         Bus: req.body.BusBag,
+      }
+      let duration = calcFlightDuration(dep,arr);
+      
       const updatedFlight = {
          FlightNumber: req.body.FlightNumber,
          Departure: getTime(dep),
@@ -151,7 +225,10 @@ const updateFlight = (req, res) => {
          FirstClassSeats: req.body.FirstClassSeats,
          FromAirport: req.body.FromAirport,
          ToAirport: req.body.ToAirport,
-         Terminal: req.body.Terminal
+         Terminal: req.body.Terminal,
+         Price: Price,
+         BaggageAllowance: Bag,
+         Duration: duration
       };
       Flight.findByIdAndUpdate(req.params.id, updatedFlight,(err, flight)=> {
          if(err){
@@ -175,6 +252,16 @@ const showSchedule = async(req,res)=>{
     res.send(flights);
 }
 
+function calcFlightDuration (departure,arrival){
+   //let arrival = new Date(`${arrDate}T${arrTime}:00`); //date obj
+   //let departure = new Date(`${depDate}T${depTime}:00`); //date obj
+
+   const dur=(arrival.getTime()-departure.getTime())/3600000 ;
+   const diff=Math.floor(dur)+":"+Math.floor((dur%1) *60);
+
+   return diff;
+
+}
 
 function getTime(time){
    const Period = time.getHours() >= 12 ? 'PM' : 'AM';
@@ -197,7 +284,7 @@ function getTime(time){
 
 function sortByTime(flights){
     for(i = 0;i < flights.length-1; i++){
-      if(+flights[i].FlightDate==+flights[i+1].FlightDate){ 
+      if(+flights[i].DepDate==+flights[i+1].DepDate){ 
         var h1,h2=0; 
         if(flights[i].Departure.Period=='PM' && flights[i].Departure.Hours!=12){
             h1= flights[i].Departure.Hours+12;
@@ -212,8 +299,8 @@ function sortByTime(flights){
         else{
             h2=flights[i+1].Departure.Hours;
         }
-        var d1 = new Date(flights[i].FlightDate.getFullYear(), flights[i].FlightDate.getMonth(), flights[i].FlightDate.getDate(), h1,flights[i].Departure.Minutes);
-        var d2 = new Date(flights[i+1].FlightDate.getFullYear(), flights[i+1].FlightDate.getMonth(), flights[i+1].FlightDate.getDate(), h2,flights[i+1].Departure.Minutes);
+        var d1 = new Date(flights[i].DepDate.getFullYear(), flights[i].DepDate.getMonth(), flights[i].DepDate.getDate(), h1,flights[i].Departure.Minutes);
+        var d2 = new Date(flights[i+1].DepDate.getFullYear(), flights[i+1].DepDate.getMonth(), flights[i+1].DepDate.getDate(), h2,flights[i+1].Departure.Minutes);
         if (d1>d2){
             var temp = flights[i];
             flights[i] = flights[i+1];
@@ -235,9 +322,11 @@ function getTimeString(time){
 }
 
 function sortByDate(arr){
-    arr.sort((a,b)=> new Date(a.FlightDate) - new Date(b.FlightDate));
+    arr.sort((a,b)=> new Date(a.DepDate) - new Date(b.DepDate));
     sortByTime(arr);
 }
+
+
 
 function createSeatsList(Economy,Business,First){
    let econlist = [];
@@ -277,7 +366,8 @@ module.exports = {
     deleteFlight,
     updateFlight,
     showSchedule,
+    calcFlightDuration,
     getTime,
     findReturnFlights,
-
+    searchFlights
 }

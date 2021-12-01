@@ -34,41 +34,54 @@ const sendEmail = (req, res) => {
 }
 
 
-const viewReservations =  (req, res) => {
+const viewReservations = async (req, res) => {
     userName = req.body.username;   
-    let user =  User.findOne({username : "admin"},  (err, data) => {
+    User.find({username : userName}, async (err, data) => {
+     try{
         if(err){
             console.log('errrrrrrrr')
             return res.json(err);
             
         }
         else
-         
-        if(data){
+            if(data){
+                console.log(data[0].Bookings);
+                flightsArr = data[0].Bookings
+                console.log(flightsArr, "flightdssssss")
+                var resArr = []
+                var flightsArr = [1,12]
+    // for(let i=0;i<flightsArr.length;i++){
+         await Flights.find( {FlightNumber : flightsArr[0]}, (error, data) => {
+            if(error){
+                // return res.json({ error});
+            }
+            else if(data){
+                resArr.push(flightsArr[0]);
+                console.log(resArr, 'sadsasadadsdadasdadsa');
+            }
+        })
+        console.log(resArr, "reererererererreer");
+            return res.json({resArr});              
+            }
+        }catch(error){
+            if(error){
+                return res.json({error});
+                console.log("shittt")
+            }
+        }
 
-            var FlightsArr = [];
-            var resArr = data.Reservations;
-            console.log(resArr, 'resaaaaaarrrrrr')
-                 Flights.find( {FlightNumber : 1}, (error, data) => {
-                    if(error){
-                        return res.json({ error});
-                    }
-                    else if(data){
-                     
-                        console.log(FlightsArr, 'sadsasadadsdadasdadsa');
-                        return res.json({data});
-                    }
-                })
-            console.log(FlightsArr, 'thhthththtthththtterrrreee')
-           
+
+        })
+
     
-            
-        
-    }
-      
-    });
+}
+
+
+
+//         
+
     // console.log(userName);
- }
+
 
  const cancelReservation = async (req, res) => {
     var reservationsArr = [];

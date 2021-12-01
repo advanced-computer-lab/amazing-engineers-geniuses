@@ -7,12 +7,10 @@ import axios from 'axios';
 const api = 'http://localhost:8000';
 
 export default function SearchFlight(props){
-    let history=useHistory();
-    const[FromAirport,setFromAirport]=React.useState("CAI");
+    const history = useHistory();
+    const[FromAirport,setFromAirport]=React.useState("");
     const[ToAirport,setToAirport]=React.useState("");
     const[CabinClass,setCabinClass]=React.useState('E');
-    const[Departure,setDeparture]=React.useState('');
-    const[Arrival,setArrival]=React.useState('');
     const[DepDate,setDepDate]=React.useState('');
 
     const[RetDate,setRetDate]=React.useState('');
@@ -25,30 +23,25 @@ export default function SearchFlight(props){
     const flightsAvailable = () =>{
 
         
-        axios.post(`${api}/filterFlights`,{
+        axios.post(`${api}/searchFlights`,{
            FromAirport:FromAirport,
            ToAirport:ToAirport,
            DepDate:DepDate,
-           ArrDate:'',
-           Departure:'',
-           Arrival:''
+           RetDate: RetDate
         }).then((res) =>{
+            let flightsWithReturn=res.data;
+            
+            let flights = flightsWithReturn.map((tuple,i)=>(
+               tuple.DepFlight 
+            ))
 
-       
-        
-
-            let flights=res.data;
             console.log(flights);
-            flights = flights.filter(flight=> flight.SeatsList.Available.filter(seat => seat.charAt(0) === CabinClass ).length >= PassengersNumber)
-            console.log(flights);
+            flightsWithReturn = flightsWithReturn.filter(tuple=> tuple.DepFlight.SeatsList.Available.filter(seat => seat.charAt(0) === CabinClass ).length >= PassengersNumber)
+            console.log(flightsWithReturn);
             history.push({
                 pathname: '/availableFlights',
-
-                state: { flights: flights, RetDate: RetDate }
-
-            });
-            
-                   
+                state: { flightsWithReturn: flightsWithReturn, RetDate: RetDate, CabinClass: CabinClass }
+            });    
         }).catch((error) =>{
             if(error){
                 console.log(error);
@@ -70,14 +63,14 @@ export default function SearchFlight(props){
                             <Col>
                                 <InputGroup className="mb-3">
                                 <InputGroup.Text>From</InputGroup.Text>
-                                <Form.Control type="text" value={FromAirport} placeholder="Enter Deprature Airport" onChange={(e) => setFromAirport(e.target.value)}/>
+                                <Form.Control  type="text" value={FromAirport} placeholder="Enter Deprature Airport" required onChange={(e) => setFromAirport(e.target.value)}/>
                                 </InputGroup>
                             </Col>
                             <Col>
                                  <InputGroup className="mb-3">
 
                                 <InputGroup.Text>To</InputGroup.Text>
-                                <Form.Control type="text" value={ToAirport} placeholder="Enter Arrival Airport" onChange={(e) => setToAirport(e.target.value)}/>
+                                <Form.Control type="text" value={ToAirport} placeholder="Enter Arrival Airport" required onChange={(e) => setToAirport(e.target.value)}/>
 
                                 </InputGroup>
                             </Col>
@@ -90,7 +83,7 @@ export default function SearchFlight(props){
                     <Form.Group  controlId="formGridCabin">
                     <InputGroup className="mb-3">
                      <InputGroup.Text>Class</InputGroup.Text>
-                     <Form.Select name="CabinClass"  placeholder="Cabin Class"value={CabinClass} onChange={(e)=>setCabinClass(e.target.value)}>
+                     <Form.Select name="CabinClass"  placeholder="Cabin Class"value={CabinClass} required onChange={(e)=>setCabinClass(e.target.value)}>
                      <option value="E">Economy</option>
                      <option value="B">Business</option>
                      <option value="F">First</option>
@@ -101,7 +94,7 @@ export default function SearchFlight(props){
                 <Col md="auto">
                     <Form.Group controlId="formGridPassengers">
                         {/* <FloatingLabel column="sm" controlId="floatingInput" label="Number of Passengers"> */}
-                        <Form.Control   type="number" placeholder="PassengersNumber" name="PassengersNumber" onChange={(e)=>setPassengersNumber(e.target.value)} />
+                        <Form.Control   type="number" placeholder="PassengersNumber" name="PassengersNumber" required onChange={(e)=>setPassengersNumber(e.target.value)} />
                         {/* </FloatingLabel> */}
                     </Form.Group>
                 </Col>
@@ -117,7 +110,7 @@ export default function SearchFlight(props){
                         {/* <Form.Control  type="time" name="Departure" onChange={(e)=>setDeparture(e.target.value)} /> */}
 
                       
-                        <Form.Control  type="date" name="DepDate" onChange={(e)=>setDepDate(e.target.value)} />
+                        <Form.Control  type="date" name="DepDate" required onChange={(e)=>setDepDate(e.target.value)} />
                         </InputGroup>
                     </Form.Group>
                 </Col>
@@ -127,7 +120,7 @@ export default function SearchFlight(props){
 
                       <InputGroup.Text>Return</InputGroup.Text>
                         {/* <Form.Control   type="time" name="Arrival" onChange={(e)=>setArrival(e.target.value)} /> */}
-                        <Form.Control   type="date" name="RetDate" onChange={(e)=>setRetDate(e.target.value)} />
+                        <Form.Control   type="date" name="RetDate" required onChange={(e)=>setRetDate(e.target.value)} />
 
                         </InputGroup>
                     </Form.Group>
