@@ -15,19 +15,18 @@ export default function ChooseSeats(props){
     //const[departureFlight,setDepartureFlight]= useState(location.state.departureFlight);
     const[departureFlight,setDepFlight]= useState(location.state.departureFlight);
     const[returnFlight,setReturnFlight]= useState(location.state.returnFlight);
-    
-    // console.log(returnFlight);
-    // console.log("MMMMMMMMMMMM");
-    // console.log(departureFlight);
 
     return(        
         <div>
-        <h2> <em>CHOSEN FLIGHT: </em></h2>
-        <div>
-          <Accordion>
-            {/* {returnFlight} */}
-          </Accordion>
-        </div>
+            <h2> <em>DEPARTURE FLIGHT: </em></h2>
+            <div>
+                <Seats Seats={departureFlight.SeatsList} CabinClass={cabinClass}/>
+            </div>
+
+            <h2> <em>RETURN FLIGHT: </em></h2>
+            <div>
+                <Seats Seats={returnFlight.SeatsList} CabinClass={cabinClass}/>
+            </div>
 
        </div>
 

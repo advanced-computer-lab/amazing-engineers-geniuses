@@ -42,36 +42,30 @@ class FlightItem extends Component{
         this.props.deleteFlight(this.props.flight._id);
     }
 
-    bookDepFlight(){
-        
-       //setDepartureFlight(this.props.flight); //DEPARTURE FLIGHT
-        const bookedId = this.props.flight._id;
-        console.log("aaaaaaaa");
-        axios.get(`${api}/findReturnFlights/${bookedId}`)
-        .then((res) =>{
-           this.setState({
-             returnFlights: res.data,
-             departureFlight: this.props.flight
-           });
+    // bookDepFlight(){
+    //     const bookedId = this.props.flight._id;
+    //     console.log("aaaaaaaa");
+    //     axios.get(`${api}/findReturnFlights/${bookedId}`)
+    //     .then((res) =>{
+    //        this.setState({
+    //          returnFlights: res.data,
+    //          departureFlight: this.props.flight
+    //        });
 
-           //this.setState({ redirect: "/someRoute" });
-           //let returnFlights=res.data; //LIST OF RETURN FLIGHTS
-          //console.log(this.state.returnFlights);
-          // console.log("BBBBBBBBBBBBBBB");
-          // console.log(this.state.departureFlight);
-
-          this.props.history.push({
-              pathname: '/availableReturnFlights',
-              state: { returnFlights: this.state.returnFlights, departureFlight: this.props.flight , CabinClass:this.props.CabinClass, PassengersNumber: this.props.PassengersNumber}
-           });   
-
-          //this.props.history.push("/availableReturnFlights",{state: { returnFlights: this.state.returnFlights, bookedFlight: bookedFlight , CabinClass:this.state.CabinClass}});
+    //       this.props.history.push({
+    //           pathname: '/availableReturnFlights',
+    //           state: { returnFlights: this.state.returnFlights, departureFlight: this.props.flight , CabinClass:this.props.CabinClass, PassengersNumber: this.props.PassengersNumber}
+    //        });   
                
-       }).catch((error) =>{
-           if(error){
-               console.log(error);
-           }
-       })
+    //    }).catch((error) =>{
+    //        if(error){
+    //            console.log(error);
+    //        }
+    //    })
+    // }
+
+    bookDepFlight(){
+      this.props.Book(this.props.flight);
     }
     //---------------------------------------------------
     bookReturnFlight(){

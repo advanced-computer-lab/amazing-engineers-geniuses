@@ -7,7 +7,9 @@ export default function Seats(props){
 
     const confirmSeats = () =>{
         //remove seats from available seats
+        
         //update flight
+
     }
 
     const chooseSeat = (e,seat,available)=>{
@@ -82,7 +84,7 @@ export default function Seats(props){
 
     return(
         <div>
-            <div>
+            {props.CabinClass === 'E' && <div>
                 <Container>
                     <h2>Economy Class Seats</h2>
                     <Row style={{maxWidth: '350px'}}>
@@ -91,8 +93,8 @@ export default function Seats(props){
                         <Col style={{direction:'rtl'}} xs="5"><Row>{econSeats2}</Row></Col>
                     </Row>
                 </Container>
-            </div>
-            <div>
+            </div>}
+            {props.CabinClass === 'B' && <div>
                 <Container>
                     <h2>Business Class Seats</h2>
                     <Row style={{maxWidth: '350px'}}>
@@ -101,8 +103,8 @@ export default function Seats(props){
                         <Col style={{direction:'rtl'}} xs="5"><Row>{busSeats2}</Row></Col>
                     </Row>
                 </Container>
-            </div>
-            <div>
+            </div>}
+            {props.CabinClass === 'F' && <div>  
                <Container>
                     <h2>First Class Seats</h2>
                     <Row style={{maxWidth: '350px'}}>
@@ -111,7 +113,8 @@ export default function Seats(props){
                         <Col style={{direction:'rtl'}} xs="5"><Row>{firstSeats2}</Row></Col>
                     </Row>
                 </Container>
-            </div>
+            </div>}
+            
             <button onClick={confirmSeats}>Confirm Seats</button>
         </div>
     )
