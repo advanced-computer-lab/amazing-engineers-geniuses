@@ -21,8 +21,8 @@ export default function SearchFlight(props){
     const flightsAvailable = (e) =>{
         e.preventDefault();
         axios.post(`${api}/searchFlights`,{
-           FromAirport:FromAirport,
-           ToAirport:ToAirport,
+           FromAirport:FromAirport.toUpperCase(),
+           ToAirport:ToAirport.toUpperCase(),
            DepDate:DepDate,
            RetDate: RetDate
         }).then((res) =>{

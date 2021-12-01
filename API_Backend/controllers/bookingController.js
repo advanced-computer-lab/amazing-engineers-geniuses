@@ -1,5 +1,6 @@
 const Booking = require('../models/Booking');
-//const flightController = require('./flightController');
+const flightController = require('./flightController');
+const userController = require('./userController');
 
 
 const createBooking =(req,res)=>{
@@ -19,7 +20,10 @@ const createBooking =(req,res)=>{
             console.log(err);
         }
         else {
-            console.log('here')
+            console.log('here',booking)
+            userController.addBookingtoUser(booking, req.body.UserId);
+            flightController.updateSeats(booking.DepartureFlight, booking.DepSeats);
+            flightController.updateSeats(booking.ReturnFlight, booking.RetSeats);
             res.send(booking);
         }
     })

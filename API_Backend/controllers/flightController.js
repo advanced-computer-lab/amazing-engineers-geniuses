@@ -262,6 +262,31 @@ function calcFlightDuration (departure,arrival){
 
 }
 
+function updateSeats(flightId, bookedSeats){
+   Flight.findById(flightId,(err,flight)=>{
+      // console.log(flight);
+      let newAvSeats = flight.SeatsList.Available.filter(seat=>{
+         return bookedSeats.indexOf(seat) === -1
+      })
+      let newSeatsList = {
+         Econ: flight.SeatsList.Econ,
+         Bus: flight.SeatsList.Bus,
+         First: flight.SeatsList.First,
+         Available: newAvSeats
+      }
+      Flight.findByIdAndUpdate(flight._id,{SeatsList: newSeatsList},(err,flight)=>{
+         if (err){
+            console.log(err);
+            return err
+         }
+         else{
+            return flight;
+         }
+      })
+   })
+   return 'something wrong in update seats';
+}
+
 function getTime(time){
    const Period = time.getHours() >= 12 ? 'PM' : 'AM';
    let Hours = time.getHours();
@@ -366,5 +391,6 @@ module.exports = {
     calcFlightDuration,
     getTime,
     findReturnFlights,
-    searchFlights
+    searchFlights,
+    updateSeats
 }

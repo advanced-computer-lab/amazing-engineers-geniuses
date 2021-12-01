@@ -5,6 +5,7 @@ import {Container, Row, Col, Alert,Button, Modal} from 'react-bootstrap';
 import ChooseSeats from './ChooseSeats';
 import FlightSummary from './FlightSummary';
 import { useLocation,useHistory } from "react-router-dom";
+import Auth from '../services/Auth';
 import axios from 'axios';
 
 const api = 'http://localhost:8000';
@@ -13,6 +14,7 @@ export default function CreateBooking(props){
     const location = useLocation();
     const history = useHistory();
 
+    const [currentUser,setCurrentUser] = useState(Auth.getCurrentUser())
     const [display,setDisplay] = useState('depF');
     const [availableReturnFlights, setAvailableReturnFlights] = useState([])
     const [alert, setAlert] = useState({msg:'', show:false});
@@ -80,6 +82,13 @@ export default function CreateBooking(props){
     }
     
     function showConfirmModal(){
+        if(currentUser.username === 'Guest'){
+           setAlert({
+            msg: 'You must be logged in',
+            show: true
+        });
+            return;
+        }
         setConfirm(true);
     }
     
@@ -91,7 +100,8 @@ export default function CreateBooking(props){
     }
 
     function createBooking(){
-        axios.post(`${api}/createBooking`,bookingInfo)
+        console.log(currentUser.id);
+        axios.post(`${api}/createBooking`,{...bookingInfo, UserId: currentUser.id})
         .then((res)=>{
             console.log("XXXXXXXXX");
             console.log(res.data);

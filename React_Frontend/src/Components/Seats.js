@@ -43,8 +43,8 @@ export default function Seats(props){
         if(index % 2 === 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
             let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'37px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>   
-            <i class="fas fa-square fa-2x"></i></button></Col>)
+            return (<Col style={{maxWidth:'37px'}}><button key={index*2} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>   
+            <i className="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
@@ -52,8 +52,8 @@ export default function Seats(props){
         if(index % 2 !== 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
             let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'37px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
-              <i class="fas fa-square fa-2x"></i></button></Col>)
+            return (<Col style={{maxWidth:'37px'}}><button key={index*2+1} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i className="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
@@ -61,8 +61,8 @@ export default function Seats(props){
        if(index % 2 === 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
             let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
-              <i class="fas fa-square fa-2x"></i></button></Col>)
+            return (<Col style={{maxWidth:'50px'}}><button key={index*2} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i className="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
@@ -70,8 +70,8 @@ export default function Seats(props){
        if(index % 2 !== 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
             let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
-              <i class="fas fa-square fa-2x"></i></button></Col>)
+            return (<Col style={{maxWidth:'50px'}}><button key={index*2+1} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i className="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
@@ -79,8 +79,8 @@ export default function Seats(props){
          if(index % 2 === 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
             let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
-              <i class="fas fa-square fa-2x"></i></button></Col>)
+            return (<Col style={{maxWidth:'50px'}}><button key={index*2} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i className="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
@@ -88,8 +88,8 @@ export default function Seats(props){
          if(index % 2 !== 0){
             let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
             let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'50px'}}><button key={index} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
-              <i class="fas fa-square fa-2x"></i></button></Col>)
+            return (<Col style={{maxWidth:'50px'}}><button key={index*2+1} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
+              <i className="fas fa-square fa-2x"></i></button></Col>)
         }
     })
 
