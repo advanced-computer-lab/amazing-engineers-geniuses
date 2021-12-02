@@ -10,7 +10,9 @@ import MyBookings from './Components/MyBookings';
 import Auth from './services/Auth';
 import NavBar from './Components/NavBar.js';
 import AvailableFlights from './Components/AvailableFlights';
-import AvailableReturnFlights from './Components/AvailableReturnFlights'
+import AvailableReturnFlights from './Components/AvailableReturnFlights';
+import ChooseSeats from './Components/ChooseSeats';
+import CreateBooking from './Components/CreateBooking';
 
 class App extends Component {
   constructor(props){
@@ -37,6 +39,10 @@ class App extends Component {
           <Route path='/register' component={Register}/>
           <Route path='/availableFlights' component={AvailableFlights}/>
           <Route path='/availableReturnFlights' component={AvailableReturnFlights}/>
+          {/* <Route path='/bookingConfirmation' component={BookingConfirmationModal}/> */}
+          <Route path='/chooseSeats' component={ChooseSeats}/>
+
+          <Route path='/createBooking' component={CreateBooking}/>
 
       </Router>
     );

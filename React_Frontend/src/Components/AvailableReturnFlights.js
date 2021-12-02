@@ -6,28 +6,27 @@ import { useLocation } from "react-router-dom";
 const api = 'http://localhost:8000';
 
 export default function AvailableReturnFlights(props){
-  const location = useLocation();
-  const [returnFlights,SetReturnFlights] = useState();
-  const [bookedFlight, setBookedFlight] = useState(location.state.bookedFlight);
-
+  const [returnFlights,setReturnFlights] = useState(props.rFs);
+  const [departureFlight, setDepartureFlight] = useState(props.departureFlight);
+  const [cabinClass,setCabinClass]= useState(props.CabinClass);
+  const [list,setList] = useState([])
 
   useEffect(() => {
-    console.log(location.pathname);
-    console.log(location.state.returnFlights);
-    console.log(location.state.bookedFlight);
-    SetReturnFlights(location.state.returnFlights.map((returnFlight, key)=>
-        <FlightItem hideBtn={true} showSelect={true} CabinClass={location.state.CabinClass} flight={returnFlight} key={key}/> )) 
+    console.log('returnFlights',returnFlights);
+    setList(returnFlights.map((returnFlight, key)=>
+        (<FlightItem setRetF={props.setRetF} hideBtn={true} showSelect={false} showSelect2={true} CabinClass={props.CabinClass} depFlight = {departureFlight} flight={returnFlight} key={key}/>) )) 
   },[])
-  
 
   return(
     <div>
           <h2> <em>Available Return Flights </em></h2>
           <div>
             <Accordion>
-              {returnFlights}
+              {list}
             </Accordion>
           </div>
-        </div> 
+
+   </div>
+
   );
 }

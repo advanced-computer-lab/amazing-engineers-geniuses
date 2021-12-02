@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require("bcrypt");
+const Booking = require('./Booking');
 
 const userSchema = new Schema({
   username: {
@@ -27,9 +28,11 @@ const userSchema = new Schema({
     unique: true
   },
   Passport:String,
+  
   Bookings:[{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Booking"
+        ref: "Booking",
+        default:[]
     }]
 
 }, { timestamps: true });

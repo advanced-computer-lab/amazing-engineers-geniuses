@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Flights = require('../models/Flight');
+const Bookings = require('../models/Booking');
 const nodemailer = require("nodemailer");
 
 const sendEmail = (req, res) => {
@@ -34,80 +35,91 @@ const sendEmail = (req, res) => {
 }
 
 
-const viewReservations = async (req, res) => {
+const viewReservations = (req, res) => {
     userName = req.body.username;   
-    User.find({username : userName}, async (err, data) => {
-     try{
+    console.log(userName, "ussssseeeerrrrrrrrrrrrr");
+    User.find({username : "test2"}).then ( (user) => {
+        var BookedArr = [];
+        var retrievedBookingsArr = user[0].Bookings;
+
+        retrievedBookingsArr.forEach( (singleBookingId) => {
+            BookedArr.push(Bookings.findById(singleBookingId))
+        });
+        return Promise.all(BookedArr);
+    }).then(function(listOfBookings){
+        return res.json({listOfBookings});
+    }).catch(function(error){
+        return res.json({error});
+    });
+
+}                          
+
+const getDepartureAirport =  (req, res) =>{
+    departureId = req.body.departureId;
+    // var departureFrom = "";
+
+    Flights.findById(departureId, (err, data) => {
         if(err){
-            console.log('errrrrrrrr')
-            return res.json(err);
-            
+            return res.json({err});
         }
-        else
-            if(data){
-                console.log(data[0].Bookings);
-                flightsArr = data[0].Bookings
-                console.log(flightsArr, "flightdssssss")
-                var resArr = []
-                var flightsArr = [1,12]
-    // for(let i=0;i<flightsArr.length;i++){
-         await Flights.find( {FlightNumber : flightsArr[0]}, (error, data) => {
-            if(error){
-                // return res.json({ error});
-            }
-            else if(data){
-                resArr.push(flightsArr[0]);
-                console.log(resArr, 'sadsasadadsdadasdadsa');
-            }
-        })
-        console.log(resArr, "reererererererreer");
-            return res.json({resArr});              
-            }
-        }catch(error){
-            if(error){
-                return res.json({error});
-                console.log("shittt")
-            }
+        else{
+            // const departureAirport = data.FromAirport
+            return res.json({data});
         }
-
-
-        })
-
-    
+    })
 }
 
+const getArrivalAirport = (req, res) =>{
+    arrivalId = req.body.arrivalId;
+
+    Flights.findById(arrivalId, (err, data) => {
+        if(err){
+            return res.json({err});
+        }
+        else{
+            const arrivalAirport = data.ToAirport
+            console.log(data);
+            return res.json({arrivalAirport});
+        }
+    })
+}
+
+    // await Flights.findById(arrivalId, (err, data) => {
+    //     if(err){
+    //         return res.json({err});
+    //     }
+    //     else{
+    //         arrivalTo = data.ToAirport;
+    //     }
+    // })
+    // return res.json({departureAirport : departureFrom, arrivalAirport : arrivalTo});
+// }
 
 
-//         
+// wanna get id and delete using th
 
-    // console.log(userName);
-
-
- const cancelReservation = async (req, res) => {
+ const cancelReservation =  (req, res) => {
     var reservationsArr = [];
     userName = req.body.username;
-    flightNumber = req.body.flightNumber;
-    try{
-    let user =  await User.findOne({username: userName}, (err, data) => {
+
+    flightNumber = req.body.flightId;
+    let user =  User.findOne({username: userName}, (err, data) => {
         if(err){
             return res.json({"error" : err});
         }
         else{
-            
-            console.log(reservationsArr,'firstttt');
-            data.Reservations = data.Reservations.filter(item => item !== flightNumber);
-            console.log(data.Reservations);
-        }
-        data.save();   
-        });
-   
-    }
-    catch(err){
-        console.log(err);
-    }
+            Bookings.findByIdAndDelete(flightNumber, (err, res) => {
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log("deleted");
+                }
+            })
 
-    return res.json({"message" : "reservation successfully cancelled"});
-       
+        }
+        // data.save();   
+        });  
  }
 
 
@@ -116,5 +128,7 @@ const viewReservations = async (req, res) => {
 module.exports = {
     viewReservations,
     cancelReservation,
-    sendEmail
+    sendEmail,
+    getArrivalAirport,
+    getDepartureAirport 
 }

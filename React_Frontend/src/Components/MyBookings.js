@@ -48,7 +48,7 @@ export default function MyBookedFlights(props) {
     }
     const handleClose = () => setOpen(false);
     const cancelRequest = async (e, canceledNumber) => {
-        axios.post(`${api}/user/flight/cancelReservations`, {username : "admin", flightNumber: canceledNumber.toString()})
+        axios.post(`${api}/user/flight/cancelReservations`, {username : "test2", flightNumber: canceledNumber.toString()})
         .then((res) => {
             console.log(canceledNumber, "canceleeeeddd");
             console.log(res.data);
@@ -78,11 +78,11 @@ export default function MyBookedFlights(props) {
     const classes = useStyles();
 
     useEffect(async () => {
-
-       await axios.get(`${api}/user/flight/viewReservations`)
+        var name = "test2"
+       await axios.get(`${api}/user/flight/viewReservations`,{username:"test2"})
         .then((res)=>{
-            console.log(res.data);
-           setFlightsArr([...flightsArr, res.data]);
+            console.log(res.data.listOfBookings, "ress dataaa");
+            setFlightsArr(res.data.listOfBookings);
         }).catch((error)=>{
             if(error){
                 console.log(error);
@@ -90,7 +90,30 @@ export default function MyBookedFlights(props) {
         });
     }, []);
 
-  
+    
+    const getArrival = () => {
+         axios.get(`${api}/user/flight/getArrivalAirport`, {arrivalId : "61a4b96f5c0946c174b3b0cb"})
+        .then((res) =>{
+            console.log(res,"arrival airport");
+            return res.arrivalAirport;
+        }).catch((error)=>{
+            if(error){
+                console.log(error);
+            };
+        });
+    }
+    const getDeparture = (flightId) => {
+
+        axios.get(`${api}/user/flight/getDepartureAirport`, {departureId : flightId})
+        .then((res) =>{
+            console.log(res,"departure");
+            return res.departureAirport;
+        }).catch((error)=>{
+            if(error){
+                console.log(error);
+            };
+        });
+    }
 
     
     return(
@@ -98,17 +121,26 @@ export default function MyBookedFlights(props) {
             <div className = {classes.title}>
                  <h1>My Bookings</h1>
             </div>
+            {/* {flightsArr[.map((item,i) => <li key={i}>Test</li>)} */}
             {flightsArr.map((flight, key) => {
-               console.log(flight.data[0].ArrDate, "bobobob")
+                    console.log(flight.DepartureFlight);
+                    // console.log(flight.DepartureFlight, "Departure flighttt")
+                    // console.log(flight.ReturnFlight, "return flighttt")
+                    getDeparture(flight.DepartureFlight);
+                    // const departureAirport = getDeparture(flight.ReturnFlight);
+                    // console.log(flightsArr, "flights arrr")
+                    console.log(key, "keyyyyyy")
+                    // console.log(flight[key].TotalCost, "flight flight")
+                    // console.log(flight.listOfBookings, "bobobob")
                 return(
                     <Box>
                     <Booking 
-                        fromAirport = {flight.data[0].FromAirport}
-                        toAirport = {flight.data[0].ToAirport}
-                        day = {flight.data[0].DepDate.substring(8,10)}
-                        date = {flight.data[0].DepDate.substring(0,7)}
-                        price = "5000"
-                        handleConfirmOpen = {handleConfirmOpen}
+                        fromAirport = "bob"
+                        // toAirport = {flight.[0].ToAirport}
+                        // day = {flight.data[0].DepDate.substring(8,10)}
+                        // date = {flight.data[0].DepDate.substring(0,7)}
+                        // price = "5000"
+                        // handleConfirmOpen = {handleConfirmOpen}
                     ></Booking>
                     <Modal
                         open={open}
