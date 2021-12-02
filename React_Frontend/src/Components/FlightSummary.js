@@ -1,5 +1,5 @@
 import React,{ Component, useEffect,useState } from 'react';
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col,Card} from 'react-bootstrap'
 
 export default function FlightSummary(props){
 
@@ -66,17 +66,20 @@ export default function FlightSummary(props){
         <div>
             
             <Container>
-                <br/>
-                <h3><em>Trip Summary</em></h3>
-                <br/>
+                
+                <Card >
+                  <Card.Body>
+                    <Card.Title ><em>Trip Summary</em></Card.Title>
+                    <hr/>
+                {/* <h3><em>Trip Summary</em></h3> */}
                 {Object.keys(bookingInfo.DepartureFlight).length !== 0 && 
                     <div>
-                    <h4>{bookingInfo.DepartureFlight.FromAirport} <i className="fas fa-plane-departure"> {bookingInfo.DepartureFlight.ToAirport}</i></h4>
-                    <h5>{bookingInfo.DepartureFlight.DepDate.split('T')[0]} | {bookingInfo.DepartureFlight.Departure.Hours}:{bookingInfo.DepartureFlight.Departure.Minutes} {bookingInfo.DepartureFlight.Departure.Period} </h5>
+                     <Card.Title >{"Departure "}<i className="fas fa-plane-departure">  </i><br/><br/>{bookingInfo.DepartureFlight.FromAirport}  <i class="fas fa-arrow-right"></i>{bookingInfo.DepartureFlight.ToAirport} </Card.Title>
+                     <Card.Subtitle className="mb-2 text-muted">{bookingInfo.DepartureFlight.DepDate.split('T')[0]} <br/> {bookingInfo.DepartureFlight.Departure.Hours}:{bookingInfo.DepartureFlight.Departure.Minutes} {bookingInfo.DepartureFlight.Departure.Period} </Card.Subtitle>
                     <br/>
-                    <h5> Class : {getClass2(bookingInfo.DepCabinClass)} </h5>
-                    <h5>Price/Adult = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]} <i className="fas fa-dollar-sign"></i></h5>
-                     <h5>Price/Child = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]/2} <i className="fas fa-dollar-sign"></i></h5> 
+                    <Card.Subtitle className="mb-2 text-muted"> <li>Class : {getClass2(bookingInfo.DepCabinClass)}</li> </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Adult = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Child = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
                 </div>
 
                 }
@@ -84,28 +87,30 @@ export default function FlightSummary(props){
                 
                 {Object.keys(bookingInfo.ReturnFlight).length !== 0 && 
                 <div>
-                    <h4>{bookingInfo.ReturnFlight.FromAirport} <i className="fas fa-plane-arrival"></i> {bookingInfo.ReturnFlight.ToAirport} </h4>
-                    <h5>{bookingInfo.ReturnFlight.DepDate.split('T')[0]} | {bookingInfo.ReturnFlight.Departure.Hours}:{bookingInfo.ReturnFlight.Departure.Minutes} {bookingInfo.ReturnFlight.Departure.Period} </h5>
+                   <Card.Title >{"Arrival "}<i className="fas fa-plane-arrival"></i><br/><br/>{bookingInfo.ReturnFlight.FromAirport} <i class="fas fa-arrow-right"></i>{bookingInfo.ReturnFlight.ToAirport}  </Card.Title>
+                   <Card.Subtitle className="mb-2 text-muted">{bookingInfo.ReturnFlight.DepDate.split('T')[0]} <br/>{bookingInfo.ReturnFlight.Departure.Hours}:{bookingInfo.ReturnFlight.Departure.Minutes} {bookingInfo.ReturnFlight.Departure.Period} </Card.Subtitle>
                     <br/>
-                    <h5> Class : {getClass2(bookingInfo.RetCabinClass)} </h5>
-                    <h5>Price/Adult = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]} <i className="fas fa-dollar-sign"></i></h5>
-                     <h5>Price/Child = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]/2} <i className="fas fa-dollar-sign"></i></h5> 
+                    <Card.Subtitle className="mb-2 text-muted"> <li> Class : {getClass2(bookingInfo.RetCabinClass)} </li> </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Adult = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Child = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
                 </div>
 
                 }
                 <hr/>
 
-                <h5>{bookingInfo.NumberOfPassengers} x Passenger(s)</h5>
-                <h5>{bookingInfo.AdultPassengers} Adult(s)</h5>
-                <h5>{bookingInfo.KidPassengers} Kid(s)</h5>
+                <Card.Subtitle className="mb-2 text-muted">{bookingInfo.NumberOfPassengers} x Passenger(s)</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted"> <li>{bookingInfo.AdultPassengers} Adult(s)</li></Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted"> <li>{bookingInfo.KidPassengers} Kid(s)</li></Card.Subtitle>
                 
                 <hr/>
-                <h4>Total Cost: {bookingInfo.TotalCost} <i className="fas fa-dollar-sign"></i></h4>
-                 
+                <Card.Title >Total Cost:  </Card.Title >
+                <Card.Subtitle className="mb-2 text-muted"> {bookingInfo.TotalCost} <i className="fas fa-dollar-sign"></i></Card.Subtitle>
                 <hr/>
                
                 {bookingInfo.DepSeats.length == bookingInfo.NumberOfPassengers && bookingInfo.RetSeats.length == bookingInfo.NumberOfPassengers
                    && <button onClick={showConfirm} className='btn btn-m btn-primary'>Proceed To Checkout</button>}
+            </Card.Body>
+            </Card>
             </Container>
 
         </div>

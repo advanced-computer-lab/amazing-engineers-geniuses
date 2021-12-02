@@ -1,5 +1,5 @@
 import React,{ useEffect } from 'react';
-import { Form,FloatingLabel,Row,Col,InputGroup, Container,Button} from "react-bootstrap";
+import { Form,FloatingLabel,Row,Col,InputGroup, Container,Button,Card} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import axios from 'axios';
 
@@ -80,15 +80,17 @@ export default function SearchFlight(props){
        <Container
          style={
            {
-             //    backgroundColor:'#00BFFF',
-             //    width:'800px',
-             //    height:'200px',
+                // backgroundColor:'#00BFFF',
+                // width:'800px',
+                // height:'200px',
            }
          }
        >
+           
+
          <Form.Group className="mb-3" controlId="Airports">
            <Row>
-             <Col>
+             <Col xs={5}>
                <InputGroup className="mb-3">
                  <InputGroup.Text>From</InputGroup.Text>
 
@@ -101,7 +103,7 @@ export default function SearchFlight(props){
                  />
                </InputGroup>
              </Col>
-             <Col>
+             <Col xs={4}>
                <InputGroup className="mb-3">
                  <InputGroup.Text>To</InputGroup.Text>
                  <Form.Control
@@ -115,6 +117,41 @@ export default function SearchFlight(props){
              </Col>
            </Row>
          </Form.Group>
+
+           <Row className="align-items">
+           <Col md="auto">
+             <Form.Group controlId="formGridDepartue">
+               <InputGroup className="mb-3">
+                 <InputGroup.Text>Departure</InputGroup.Text>
+
+                 {/* <Form.Control  type="time" name="Departure" onChange={(e)=>setDeparture(e.target.value)} /> */}
+
+                 <Form.Control
+                   type="date"
+                   name="DepDate"
+                   min={today}
+                   required
+                   onChange={(e) => setDepDate(e.target.value)}
+                 />
+               </InputGroup>
+             </Form.Group>
+           </Col>
+           <Col md="auto">
+             <Form.Group controlId="formGridArrival">
+               <InputGroup className="mb-3">
+                 <InputGroup.Text>Return</InputGroup.Text>
+                 {/* <Form.Control   type="time" name="Arrival" onChange={(e)=>setArrival(e.target.value)} /> */}
+                 <Form.Control
+                   type="date"
+                   name="RetDate"
+                   min={DepDate || today}
+                   required
+                   onChange={(e) => setRetDate(e.target.value)}
+                 />
+               </InputGroup>
+             </Form.Group>
+           </Col>
+         </Row>
 
          <Row className="align-items">
            <Col md="auto">
@@ -155,7 +192,8 @@ export default function SearchFlight(props){
                
              </Form.Group>
            </Col>
-           </Row>
+           </Row>  
+           
            <Row className="align-items">
            <Col md="auto">
              <Form.Group controlId="formGridAPassengers">
@@ -183,48 +221,19 @@ export default function SearchFlight(props){
                {/* </FloatingLabel> */}
              </Form.Group>
            </Col>
+           <Col md="auto">
+                <Button className="btn btn-primary" type="submit">
+                Search
+                </Button>
+         </Col>
+         
            </Row>
     
          <br/>
          
-         <Row className="align-items">
-           <Col md="auto">
-             <Form.Group controlId="formGridDepartue">
-               <InputGroup className="mb-3">
-                 <InputGroup.Text>Departure</InputGroup.Text>
+        
 
-                 {/* <Form.Control  type="time" name="Departure" onChange={(e)=>setDeparture(e.target.value)} /> */}
-
-                 <Form.Control
-                   type="date"
-                   name="DepDate"
-                   min={today}
-                   required
-                   onChange={(e) => setDepDate(e.target.value)}
-                 />
-               </InputGroup>
-             </Form.Group>
-           </Col>
-           <Col md="auto">
-             <Form.Group controlId="formGridArrival">
-               <InputGroup className="mb-3">
-                 <InputGroup.Text>Return</InputGroup.Text>
-                 {/* <Form.Control   type="time" name="Arrival" onChange={(e)=>setArrival(e.target.value)} /> */}
-                 <Form.Control
-                   type="date"
-                   name="RetDate"
-                   min={DepDate || today}
-                   required
-                   onChange={(e) => setRetDate(e.target.value)}
-                 />
-               </InputGroup>
-             </Form.Group>
-           </Col>
-         </Row>
-
-         <Button className="btn btn-primary" type="submit">
-           Search
-         </Button>
+        
        </Container>
      </Form>
    );
