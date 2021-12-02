@@ -24,48 +24,117 @@ export default function Invoice(props){
     
     return (
     
-     <Container>
+       <Container>
           
-         <div> 
         {showToast && 
-        
             <Toast onClose={()=>setShowToast(false)}>
                 <Toast.Header>
                     <strong className="me-auto">Booking Number</strong>
                     <small className="text-muted">just now</small>
                 </Toast.Header>
                 <Toast.Body>Your Booking Number: {props.bookingInfo.bID} </Toast.Body>
-            </Toast>}
+            </Toast>
+            }
+            
           
-        </div>
-        <h1>Outbound:</h1>
-        <Card >
-            <ListGroup variant="flush">
-                <ListGroup.Item>Departure: {bookingInfo.DepartureFlight.DepDate.split('T')[0]} | {bookingInfo.DepartureFlight.Departure.Hours}:{bookingInfo.DepartureFlight.Departure.Minutes} {bookingInfo.DepartureFlight.Departure.Period} </ListGroup.Item>
-                <ListGroup.Item>Arrival: {bookingInfo.DepartureFlight.ArrDate.split('T')[0]} | {bookingInfo.DepartureFlight.Arrival.Hours}:{bookingInfo.DepartureFlight.Arrival.Minutes} {bookingInfo.DepartureFlight.Arrival.Period} </ListGroup.Item>
-                <ListGroup.Item>From: {bookingInfo.DepartureFlight.FromAirport} </ListGroup.Item>
-                <ListGroup.Item>To: {bookingInfo.DepartureFlight.ToAirport} </ListGroup.Item>
-                <ListGroup.Item>Cabin: {getClass(bookingInfo.DepCabinClass)}</ListGroup.Item>
-                <ListGroup.Item>Seat(s): {bookingInfo.DepSeats.toString()} </ListGroup.Item>
-            </ListGroup>
-        </Card>
-        <h1>Inbound:</h1>
-        <Card >
-            <ListGroup variant="flush">
-                <ListGroup.Item>Departure: {bookingInfo.ReturnFlight.DepDate.split('T')[0]} | {bookingInfo.ReturnFlight.Departure.Hours}:{bookingInfo.ReturnFlight.Departure.Minutes} {bookingInfo.ReturnFlight.Departure.Period} </ListGroup.Item>
-                <ListGroup.Item>Arrival: {bookingInfo.ReturnFlight.ArrDate.split('T')[0]}  | {bookingInfo.ReturnFlight.Arrival.Hours}:{bookingInfo.ReturnFlight.Arrival.Minutes} {bookingInfo.ReturnFlight.Arrival.Period} </ListGroup.Item>
-                <ListGroup.Item>From: {bookingInfo.ReturnFlight.FromAirport}: </ListGroup.Item>
-                <ListGroup.Item>To: {bookingInfo.ReturnFlight.ToAirport} </ListGroup.Item>
-                <ListGroup.Item>Cabin: {getClass(bookingInfo.RetCabinClass)} </ListGroup.Item>
-                <ListGroup.Item>Seat(s): {bookingInfo.RetSeats.toString()} </ListGroup.Item>
-            </ListGroup>
-            <h4> Total Cost: {bookingInfo.TotalCost} <i className="fas fa-dollar-sign"></i> </h4>
-        </Card>
+         <Container>
+             
+          <Row>
+              <Col md="auto">
 
+         <Card style={{ width: '25rem' } ,{margin: '15px'} }>
+         <Card.Body>
+            <Card.Title >Outbound  <i className="fas fa-plane-departure">  </i></Card.Title>
+            <hr/>
+            <hr/>
+            <Row>
+                <Col md="auto">
+            <Card.Title>Departure:  </Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.DepartureFlight.DepDate.split('T')[0]} <br/> {bookingInfo.DepartureFlight.Departure.Hours}:{bookingInfo.DepartureFlight.Departure.Minutes} {bookingInfo.DepartureFlight.Departure.Period} </Card.Subtitle>
+            <Card.Title>Arrival:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.DepartureFlight.ArrDate.split('T')[0]} <br/>{bookingInfo.DepartureFlight.Arrival.Hours}:{bookingInfo.DepartureFlight.Arrival.Minutes} {bookingInfo.DepartureFlight.Arrival.Period} </Card.Subtitle>
+            </Col>
+            </Row>
+            <hr/>
+            <Row>
+                <Col md="auto">
+            <Card.Title>From:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.DepartureFlight.FromAirport} </Card.Subtitle>
         
+            </Col>
            
+            <Col>
+            <Card.Title>To:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.DepartureFlight.ToAirport} </Card.Subtitle>
+            </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col md="auto">
+            <Card.Title>Cabin:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{getClass(bookingInfo.DepCabinClass)} </Card.Subtitle>
+            </Col>
+            <Col>
+            <Card.Title>Seat(s):</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.DepSeats.toString()} </Card.Subtitle>
+            </Col>
+            </Row>
 
+          </Card.Body>
+           </Card>
+           </Col>
+
+         <Col md="auto">
+        <Card style={{ width: '25rem' } ,{margin: '15px'}}>
+         <Card.Body>
+            <Card.Title>Inbound  <i className="fas fa-plane-arrival"></i></Card.Title>
+            <hr/>
+            <hr/>
+            <Row>
+                <Col md="auto">
+            <Card.Title>Departure:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.ReturnFlight.DepDate.split('T')[0]} <br/> {bookingInfo.ReturnFlight.Departure.Hours}:{bookingInfo.ReturnFlight.Departure.Minutes} {bookingInfo.DepartureFlight.Departure.Period} </Card.Subtitle>
+            <Card.Title>Arrival:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.ReturnFlight.ArrDate.split('T')[0]} <br/> {bookingInfo.ReturnFlight.Arrival.Hours}:{bookingInfo.ReturnFlight.Arrival.Minutes} {bookingInfo.DepartureFlight.Arrival.Period} </Card.Subtitle>
+            </Col>
+            </Row>
+            <hr/>
+
+            <Row>
+                <Col md="auto">
+            <Card.Title>From:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.ReturnFlight.FromAirport} </Card.Subtitle>
+            </Col>
+            <Col md="auto">
+            <Card.Title>To:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.ReturnFlight.ToAirport} </Card.Subtitle>
+            </Col>
+            </Row>
+            <br/>
+            <Row>
+                <Col md="auto">
+            <Card.Title>Cabin:</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{getClass(bookingInfo.RetCabinClass)} </Card.Subtitle>
+            </Col>
+            <Col md="auto">
+            <Card.Title>Seat(s):</Card.Title>
+            <Card.Subtitle className="mb-2 text-muted">{bookingInfo.RetSeats.toString()} </Card.Subtitle>
+            </Col>
+            </Row>
+            
+
+        </Card.Body>
+        </Card>
+        </Col>
         
+        
+       
+        </Row>
+        
+        </Container>
+        <Card.Title> Total Cost: {bookingInfo.TotalCost} <i className="fas fa-dollar-sign"></i> </Card.Title>
+        
+
     </Container>
           
     );

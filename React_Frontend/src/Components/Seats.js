@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import {Container, Row, Col} from 'react-bootstrap'
+import {Container, Row, Col,Card} from 'react-bootstrap'
 import '../Styles/Seats.css';
 
 export default function Seats(props){
@@ -97,32 +97,51 @@ export default function Seats(props){
         <div>
             {props.CabinClass === 'E' && <div>
                 <Container>
-                    <h2>Economy Class Seats</h2>
+                <Card style={{ width: '25rem' } ,{margin: '15px'}}>
+                 <Card.Body>
+                    <Card.Title>Economy Class Seats</Card.Title>
+                    <br/>
+                    {/* <h2>Economy Class Seats</h2> */}
+                      
                     <Row style={{maxWidth: '350px'}}>
                         <Col xs="5"><Row>{econSeats1}</Row></Col>
                         <Col style={{borderLeft:"thin solid grey", borderRight:"thin solid grey" }}></Col>
                         <Col style={{direction:'rtl'}} xs="5"><Row>{econSeats2}</Row></Col>
                     </Row>
+                    </Card.Body>
+                    </Card>
                 </Container>
             </div>}
             {props.CabinClass === 'B' && <div>
                 <Container>
-                    <h2>Business Class Seats</h2>
+                <Card style={{ width: '40rem' } ,{margin: '15px'}}>
+                 <Card.Body>
+                    <Card.Title>Business Class Seats</Card.Title>
+                    <br/>
+                    {/* <h2>Business Class Seats</h2> */}
                     <Row style={{maxWidth: '350px'}}>
                         <Col xs="5"><Row>{busSeats1}</Row></Col>
                         <Col style={{borderLeft:"thin solid grey", borderRight:"thin solid grey" }}></Col>
                         <Col style={{direction:'rtl'}} xs="5"><Row>{busSeats2}</Row></Col>
                     </Row>
+                    </Card.Body>
+                    </Card>
                 </Container>
             </div>}
             {props.CabinClass === 'F' && <div>  
                <Container>
-                    <h2>First Class Seats</h2>
+               <Card style={{ width: '40rem' } ,{margin: '15px'}}>
+                 <Card.Body>
+                    <Card.Title>First Class Seats</Card.Title>
+                    <br/>
+                    {/* <h2>First Class Seats</h2> */}
                     <Row style={{maxWidth: '350px'}}>
                         <Col xs="5"><Row>{firstSeats1}</Row></Col>
                         <Col style={{borderLeft:"thin solid grey", borderRight:"thin solid grey" }}></Col>
                         <Col style={{direction:'rtl'}} xs="5"><Row>{firstSeats2}</Row></Col>
                     </Row>
+                    </Card.Body>
+                    </Card>
                 </Container>
             </div>}
             

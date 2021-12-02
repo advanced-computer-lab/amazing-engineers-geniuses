@@ -55,9 +55,11 @@ export default function Pay(props){
                             <Form.Control required type="number" maxLength="3" minLength="3" placeholder="ex:123" onChange={(e) => setPayment({ ...paymentDetails, CVV: e.target.value })}/>
                         </Form.Group>
                     </Row>
+                   
                 </Form>
             </Modal.Body>
             <Modal.Footer>
+            <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i><i class="fab fa-cc-apple-pay"></i>
                 <button type='submit' className='btn btn-primary' form='payForm'>{'Pay & Confirm Booking'}</button>
             </Modal.Footer>
             </Modal>
