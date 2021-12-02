@@ -1,5 +1,5 @@
-import React,{ Component, useEffect,useState } from 'react';
-import {Container, Row, Col,Card} from 'react-bootstrap'
+import React,{useEffect,useState } from 'react';
+import {Container, Card} from 'react-bootstrap'
 
 export default function FlightSummary(props){
 
@@ -77,37 +77,39 @@ export default function FlightSummary(props){
                      <Card.Title >{"Departure "}<i className="fas fa-plane-departure">  </i><br/><br/>{bookingInfo.DepartureFlight.FromAirport}  <i class="fas fa-arrow-right"></i>{bookingInfo.DepartureFlight.ToAirport} </Card.Title>
                      <Card.Subtitle className="mb-2 text-muted">{bookingInfo.DepartureFlight.DepDate.split('T')[0]} <br/> {bookingInfo.DepartureFlight.Departure.Hours}:{bookingInfo.DepartureFlight.Departure.Minutes} {bookingInfo.DepartureFlight.Departure.Period} </Card.Subtitle>
                     <br/>
-                    <Card.Subtitle className="mb-2 text-muted"> <li>Class : {getClass2(bookingInfo.DepCabinClass)}</li> </Card.Subtitle>
-                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Adult = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
-                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Child = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Class : {getClass2(bookingInfo.DepCabinClass)}</li> </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Adult = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Child = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                    <hr/>
                 </div>
 
                 }
-                <hr/>
+                
                 
                 {Object.keys(bookingInfo.ReturnFlight).length !== 0 && 
                 <div>
                    <Card.Title >{"Arrival "}<i className="fas fa-plane-arrival"></i><br/><br/>{bookingInfo.ReturnFlight.FromAirport} <i class="fas fa-arrow-right"></i>{bookingInfo.ReturnFlight.ToAirport}  </Card.Title>
                    <Card.Subtitle className="mb-2 text-muted">{bookingInfo.ReturnFlight.DepDate.split('T')[0]} <br/>{bookingInfo.ReturnFlight.Departure.Hours}:{bookingInfo.ReturnFlight.Departure.Minutes} {bookingInfo.ReturnFlight.Departure.Period} </Card.Subtitle>
                     <br/>
-                    <Card.Subtitle className="mb-2 text-muted"> <li> Class : {getClass2(bookingInfo.RetCabinClass)} </li> </Card.Subtitle>
-                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Adult = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
-                    <Card.Subtitle className="mb-2 text-muted"> <li>Price/Child = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}> Class : {getClass2(bookingInfo.RetCabinClass)} </li> </Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Adult = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                    <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Child = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                     <hr/>
                 </div>
 
                 }
-                <hr/>
+               
 
                 <Card.Subtitle className="mb-2 text-muted">{bookingInfo.NumberOfPassengers} x Passenger(s)</Card.Subtitle>
-                <Card.Subtitle className="mb-2 text-muted"> <li>{bookingInfo.AdultPassengers} Adult(s)</li></Card.Subtitle>
-                <Card.Subtitle className="mb-2 text-muted"> <li>{bookingInfo.KidPassengers} Kid(s)</li></Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted"> <li >{bookingInfo.AdultPassengers} Adult(s)</li></Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted"> <li >{bookingInfo.KidPassengers} Kid(s)</li></Card.Subtitle>
                 
                 <hr/>
                 <Card.Title >Total Cost:  </Card.Title >
                 <Card.Subtitle className="mb-2 text-muted"> {bookingInfo.TotalCost} <i className="fas fa-dollar-sign"></i></Card.Subtitle>
                 <hr/>
                
-                {bookingInfo.DepSeats.length == bookingInfo.NumberOfPassengers && bookingInfo.RetSeats.length == bookingInfo.NumberOfPassengers
+                {bookingInfo.DepSeats.length === bookingInfo.NumberOfPassengers && bookingInfo.RetSeats.length === bookingInfo.NumberOfPassengers
                    && <button onClick={showConfirm} className='btn btn-m btn-primary'>Proceed To Checkout</button>}
             </Card.Body>
             </Card>

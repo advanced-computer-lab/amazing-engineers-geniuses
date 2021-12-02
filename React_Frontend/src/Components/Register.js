@@ -14,7 +14,7 @@ export default function Register(props){
         Auth.register(username,password)
             .then((res)=>{
                 console.log(res.data);
-                 history.push('/');
+                history.push('/');
             })
             .catch((err)=>{
                 //console.log(err.response);

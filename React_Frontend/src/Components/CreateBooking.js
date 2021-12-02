@@ -1,7 +1,7 @@
-import React,{ Component, useEffect,useState } from 'react';
+import React,{  useEffect,useState } from 'react';
 import AvailableFlights from './AvailableFlights';
 import AvailableReturnFlights from './AvailableReturnFlights';
-import {Container, Row, Col, Alert,Button, Modal} from 'react-bootstrap';
+import { Row, Col, Alert,Button, Modal, Spinner,Container} from 'react-bootstrap';
 import ChooseSeats from './ChooseSeats';
 import FlightSummary from './FlightSummary';
 import { useLocation,useHistory } from "react-router-dom";
@@ -9,6 +9,8 @@ import Auth from '../services/Auth';
 import axios from 'axios';
 import Pay from './Pay';
 import Invoice from './Invoice';
+import '../Styles/CreateBooking.css';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
 const api = 'http://localhost:8000';
 
@@ -20,12 +22,14 @@ export default function CreateBooking(props){
     const [display,setDisplay] = useState('depF');
     const [availableReturnFlights, setAvailableReturnFlights] = useState([])
     const [alert, setAlert] = useState({msg:'', show:false});
-    const [msg, setMsg] = useState('');
     const [showConfirm, setConfirm] = useState(false);
     const [showPay, setPay] = useState(false);
     const [showSummary, setSummary] = useState(true);
-    const [cb,setCb] = useState('Econ');
-
+    const [showSpinner, setSpinner] = useState(false);
+    const[showDepBread,setDepBread]= useState(true);
+    const[showRetBread,setRetBread]= useState(false);
+    const[showSeatBread,setSeatBread]= useState(false);
+    
     const [bookingInfo, setBookingInfo] = useState({
         bID: '',
         DepartureFlight: {},
@@ -41,20 +45,44 @@ export default function CreateBooking(props){
     })
 
     useEffect(() => {
-        
-    }, []);
+      setSpinner(false);
+    }, [display]);
 
     const getNext = (daState)=>{
-        if(daState === 'depF'){
-            setDisplay('retF')
-        }
-        else if (daState === 'retF'){
-            setDisplay('seats')
-        }
-        else if(daState === 'seats'){
-           setDisplay('invoice');
-        }
+        setAlert({msg:'', show:false});
+        setSpinner(true);
+        setTimeout(()=>{
+          if(daState === ''){
+            setDisplay('depF');
+            setDepBread(true);
+            setRetBread(false);
+            setSeatBread(false);
+          }
+          else if(daState === 'depF'){
+            setDisplay('retF');
+            setDepBread(true);
+            setRetBread(true);
+            setSeatBread(false);
+
+          }
+          else if (daState === 'retF'){
+              setDisplay('seats');
+              setDepBread(true);
+              setRetBread(true);
+              setSeatBread(true);
+              
+
+          }
+          else if(daState === 'seats'){
+            setDisplay('invoice');
+            setDepBread(false);
+            setRetBread(false);
+            setSeatBread(false);
+          }
+          
+        }, 2000);
     }
+
 
     function setDepF(flight,returnFlights){
         const cabin = getClass2(bookingInfo.DepCabinClass);
@@ -89,22 +117,6 @@ export default function CreateBooking(props){
 
     function setRetSeats(seats){
         setBookingInfo({...bookingInfo, RetSeats: seats})
-    }
-
-    // function setInvoice(){
-    //     getNext('seats');
-    // }
-
-    function getClass() {
-        if(bookingInfo.CabinClass ==='E'){
-            setCb('Econ');
-        }
-        else if(bookingInfo.CabinClass === 'F'){
-            setCb('First');
-        }
-        else if (bookingInfo.CabinClass === 'B'){
-            setCb('Bus');
-        }
     }
 
     function getClass2(CabinClass){
@@ -150,10 +162,11 @@ export default function CreateBooking(props){
             console.log("XXXXXXXXX");
             console.log(res.data);
             setPay(false);
+            setSummary(false);
             getNext('seats');
             console.log(res.data._id);
             setBookingInfo({...bookingInfo, bID: res.data._id});
-            setSummary(false);
+           
         })
         .catch((error)=>{
             if(error){
@@ -166,21 +179,49 @@ export default function CreateBooking(props){
 
     return (
       <Container>
+        <Row>
+         <Breadcrumb className="breadcrumb" >
+            <Breadcrumb.Item className="breadcrumb__item" onClick={() => history.push('/') }> Home </Breadcrumb.Item>
+
+           {showDepBread && 
+           <Breadcrumb.Item id='secondbread' className="breadcrumb__item" onClick={() => getNext('') }> Departure Flight </Breadcrumb.Item>}
+           
+           { showRetBread && 
+           <Breadcrumb.Item id='secondbread' className="breadcrumb__item" onClick={() => getNext('depF')}> Return Flight</Breadcrumb.Item>}
+           
+           { showSeatBread &&
+             <Breadcrumb.Item  className="breadcrumb__item" onClick={() => getNext('retF')}>Seats</Breadcrumb.Item>}
+         </Breadcrumb> 
+        </Row>
+
         {alert.show && (
           <Alert variant="warning" onClose={() => setAlert(false)} dismissible>
             {alert.msg}
           </Alert>
         )}
         <Row xs={12}>
-          <Col xs={9}>
-            {display === "depF" && (
+          <Col xs={8}>
+       
+            {showSpinner && 
+            <div className="pos-center text-primary" style={{width: '100px', height: '100px'}} >   
+              <Spinner animation="border" />
+              <span >Loading...</span>
+              {/* </Spinner> */}
+            </div>}
+
+            {/* {showSpinner &&<Row>
+              <Col xs={5}></Col>
+              <Col><Spinner style={{alignItems: 'center'}} animation='border'/></Col>
+            </Row> } */}
+            {display === "depF" && location.state.flightsWithReturn.length !== 0 && showSpinner === false &&(
               <AvailableFlights
                 setDepF={setDepF}
                 CabinClass={bookingInfo.DepCabinClass}
               />
             )}
+            {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>}
             {
-              display === "retF" && availableReturnFlights.length !== 0 && (
+              display === "retF" && showSpinner === false && availableReturnFlights.length !== 0 && (
                 <AvailableReturnFlights
                   setRetF={setRetF}
                   rFs={availableReturnFlights}
@@ -191,7 +232,7 @@ export default function CreateBooking(props){
               // <AvailableReturnFlights rFs={availableReturnFlights}/>
             }
             {
-              display === "seats" && (
+              display === "seats" && showSpinner === false &&(
                 <ChooseSeats
                   bookingInfo={bookingInfo}
                   showAlert={showAlert}
@@ -203,10 +244,10 @@ export default function CreateBooking(props){
               )
               // <Button></Button>
             }
-            {display === "invoice" && <Invoice bookingInfo={bookingInfo} />}
           </Col>
+          {display === "invoice" && <Invoice bookingInfo={bookingInfo} />}
           {showSummary && (
-            <Col xs={3}>
+            <Col xs={4} style={{textAlign:'center'}}>
               <FlightSummary
                 bookingInfo={bookingInfo}
                 showConfirm={showConfirmModal}
@@ -234,7 +275,11 @@ export default function CreateBooking(props){
 
             <Button
               variant="primary"
-              onClick={showPayModal} //CREATE BOOKING
+              //onClick={showPayModal} //CREATE BOOKING
+              onClick={() => {
+                setAlert({msg:'', show:false});
+                showPayModal();
+              }}
             >
               Confirm
             </Button>

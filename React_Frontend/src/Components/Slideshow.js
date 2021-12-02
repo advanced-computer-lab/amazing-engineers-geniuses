@@ -8,6 +8,7 @@ export default function Slideshow(){
         <Carousel fade interval={5000}>
             <Carousel.Item>
                 <Carousel.Caption>
+                <h1 className='title'>Welcome to Amazing Air</h1>
                 <div>
                     <SearchFlight/>
                 </div>
@@ -22,20 +23,20 @@ export default function Slideshow(){
                 
             </Carousel.Item>
             <Carousel.Item>
-               <div className='pickgradient'>
+                <Carousel.Caption>
+                <h1 className='title'>Welcome to Amazing Air</h1>
+
+                <div>
+                    <SearchFlight/>
+                </div>
+                </Carousel.Caption>
+                <div className='pickgradient'>
                     <img
                     className="d-block w-100"
                     src="/stock2.jpg"
                     alt="Second slide"
                     />
                 </div>
-
-                <Carousel.Caption>
-
-                <div>
-                    <SearchFlight/>
-                </div>
-                </Carousel.Caption>
             </Carousel.Item>
                
             

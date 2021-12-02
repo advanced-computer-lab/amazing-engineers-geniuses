@@ -1,6 +1,8 @@
-import React,{ useEffect } from 'react';
-import { Form,FloatingLabel,Row,Col,InputGroup, Container,Button,Card} from "react-bootstrap";
+import React,{ useEffect,useState } from 'react';
+import { Form,Row,Col,InputGroup, Container,Button,Spinner} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
+import '../Styles/Slideshow.css';
+import '../Styles/SearchFlight.css';
 import axios from 'axios';
 
 
@@ -17,15 +19,16 @@ export default function SearchFlight(props){
     const[AdultPassengers,setAdultPassengers]= React.useState(1);
     const[KidPassengers,setKidPassengers]= React.useState(0);
     const[PassengersNumber,setPassengersNumber]=React.useState(KidPassengers + AdultPassengers);
-    //const flights=[];
+    const[showSpinner, setSpinner] = useState(false);
+
+    useEffect(() => {
+    }, []);
 
     useEffect(() => {
       setPass();
     }, [KidPassengers, AdultPassengers]);
 
-    const flightsAvailable = (e) =>{
-        e.preventDefault();
-
+    const flightsAvailable = () =>{
         axios.post(`${api}/searchFlights`,{
            FromAirport:FromAirport.toUpperCase(),
            ToAirport:ToAirport.toUpperCase(),
@@ -36,12 +39,9 @@ export default function SearchFlight(props){
             let flights = flightsWithReturn.map((tuple,i)=>(
                tuple.DepFlight 
             ))
-
-            console.log(flights);
             flightsWithReturn = flightsWithReturn.filter(tuple=> tuple.DepFlight.SeatsList.Available.filter(seat => seat.charAt(0) === DepCabinClass ).length >= PassengersNumber)
-            console.log(flightsWithReturn);
+            flightsWithReturn = filterReturnFlights(flightsWithReturn);  
             history.push({
-                // pathname: '/availableFlights',
                 pathname: 'createBooking',
                 state: { flightsWithReturn: flightsWithReturn, RetDate: RetDate, DepCabinClass: DepCabinClass, RetCabinClass: RetCabinClass, PassengersNumber: PassengersNumber ,AdultPassengers:AdultPassengers , KidPassengers:KidPassengers}
             });    
@@ -54,17 +54,14 @@ export default function SearchFlight(props){
 
     const setPass = ()=>{
         let pass = (Number.parseInt(AdultPassengers) + Number.parseInt(KidPassengers))*1;
-        console.log(typeof pass);
         setPassengersNumber(pass);
     }
 
     let today = new Date();
-    // console.log(today);
     let dd = today.getDate();
     let mm = today.getMonth() + 1; //January is 0 so need to add 1 to make it 1!
     const yyyy = today.getFullYear();
-    const hh = today.getHours();
-    const min = today.getMinutes();
+
 
     if (dd < 10) {
       dd = "0" + dd;
@@ -74,19 +71,37 @@ export default function SearchFlight(props){
     }
     today = yyyy + "-" + mm + "-" + dd;
 
+    const filterReturnFlights = (flightsWithReturn)=>{
+      let result = []
+      flightsWithReturn.forEach(tuple => {
+        let dep = tuple.DepFlight;
+        let retList = tuple.ReturnFlights;
+        let filteredRetList = retList.filter(ret => ret.SeatsList.Available.filter(seat => seat.charAt(0) === RetCabinClass).length >= PassengersNumber);
+        if(filteredRetList.length !== 0){
+          let newTuple = {
+            DepFlight: dep,
+            ReturnFlights: retList
+          }
+          result = [...result, newTuple];
+        }
+      });
+      return result;
+    }
+
 
    return (
-     <Form onSubmit={flightsAvailable}>
-       <Container
-         style={
-           {
-                // backgroundColor:'#00BFFF',
-                // width:'800px',
-                // height:'200px',
-           }
-         }
-       >
-           
+     <Form id='searchForm' onSubmit={(e)=>{
+       e.preventDefault();
+       setSpinner(true);
+       setTimeout(flightsAvailable, 2000);
+       }}>
+      <h3 style={{textAlign:'left', paddingLeft:'20px', fontWeight:'300', paddingBottom:'10px'}}>Book a Trip</h3>
+       <Container id='searchContainer'>
+          {showSpinner && 
+            <div className="pos-center text-primary" style={{width: '100px', height: '100px', zIndex:'20'}} >   
+              <Spinner animation="border" />
+              <span >Loading...</span>
+            </div>}
 
          <Form.Group className="mb-3" controlId="Airports">
            <Row>
@@ -103,7 +118,7 @@ export default function SearchFlight(props){
                  />
                </InputGroup>
              </Col>
-             <Col xs={4}>
+             <Col xs={5}>
                <InputGroup className="mb-3">
                  <InputGroup.Text>To</InputGroup.Text>
                  <Form.Control
@@ -119,12 +134,10 @@ export default function SearchFlight(props){
          </Form.Group>
 
            <Row className="align-items">
-           <Col md="auto">
+           <Col xs={5}>
              <Form.Group controlId="formGridDepartue">
                <InputGroup className="mb-3">
                  <InputGroup.Text>Departure</InputGroup.Text>
-
-                 {/* <Form.Control  type="time" name="Departure" onChange={(e)=>setDeparture(e.target.value)} /> */}
 
                  <Form.Control
                    type="date"
@@ -136,11 +149,10 @@ export default function SearchFlight(props){
                </InputGroup>
              </Form.Group>
            </Col>
-           <Col md="auto">
+           <Col xs={5} >
              <Form.Group controlId="formGridArrival">
                <InputGroup className="mb-3">
                  <InputGroup.Text>Return</InputGroup.Text>
-                 {/* <Form.Control   type="time" name="Arrival" onChange={(e)=>setArrival(e.target.value)} /> */}
                  <Form.Control
                    type="date"
                    name="RetDate"
@@ -154,7 +166,7 @@ export default function SearchFlight(props){
          </Row>
 
          <Row className="align-items">
-           <Col md="auto">
+           <Col xs={5}>
              <Form.Group controlId="formGridCabin">
                <InputGroup className="mb-3">
                  <InputGroup.Text>Departure Class</InputGroup.Text>
@@ -167,13 +179,13 @@ export default function SearchFlight(props){
                  >
                    <option value="E">Economy</option>
                    <option value="B">Business</option>
-                   <option value="F">First</option>
+                   <option value="F">First Class</option>
                  </Form.Select>
                </InputGroup>
                
              </Form.Group>
            </Col>
-           <Col md="auto">
+           <Col xs={5}>
              <Form.Group controlId="formGridCabin">
                <InputGroup className="mb-3">
                  <InputGroup.Text>Return Class</InputGroup.Text>
@@ -186,7 +198,7 @@ export default function SearchFlight(props){
                  >
                    <option value="E">Economy</option>
                    <option value="B">Business</option>
-                   <option value="F">First</option>
+                   <option value="F">First Class</option>
                  </Form.Select>
                </InputGroup>
                
@@ -195,45 +207,44 @@ export default function SearchFlight(props){
            </Row>  
            
            <Row className="align-items">
-           <Col md="auto">
+           <Col xs={5}>
              <Form.Group controlId="formGridAPassengers">
-               {/* <FloatingLabel column="sm" controlId="floatingInput" label="Number of Passengers"> */}
+             <InputGroup className="mb-3">
+               <InputGroup.Text>Adults</InputGroup.Text>
+               
                <Form.Control
                  type="number" min="1"
-                 placeholder="Adults"
+                 placeholder="Enter Number Of Adults"
                  name="Adult Passengers "
                  required
                  onChange={(e) => {setAdultPassengers(e.target.value);setPass()}}
                />
-               {/* </FloatingLabel> */}
+               </InputGroup>
              </Form.Group>
+            
            </Col>
-           <Col md="auto">
+           <Col xs={5}>
              <Form.Group controlId="formGridKPassengers">
-               {/* <FloatingLabel column="sm" controlId="floatingInput" label="Number of Passengers"> */}
+               <InputGroup className="mb-3">
+               <InputGroup.Text>Children</InputGroup.Text>
                <Form.Control
                  type="number" min="0"
-                 placeholder="Children"
+                 placeholder="Enter Number Of Children"
                  name="Kid Passengers"
                  required
                  onChange={(e) => {setKidPassengers(e.target.value);setPass()}}
                />
-               {/* </FloatingLabel> */}
+               </InputGroup>
              </Form.Group>
            </Col>
-           <Col md="auto">
-                <Button className="btn btn-primary" type="submit">
-                Search
-                </Button>
-         </Col>
          
            </Row>
+           <Button className="btn btn-home"  type="submit">
+                Search
+                </Button>
     
          <br/>
-         
-        
 
-        
        </Container>
      </Form>
    );
