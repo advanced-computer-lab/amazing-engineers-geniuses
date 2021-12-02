@@ -32,7 +32,7 @@ export default function NavBar(){
 
     return(
         <>
-            <Navbar bg="dark" variant="dark">
+            <Navbar id='main-nav' bg="dark" variant="dark">
                 <Container style={{maxWidth:'90%'}}>
                     <Navbar.Brand href="/">
                         <svg id='logo' xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width={50} height={50} viewBox="0 0 172 172" style={{fill: '#000000'}}>
@@ -41,8 +41,8 @@ export default function NavBar(){
                     <Nav className="ms-auto">
                         <NavDropdown title="Plan" id="plan-dropdown" show={showPlan} onMouseEnter={showDropdown} onMouseLeave={(e)=>setPlan(false)}>
                             <NavDropdown.Item href="/flightSchedule" eventKey="1.1">Flight Schedule</NavDropdown.Item>
-                            <NavDropdown.Item eventKey="1.2">Another action</NavDropdown.Item>
-                            <NavDropdown.Item eventKey="1.3">Something else here</NavDropdown.Item>
+                            {/* <NavDropdown.Item eventKey="1.2">Another action</NavDropdown.Item>
+                            <NavDropdown.Item eventKey="1.3">Something else here</NavDropdown.Item> */}
                         </NavDropdown>
                         {currentUser !== undefined && currentUser.username === 'Guest' 
                         ? <Nav.Link onClick={()=>setModalShow(true)}><i className="fas fa-user"></i>  My Account</Nav.Link>

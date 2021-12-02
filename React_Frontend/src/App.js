@@ -19,9 +19,10 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: {}
+      currentUser: {},
     }
   }
+
   componentDidMount(){
     this.setState({
       currentUser: Auth.getCurrentUser()

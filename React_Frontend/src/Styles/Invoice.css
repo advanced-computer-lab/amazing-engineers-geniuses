@@ -1,0 +1,11 @@
+#toast-row{
+    justify-content: end;
+}
+
+#toast-col{
+    align-items: flex-end;
+}
+
+.row-invoice{
+    justify-content: space-around;
+}

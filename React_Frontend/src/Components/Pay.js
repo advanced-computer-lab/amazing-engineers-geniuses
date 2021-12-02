@@ -1,7 +1,6 @@
 
-import React,{useState,useEffect} from 'react';
-import {Form,Button,Modal,Row,Col} from 'react-bootstrap';
-import Invoice from './Invoice';
+import React,{useState} from 'react';
+import {Form,Modal,Row,Col} from 'react-bootstrap';
 
 export default function Pay(props){
 
@@ -60,7 +59,7 @@ export default function Pay(props){
             </Modal.Body>
             <Modal.Footer>
             <i class="fab fa-cc-visa"></i><i class="fab fa-cc-mastercard"></i><i class="fab fa-cc-paypal"></i><i class="fab fa-cc-apple-pay"></i>
-                <button type='submit' className='btn btn-primary' form='payForm'>{'Pay & Confirm Booking'}</button>
+                <button type='submit' className='btn btn-primary' form='payForm'>{'Confirm'}</button>
             </Modal.Footer>
             </Modal>
         );

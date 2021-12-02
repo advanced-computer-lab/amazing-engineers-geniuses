@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Card,ListGroup,Row,Col} from 'react-bootstrap';  
+import { Card,Row,Container,Button} from 'react-bootstrap';  
 
 export default function ShowUser(props){
     const [user,setUser] = useState(props.user);
@@ -9,16 +9,36 @@ export default function ShowUser(props){
     },[props.user])
 
     return(
-       <div><h4>
-        <Card >
-         <ListGroup variant="flush">
-              <ListGroup.Item>Username:<em> {user.username}</em></ListGroup.Item>
-              <ListGroup.Item>First Name:<em> {user.FirstName}</em></ListGroup.Item>
-              <ListGroup.Item>Last Name:<em> {user.LastName}</em></ListGroup.Item>
-              <ListGroup.Item>Passport Number:<em> {user.Passport}</em></ListGroup.Item>
-              <ListGroup.Item>Email:<em> {user.Email}</em></ListGroup.Item>
-         </ListGroup>
-        </Card></h4>
-       </div>
-    )
+       <div>
+           <Container>
+               <br/>
+            <Card style={{maxWidth: '400px', margin: '0 auto'}}>
+                <Row style={ {paddingLeft: '30px'}}>
+                  <Card.Body>
+                    <Card.Title ><em>My Profile</em></Card.Title>
+                    <hr/>
+                
+                     <Card.Title > <i class="fas fa-user"></i> {"Username: "} </Card.Title>
+                     <Card.Subtitle style={ {paddingLeft: '30px'}} className="mb-2 text-muted">{user.FirstName}</Card.Subtitle>
+                    <hr/>
+                    <Card.Title > {"First Name: "} </Card.Title>
+                    <Card.Subtitle style={ {paddingLeft: '15px'}} className="mb-2 text-muted">  {user.FirstName}</Card.Subtitle>
+                    <Card.Title > {" Last Name: "} </Card.Title>
+                    <Card.Subtitle style={ {paddingLeft: '15px'}} className="mb-2 text-muted">{user.LastName}</Card.Subtitle>
+                    <Card.Title > <i class="fas fa-passport"></i> {" Passport Number: "} </Card.Title>
+                    <Card.Subtitle style={ {paddingLeft: '30px'}} className="mb-2 text-muted">  {user.Passport}</Card.Subtitle>
+                    <Card.Title > <i class="fas fa-envelope"></i> {" Email: "} </Card.Title>
+                    <Card.Subtitle  style={ {paddingLeft: '30px'}}className="mb-2 text-muted"> {user.Email}</Card.Subtitle>
+                </Card.Body>
+                </Row>
+                <Row>
+                <Button style={ {width: '100%',marginLeft: '12px', borderRadius:'0 0 4px 4px'}} onClick={()=> props.setDisplay('edit')}>Edit</Button>
+                </Row>
+            </Card>
+            </Container>
+        </div>
+
+        
+       
+    );
 }

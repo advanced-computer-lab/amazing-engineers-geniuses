@@ -3,7 +3,6 @@ import EditInfo from './EditInfo';
 import ShowUser from './ShowUser';
 import Auth from '../services/Auth';
 import axios from 'axios';
-import {Link} from 'react-router-dom'
 const api = 'http://localhost:8000';
 
 
@@ -40,8 +39,9 @@ export default function Profile(){
     <> 
         {display === 'show' && 
             <div>
-                <ShowUser user={user} />
-                <button onClick={()=>setDisplay('edit')}>Edit</button>
+                <ShowUser setDisplay={setDisplay} user={user} />
+                <br/>
+                {/* <Button  style={{marginLeft:' 100px'}}onClick={()=>setDisplay('edit')}>Edit</Button> */}
             </div>}
         {display === 'edit' && <EditInfo user={user} updateUser={updateUser} />}
         
