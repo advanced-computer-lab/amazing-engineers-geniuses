@@ -98,7 +98,7 @@ export default function SearchFlight(props){
       <h3 style={{textAlign:'left', paddingLeft:'20px', fontWeight:'300', paddingBottom:'10px'}}>Book a Trip</h3>
        <Container id='searchContainer'>
           {showSpinner && 
-            <div className="pos-center text-primary" style={{width: '100px', height: '100px'}} >   
+            <div className="pos-center text-primary" style={{width: '100px', height: '100px', zIndex:'20'}} >   
               <Spinner animation="border" />
               <span >Loading...</span>
             </div>}

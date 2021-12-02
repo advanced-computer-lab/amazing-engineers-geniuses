@@ -213,12 +213,13 @@ export default function CreateBooking(props){
               <Col xs={5}></Col>
               <Col><Spinner style={{alignItems: 'center'}} animation='border'/></Col>
             </Row> } */}
-            {display === "depF" && showSpinner === false &&(
+            {display === "depF" && location.state.flightsWithReturn.length !== 0 && showSpinner === false &&(
               <AvailableFlights
                 setDepF={setDepF}
                 CabinClass={bookingInfo.DepCabinClass}
               />
             )}
+            {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>}
             {
               display === "retF" && showSpinner === false && availableReturnFlights.length !== 0 && (
                 <AvailableReturnFlights
