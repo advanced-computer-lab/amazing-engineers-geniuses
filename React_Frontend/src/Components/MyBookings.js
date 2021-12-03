@@ -52,7 +52,7 @@ export default function MyBookedFlights(props) {
 
     useEffect(async () => {
         var name = curUser.username
-       axios.post(`${api}/user/flight/viewReservations`,{username: name})
+       axios.post(`${api}/user/flight/viewReservations`,{username: "test2"})
         .then(async (res)=>{  
             console.log(res.data.listOfBookings, "ress dataaa");
             setBookings(res.data.listOfBookings);

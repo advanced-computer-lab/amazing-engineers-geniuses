@@ -133,7 +133,7 @@ const viewDetailsClicked = () => {
 }
 
 const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, canceledCost) => {
-    axios.post(`${api}/user/flight/cancelReservations`, {username : curUser.username, bookingNumber : canceledNumber})
+    axios.post(`${api}/user/flight/cancelReservations`, {username : "test2", bookingNumber : canceledNumber})
     .then((res) => {
         console.log(canceledNumber, "canceleeeeddd");
         console.log(res.data);
@@ -143,8 +143,8 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
             console.log(error);
         }
     })
-    
     setOpen(false);
+    window.location.reload();
     
     await axios.post(`${api}/user/sendConfirmation`, {email: curUser.Email, emailSubject: "Reservation Canceled" , emailBody: "This is to inform you that you have canceled your flight from " + 
      canceledFrom + " to " + canceledTo + " an amount of " + canceledCost + " EGP has been added to your account"})
@@ -157,7 +157,7 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
             console.log(error);
         }
     })
-    window.location.reload();
+  
  
 }
 

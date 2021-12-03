@@ -60,9 +60,9 @@ const sendEmail = (req, res) => {
 
 const viewReservations = (req, res) => {
     // console.log(req.body, "good shit's here")
-    userName = req.body.username;   
+    userName = "test2";   
     console.log(userName, "ussssseeeerrrrrrrrrrrrr");
-    User.find({username : userName}).then ( (user) => {
+    User.find({username : "test2"}).then ( (user) => {
         var BookedArr = [];
         var retrievedBookingsArr = user[0].Bookings;
 
@@ -93,6 +93,16 @@ const getDepartureAirport =  (req, res) =>{
         }
     })
 }
+
+const deleteBooking = (req, res) => {
+    const bookingId = req.body.bookingId;
+    Bookings.deleteOne({ _id : bookingId }).then(function(){
+        return res.json({message : "Deleted"}); // Success
+    }).catch(function(error){
+        console.log(error); // Failure
+    });
+}
+    
 
 const getArrivalAirport = (req, res) =>{
     arrivalId = req.body.arrivalId;
@@ -149,5 +159,6 @@ module.exports = {
     sendEmail,
     getArrivalAirport,
     getDepartureAirport,
-    addBookingtoUser
+    addBookingtoUser,
+    deleteBooking
 }

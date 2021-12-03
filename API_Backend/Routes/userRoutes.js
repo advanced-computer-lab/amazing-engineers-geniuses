@@ -15,6 +15,7 @@ router.get('/flight/getArrivalAirport', userController.getArrivalAirport);
 router.post('/flight/getArrivalAirport', userController.getArrivalAirport);
 router.get('/flight/getDepartureAirport', userController.getDepartureAirport);
 router.post('/flight/getDepartureAirport', userController.getDepartureAirport);
+router.post('/flight/deleteBooking', userController.deleteBooking);
 router.post('/sendConfirmation', userController.sendEmail);    
 router.post('/searchFlights',flightController.searchFlights);
 router.post('/createBooking', bookingController.createBooking);
