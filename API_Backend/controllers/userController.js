@@ -3,6 +3,29 @@ const Flights = require('../models/Flight');
 const Bookings = require('../models/Booking');
 const nodemailer = require("nodemailer");
 
+const addBookingtoUser = (newBooking,userId)=>{
+    console.log(userId)
+    User.findById(userId,(err,user)=>{
+        if(err)
+            console.log(err);
+        else{
+            let userBookings = user.Bookings;
+            let newBookings = [...userBookings,newBooking]
+            User.findByIdAndUpdate(user._id,{Bookings: newBookings},(err,booking)=>{
+                if(err){
+                    console.log(err);
+                    return err;
+                }
+                else{
+                    return booking
+                }
+            })
+        }
+    })
+
+   
+}
+
 const sendEmail = (req, res) => {
     let userEmail = req.body.email;
     let emailSubject = req.body.emailSubject
@@ -125,5 +148,6 @@ module.exports = {
     cancelReservation,
     sendEmail,
     getArrivalAirport,
-    getDepartureAirport 
+    getDepartureAirport,
+    addBookingtoUser
 }

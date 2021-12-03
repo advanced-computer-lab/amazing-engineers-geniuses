@@ -49,7 +49,7 @@ export default function NavBar(){
                         :<NavDropdown title={<span><i className="fas fa-user"></i>  Hello {currentUser.username}</span>} id="acc-dropdown" show={showAcc} onMouseEnter={showDropdown} onMouseLeave={(e)=>setAcc(false)}>
                             <NavDropdown.Item href="/profile" eventKey="2.1">My Profile</NavDropdown.Item>
                             {!currentUser.isAdmin 
-                            ? <NavDropdown.Item eventKey="2.2">My Bookings</NavDropdown.Item>
+                            ? <NavDropdown.Item eventKey="2.2" href='/viewMyBookings'>My Bookings</NavDropdown.Item>
                             : <NavDropdown.Item href='/admin/flight/show' eventKey="2.2">Manage Flights</NavDropdown.Item>
                             }
                             <NavDropdown.Item eventKey="2.3" onClick={logout}>Logout</NavDropdown.Item>

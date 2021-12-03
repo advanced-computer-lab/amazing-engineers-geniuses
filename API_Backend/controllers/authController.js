@@ -41,15 +41,17 @@ const login = async (req,res,next) =>{
 const register = async (req,res,next) =>{
     try{
         let user = await User.create(req.body);
-        let {id, username} = user;
+        let {id, username, Email} = user;
         let token = jwt.sign({
             id: id,
-            username: username
+            username: username,
+            Email: Email,
         }, process.env.SECRET_KEY
         );
         return res.status(200).send({
             id,
             username,
+            Email,
             token
         });
     }

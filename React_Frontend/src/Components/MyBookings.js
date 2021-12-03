@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import axios from 'axios';
 import BookingItem from './BookingItem';
 import Auth from '../services/Auth';
+import {Spinner} from 'react-bootstrap'
 
 import { makeStyles } from "@mui/styles";
 
@@ -42,6 +43,7 @@ export default function MyBookedFlights(props) {
     const [open, setOpen] = React.useState(false);
     const [list, setList] = React.useState([]);
     const curUser = Auth.getCurrentUser();
+    const [showSpinner, setSpinner] = React.useState(true);
 
 
 
@@ -57,6 +59,7 @@ export default function MyBookedFlights(props) {
             setList(res.data.listOfBookings.map((booking)=>
                  (<BookingItem booking={booking}/>)
             ))
+            setSpinner(false);
         })
         .catch((error)=>{
             if(error){
@@ -71,8 +74,16 @@ export default function MyBookedFlights(props) {
 
     return(
         <div>
-            <h1 className = {classes.title}>My Bookings</h1>
-            {list}
+            {showSpinner && 
+            <div className="pos-center text-primary" style={{width: '100px', height: '100px'}} >   
+              <Spinner animation="border" />
+              <span >Loading...</span>
+              {/* </Spinner> */}
+            </div>}
+            {!showSpinner && <div>
+                <h1 className = {classes.title}>My Bookings</h1>
+                {list}
+            </div>}
         </div>
     )
 }

@@ -19,7 +19,7 @@ export default function ShowUser(props){
                     <hr/>
                 
                      <Card.Title > <i class="fas fa-user"></i> {"Username: "} </Card.Title>
-                     <Card.Subtitle style={ {paddingLeft: '30px'}} className="mb-2 text-muted">{user.FirstName}</Card.Subtitle>
+                     <Card.Subtitle style={ {paddingLeft: '30px'}} className="mb-2 text-muted">{user.username}</Card.Subtitle>
                     <hr/>
                     <Card.Title > {"First Name: "} </Card.Title>
                     <Card.Subtitle style={ {paddingLeft: '15px'}} className="mb-2 text-muted">  {user.FirstName}</Card.Subtitle>
