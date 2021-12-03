@@ -36,6 +36,7 @@ const sendEmail = (req, res) => {
 
 
 const viewReservations = (req, res) => {
+    // console.log(req.body, "good shit's here")
     userName = req.body.username;   
     console.log(userName, "ussssseeeerrrrrrrrrrrrr");
     User.find({username : "test2"}).then ( (user) => {
@@ -55,7 +56,8 @@ const viewReservations = (req, res) => {
 }                          
 
 const getDepartureAirport =  (req, res) =>{
-    departureId = req.body.departureId;
+    // console.log(req.body.departureId, "little shit's here");
+    const departureId = req.body.departureId;
     // var departureFrom = "";
 
     Flights.findById(departureId, (err, data) => {
@@ -63,22 +65,23 @@ const getDepartureAirport =  (req, res) =>{
             return res.json({err});
         }
         else{
-            // const departureAirport = data.FromAirport
-            return res.json({data});
+            const departureAirport = data.FromAirport
+            return res.json({departureAirport});
         }
     })
 }
 
 const getArrivalAirport = (req, res) =>{
+    // console.log(req.body, "little shit's here");
     arrivalId = req.body.arrivalId;
 
-    Flights.findById(arrivalId, (err, data) => {
+    Flights.find({_id : arrivalId}, (err, data) => {
         if(err){
             return res.json({err});
         }
         else{
             const arrivalAirport = data.ToAirport
-            console.log(data);
+            // console.log(data);
             return res.json({arrivalAirport});
         }
     })

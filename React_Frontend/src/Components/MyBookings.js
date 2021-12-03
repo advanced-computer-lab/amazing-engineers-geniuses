@@ -38,10 +38,13 @@ const style = {
 export default function MyBookedFlights(props) {
 
     const [flightsArr, setFlightsArr] = React.useState([]);
-    const [clicked, setClicked] = React.useState(false);
-    // const [canceledNumber, setCanceledNumber] = React.useState(0);
+    const [arrivalAirportArr, setArrivalAirportArr] = React.useState([]);
+    const [departureAirportArr, setDepartureAirportArr] = React.useState([]);
     const [open, setOpen] = React.useState(false);
-
+    const [change, setChange] = React.useState(false);
+    const [flightFrom, setFlightFrom] = React.useState("");
+    let curFlightFrom = "";
+    let curFlightTo = "";
 
     const handleConfirmOpen = () => {
         setOpen(true);
@@ -67,6 +70,7 @@ export default function MyBookedFlights(props) {
             console.log(res.data)
         }).catch((error) =>{
             if(error){
+
                 console.log(error);
             }
         })
@@ -79,35 +83,54 @@ export default function MyBookedFlights(props) {
 
     useEffect(async () => {
         var name = "test2"
-       await axios.get(`${api}/user/flight/viewReservations`,{username:"test2"})
-        .then((res)=>{
+       axios.post(`${api}/user/flight/viewReservations`,{username:"test2"})
+        .then(async (res)=>{  
             console.log(res.data.listOfBookings, "ress dataaa");
+            const tempArr = res.data.listOfBookings;
             setFlightsArr(res.data.listOfBookings);
+            for(let i=0;i<res.data.listOfBookings.length;i++){
+            //    getDeparture(res.data.listOfBookings[i].DepartureFlight);
+            }
+            // console.log(departureAirportArr, "booooooooo")
         }).catch((error)=>{
             if(error){
                 console.log(error);
             };
-        });
+        },
+
+        );
+        
     }, []);
-
     
-    const getArrival = () => {
-         axios.get(`${api}/user/flight/getArrivalAirport`, {arrivalId : "61a4b96f5c0946c174b3b0cb"})
+    useEffect (() =>{
+        // console.log(arrivalAirportArr,"arrrrrrr is hereeee");
+        console.log(departureAirportArr, "depppppp is here");
+    },[departureAirportArr]);
+
+    // useEffect (() =>{
+    //     // console.log(arrivalAirportArr,"arrrrrrr is hereeee");
+    //     console.log(departureAirportArr, "arrrrrrr is hereee is here");
+    // },[arrivalAirportArr]);
+
+    const getArrival = (flightId) => {
+        console.log("enterrreddd");
+         axios.post(`${api}/user/flight/getArrivalAirport`, {arrivalId : flightId})
         .then((res) =>{
-            console.log(res,"arrival airport");
-            return res.arrivalAirport;
+            console.log(res.data.arrivalAirport, "ar");
+            setArrivalAirportArr([...arrivalAirportArr, res.data.arrivalAirport]);
         }).catch((error)=>{
             if(error){
                 console.log(error);
             };
         });
     }
-    const getDeparture = (flightId) => {
-
-        axios.get(`${api}/user/flight/getDepartureAirport`, {departureId : flightId})
-        .then((res) =>{
-            console.log(res,"departure");
-            return res.departureAirport;
+    const getDeparture = async (flightId) => {
+        console.log("enterrreddd22222");
+        console.log(flightId, "boooooo");
+        await axios.post(`${api}/user/flight/getDepartureAirport`, {departureId : flightId})
+        .then(async (res) =>{
+            console.log(res.data.departureAirport, "de");
+            await setDepartureAirportArr([...departureAirportArr, res.data.departureAirport]);
         }).catch((error)=>{
             if(error){
                 console.log(error);
@@ -115,7 +138,8 @@ export default function MyBookedFlights(props) {
         });
     }
 
-    
+/// need to get each flight, get its from and to airport, and push them to an array that can be accessed inside
+/// make it do that in the backend by default
     return(
         <div>
             <div className = {classes.title}>
@@ -123,20 +147,15 @@ export default function MyBookedFlights(props) {
             </div>
             {/* {flightsArr[.map((item,i) => <li key={i}>Test</li>)} */}
             {flightsArr.map((flight, key) => {
-                    console.log(flight.DepartureFlight);
-                    // console.log(flight.DepartureFlight, "Departure flighttt")
-                    // console.log(flight.ReturnFlight, "return flighttt")
-                    getDeparture(flight.DepartureFlight);
-                    // const departureAirport = getDeparture(flight.ReturnFlight);
-                    // console.log(flightsArr, "flights arrr")
-                    console.log(key, "keyyyyyy")
-                    // console.log(flight[key].TotalCost, "flight flight")
-                    // console.log(flight.listOfBookings, "bobobob")
+                const flightId = flight.DepartureFlight;
+                axios.post(`${api}/user/flight/getDepartureAirport`, {departureId : flightId})
+                console.log(flightFrom, "second flight from");
+
                 return(
-                    <Box>
+                    <Box>   
                     <Booking 
-                        fromAirport = "bob"
-                        // toAirport = {flight.[0].ToAirport}
+                        fromAirport = {departureAirportArr[key]}
+                        toAirport = {arrivalAirportArr[key]}
                         // day = {flight.data[0].DepDate.substring(8,10)}
                         // date = {flight.data[0].DepDate.substring(0,7)}
                         // price = "5000"
