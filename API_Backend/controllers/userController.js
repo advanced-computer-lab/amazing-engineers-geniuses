@@ -65,7 +65,7 @@ const getDepartureAirport =  (req, res) =>{
             return res.json({err});
         }
         else{
-            const departureAirport = data.FromAirport
+            const departureAirport = data
             return res.json({departureAirport});
         }
     })
@@ -104,28 +104,21 @@ const getArrivalAirport = (req, res) =>{
  const cancelReservation =  (req, res) => {
     var reservationsArr = [];
     userName = req.body.username;
-
-    flightNumber = req.body.flightId;
-    let user =  User.findOne({username: userName}, (err, data) => {
+    console.log(userName, "useerrrrrr");
+    bookingNumber = req.body.bookingNumber
+    console.log(bookingNumber, "bookkinunggg")
+    let user =  User.findOneAndUpdate({username: userName}, { $pull: {Bookings: bookingNumber} }, (err, data) => {
         if(err){
             return res.json({"error" : err});
         }
         else{
-            Bookings.findByIdAndDelete(flightNumber, (err, res) => {
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    console.log("deleted");
-                }
-            })
+                return res.json({data});
+            }
 
-        }
-        // data.save();   
         });  
+ 
+
  }
-
-
 
 
 module.exports = {

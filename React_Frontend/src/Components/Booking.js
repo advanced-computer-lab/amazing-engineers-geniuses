@@ -134,7 +134,7 @@ export default function Booking (props) {
             <CardActions>
                 <div  style={{display : "flex"}}>
                     <Button onClick={props.handleConfirmOpen} className = {classes.cancelButton} size="small">Cancel</Button>
-                    <Button className = {classes.viewDetailsButton} size="small">Details</Button>
+                    <Button onClick = {props.viewDetails} className = {classes.viewDetailsButton} size="small">Details</Button>
                 </div>
             </CardActions>
             </React.Fragment>
