@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Modal from '@mui/material/Modal';
+import BookingItem from './BookingItem';
 const api = 'http://localhost:8000';
 
 
@@ -37,10 +38,11 @@ const style = {
 
 export default function MyBookedFlights(props) {
 
-    const [flightsArr, setFlightsArr] = React.useState([]);
+    const [bookings, setBookings] = React.useState([]);
     const [clicked, setClicked] = React.useState(false);
     // const [canceledNumber, setCanceledNumber] = React.useState(0);
     const [open, setOpen] = React.useState(false);
+    const [list, setList] = React.useState([]);
 
 
     const handleConfirmOpen = () => {
@@ -82,8 +84,12 @@ export default function MyBookedFlights(props) {
        await axios.get(`${api}/user/flight/viewReservations`,{username:"test2"})
         .then((res)=>{
             console.log(res.data.listOfBookings, "ress dataaa");
-            setFlightsArr(res.data.listOfBookings);
-        }).catch((error)=>{
+            setBookings(res.data.listOfBookings);
+            setList(res.data.listOfBookings.map((booking)=>
+                 (<BookingItem booking={booking}/>)
+            ))
+        })
+        .catch((error)=>{
             if(error){
                 console.log(error);
             };
@@ -116,57 +122,64 @@ export default function MyBookedFlights(props) {
     }
 
     
+    // return(
+    //     <div>
+    //         <div className = {classes.title}>
+    //              <h1>My Bookings</h1>
+    //         </div>
+    //         {/* {flightsArr[.map((item,i) => <li key={i}>Test</li>)} */}
+    //         {flightsArr.map((flight, key) => {
+    //                 console.log(flight.DepartureFlight);
+    //                 // console.log(flight.DepartureFlight, "Departure flighttt")
+    //                 // console.log(flight.ReturnFlight, "return flighttt")
+    //                 getDeparture(flight.DepartureFlight);
+    //                 // const departureAirport = getDeparture(flight.ReturnFlight);
+    //                 // console.log(flightsArr, "flights arrr")
+    //                 console.log(key, "keyyyyyy")
+    //                 // console.log(flight[key].TotalCost, "flight flight")
+    //                 // console.log(flight.listOfBookings, "bobobob")
+    //             return(
+    //                 <Box>
+    //                 <Booking 
+    //                     fromAirport = "bob"
+    //                     // toAirport = {flight.[0].ToAirport}
+    //                     // day = {flight.data[0].DepDate.substring(8,10)}
+    //                     // date = {flight.data[0].DepDate.substring(0,7)}
+    //                     // price = "5000"
+    //                     // handleConfirmOpen = {handleConfirmOpen}
+    //                 ></Booking>
+    //                 <Modal
+    //                     open={open}
+    //                     onClose={handleClose}
+    //                     aria-labelledby="modal-modal-title"
+    //                     aria-describedby="modal-modal-description"
+    //             >
+    //         <Box sx={style}>
+    //             <div className = {classes.modalDetails}>
+    //             <Typography id="modal-modal-title" variant="h6" component="h2">
+    //                 Are you sure you want to cancel your booking?
+    //             </Typography>
+    //             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+    //                 Clicking yes will remove your booking 
+    //             </Typography>
+    //             </div>
+    //             <div className = {classes.buttonGroup}>
+    //                 <Button onClick = {(e) => {cancelRequest(e, flight.data[0].FlightNumber)}} className = {classes.confirmCancel}> YES </Button>
+    //                 <Button onClick = {() => {setOpen(false)}}className = {classes.noCancel}> NO </Button>
+    //             </div>
+    //         </Box>
+            
+    //         </Modal>
+    //   </Box>
+    //             )
+    //         })} 
+    //     </div>
+    // )
+
+
     return(
         <div>
-            <div className = {classes.title}>
-                 <h1>My Bookings</h1>
-            </div>
-            {/* {flightsArr[.map((item,i) => <li key={i}>Test</li>)} */}
-            {flightsArr.map((flight, key) => {
-                    console.log(flight.DepartureFlight);
-                    // console.log(flight.DepartureFlight, "Departure flighttt")
-                    // console.log(flight.ReturnFlight, "return flighttt")
-                    getDeparture(flight.DepartureFlight);
-                    // const departureAirport = getDeparture(flight.ReturnFlight);
-                    // console.log(flightsArr, "flights arrr")
-                    console.log(key, "keyyyyyy")
-                    // console.log(flight[key].TotalCost, "flight flight")
-                    // console.log(flight.listOfBookings, "bobobob")
-                return(
-                    <Box>
-                    <Booking 
-                        fromAirport = "bob"
-                        // toAirport = {flight.[0].ToAirport}
-                        // day = {flight.data[0].DepDate.substring(8,10)}
-                        // date = {flight.data[0].DepDate.substring(0,7)}
-                        // price = "5000"
-                        // handleConfirmOpen = {handleConfirmOpen}
-                    ></Booking>
-                    <Modal
-                        open={open}
-                        onClose={handleClose}
-                        aria-labelledby="modal-modal-title"
-                        aria-describedby="modal-modal-description"
-                >
-            <Box sx={style}>
-                <div className = {classes.modalDetails}>
-                <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Are you sure you want to cancel your booking?
-                </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Clicking yes will remove your booking 
-                </Typography>
-                </div>
-                <div className = {classes.buttonGroup}>
-                    <Button onClick = {(e) => {cancelRequest(e, flight.data[0].FlightNumber)}} className = {classes.confirmCancel}> YES </Button>
-                    <Button onClick = {() => {setOpen(false)}}className = {classes.noCancel}> NO </Button>
-                </div>
-            </Box>
-            
-            </Modal>
-      </Box>
-                )
-            })} 
+            {list}
         </div>
     )
 }
