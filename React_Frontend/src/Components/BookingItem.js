@@ -146,7 +146,7 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
     
     setOpen(false);
     
-    await axios.post(`${api}/user/sendConfirmation`, {email: curUser.email, emailSubject: "Reservation Canceled" , emailBody: "This is to inform you that you have canceled your flight from" + 
+    await axios.post(`${api}/user/sendConfirmation`, {email: curUser.Email, emailSubject: "Reservation Canceled" , emailBody: "This is to inform you that you have canceled your flight from" + 
      canceledFrom + "to " + canceledTo + "an amount of " + canceledCost + "EGP has been added to your account"})
     .then((res) => {
         console.log("email sent")
