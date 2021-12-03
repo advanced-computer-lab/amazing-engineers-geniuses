@@ -6,18 +6,20 @@ const login = async (req,res,next) =>{
         let user = await User.findOne({
             username: req.body.username
         });
-        let {id, username, isAdmin} = user;
+        let {id, username, isAdmin, Email} = user;
         let isMatch = await user.comparePassword(req.body.password);
         if(isMatch){
             let token = jwt.sign({
                 id: id,
                 username: username,
-                isAdmin: isAdmin
+                isAdmin: isAdmin,
+                Email: Email
             },process.env.SECRET_KEY);
             return res.status(200).send({
                 id,
                 username,
                 isAdmin,
+                Email,
                 token
             });
         }
@@ -39,15 +41,17 @@ const login = async (req,res,next) =>{
 const register = async (req,res,next) =>{
     try{
         let user = await User.create(req.body);
-        let {id, username} = user;
+        let {id, username, Email} = user;
         let token = jwt.sign({
             id: id,
-            username: username
+            username: username,
+            Email: Email,
         }, process.env.SECRET_KEY
         );
         return res.status(200).send({
             id,
             username,
+            Email,
             token
         });
     }

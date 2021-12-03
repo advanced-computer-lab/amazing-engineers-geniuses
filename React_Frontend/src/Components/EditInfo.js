@@ -24,7 +24,7 @@ export default function EditInfo(props){
                   <hr/>
                  
                   <Card.Title > <i class="fas fa-user"></i> {"Username: "} </Card.Title>
-                  <Card.Subtitle style={ {paddingLeft: '30px'}} className="mb-2 text-muted">{user.FirstName}</Card.Subtitle> 
+                  <Card.Subtitle style={ {paddingLeft: '30px'}} className="mb-2 text-muted">{user.username}</Card.Subtitle> 
                   
                   <hr/>
                   <Form.Group  as={Col} controlId="formGridFirstName">

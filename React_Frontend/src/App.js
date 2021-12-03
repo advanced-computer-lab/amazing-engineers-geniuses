@@ -6,6 +6,7 @@ import Homepage from './Components/HomePage';
 import Login from './Components/Login';
 import Register from './Components/Register';
 import AdminRoutes from './Components/AdminRoutes';
+import MyBookings from './Components/MyBookings';
 import Auth from './services/Auth';
 import NavBar from './Components/NavBar.js';
 import AvailableFlights from './Components/AvailableFlights';
@@ -35,6 +36,7 @@ class App extends Component {
           <NavBar/>
           <Route exact path='/' component={Homepage} />
           <Route path='/flightSchedule' component={FlightSchedule} />
+          <Route path='/viewMyBookings' component={MyBookings} />
           {this.state.currentUser.isAdmin && <AdminRoutes/>}
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
