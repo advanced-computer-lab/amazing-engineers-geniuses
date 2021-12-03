@@ -39,7 +39,7 @@ const viewReservations = (req, res) => {
     // console.log(req.body, "good shit's here")
     userName = req.body.username;   
     console.log(userName, "ussssseeeerrrrrrrrrrrrr");
-    User.find({username : "test2"}).then ( (user) => {
+    User.find({username : userName}).then ( (user) => {
         var BookedArr = [];
         var retrievedBookingsArr = user[0].Bookings;
 
@@ -72,7 +72,6 @@ const getDepartureAirport =  (req, res) =>{
 }
 
 const getArrivalAirport = (req, res) =>{
-    // console.log(req.body, "little shit's here");
     arrivalId = req.body.arrivalId;
 
     Flights.find({_id : arrivalId}, (err, data) => {

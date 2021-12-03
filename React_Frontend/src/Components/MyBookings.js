@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import axios from 'axios';
 import BookingItem from './BookingItem';
+import Auth from '../services/Auth';
 
 import { makeStyles } from "@mui/styles";
 
@@ -40,6 +41,7 @@ export default function MyBookedFlights(props) {
     // const [canceledNumber, setCanceledNumber] = React.useState(0);
     const [open, setOpen] = React.useState(false);
     const [list, setList] = React.useState([]);
+    const curUser = Auth.getCurrentUser();
 
 
 
@@ -47,8 +49,8 @@ export default function MyBookedFlights(props) {
     const classes = useStyles();
 
     useEffect(async () => {
-        var name = "test2"
-       axios.post(`${api}/user/flight/viewReservations`,{username:"test2"})
+        var name = curUser.username
+       axios.post(`${api}/user/flight/viewReservations`,{username: name})
         .then(async (res)=>{  
             console.log(res.data.listOfBookings, "ress dataaa");
             setBookings(res.data.listOfBookings);

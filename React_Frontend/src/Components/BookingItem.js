@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
 import Booking from './Booking';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import Modal from '@mui/material/Modal';
+import Auth from '../services/Auth';
 const api = 'http://localhost:8000'
 
 
@@ -77,8 +78,8 @@ export default function BookingItem(props){
     const [date, setDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
     const [returnExists, setReturnExists] = useState(true);
-    const booking = props.booking
-
+    const curUser = Auth.getCurrentUser();
+    const booking = props.booking;
     function createData(item, info) {
         return { item, info };
       }
@@ -132,7 +133,7 @@ const viewDetailsClicked = () => {
 }
 
 const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, canceledCost) => {
-    axios.post(`${api}/user/flight/cancelReservations`, {username : "test2", bookingNumber : canceledNumber})
+    axios.post(`${api}/user/flight/cancelReservations`, {username : curUser.username, bookingNumber : canceledNumber})
     .then((res) => {
         console.log(canceledNumber, "canceleeeeddd");
         console.log(res.data);
@@ -145,7 +146,7 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
     
     setOpen(false);
     
-    await axios.post(`${api}/user/sendConfirmation`, {email: "davidedwarattia@gmail.com", emailSubject: "Reservation Canceled" , emailBody: "This is to inform you that you have canceled your flight from" + 
+    await axios.post(`${api}/user/sendConfirmation`, {email: curUser.email, emailSubject: "Reservation Canceled" , emailBody: "This is to inform you that you have canceled your flight from" + 
      canceledFrom + "to " + canceledTo + "an amount of " + canceledCost + "EGP has been added to your account"})
     .then((res) => {
         console.log("email sent")
@@ -156,7 +157,7 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
             console.log(error);
         }
     })
-    // window.location.reload();
+    window.location.reload();
  
 }
 
