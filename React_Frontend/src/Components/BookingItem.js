@@ -133,7 +133,8 @@ const viewDetailsClicked = () => {
 }
 
 const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, canceledCost) => {
-    axios.post(`${api}/user/flight/cancelReservations`, {username : "test2", bookingNumber : canceledNumber})
+    const name = curUser.username
+    axios.post(`${api}/user/flight/cancelReservations`, {username : name, bookingNumber : canceledNumber})
     .then((res) => {
         console.log(canceledNumber, "canceleeeeddd");
         console.log(res.data);

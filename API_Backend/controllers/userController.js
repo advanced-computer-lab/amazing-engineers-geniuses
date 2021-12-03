@@ -60,9 +60,9 @@ const sendEmail = (req, res) => {
 
 const viewReservations = (req, res) => {
     // console.log(req.body, "good shit's here")
-    userName = "test2";   
+    userName = req.body.username;   
     console.log(userName, "ussssseeeerrrrrrrrrrrrr");
-    User.find({username : "test2"}).then ( (user) => {
+    User.find({username : userName}).then ( (user) => {
         var BookedArr = [];
         var retrievedBookingsArr = user[0].Bookings;
 
