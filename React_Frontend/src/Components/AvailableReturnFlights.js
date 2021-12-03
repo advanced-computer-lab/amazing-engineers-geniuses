@@ -1,14 +1,11 @@
-import React,{ Component, useEffect,useState } from 'react';
+import React,{ useEffect,useState } from 'react';
 import FlightItem from './FlightItem';
 import { Accordion } from 'react-bootstrap';
-import { useLocation } from "react-router-dom";
 
-const api = 'http://localhost:8000';
 
 export default function AvailableReturnFlights(props){
   const [returnFlights,setReturnFlights] = useState(props.rFs);
   const [departureFlight, setDepartureFlight] = useState(props.departureFlight);
-  const [cabinClass,setCabinClass]= useState(props.CabinClass);
   const [list,setList] = useState([])
 
   useEffect(() => {

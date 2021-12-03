@@ -18,6 +18,21 @@ const SeatList = new Schema({
     Available:[String]
 },{ _id : false })
 
+// const KidPrice = new Schema({
+//     Econ:{
+//         type: Number,
+//         min: 0
+//     },
+//     Bus:{
+//         type: Number,
+//         min: 0
+//     },
+//     First:{
+//         type: Number,
+//         min: 0
+//     },
+// },{ _id : false })
+
 
 const Price = new Schema({
     Econ:{
@@ -119,6 +134,11 @@ const flightSchema = new Schema({
         type:Price,
         required:true
     },
+    // KidPrice:{
+    //     type:Price,
+    //     required:true
+
+    // },
   
     Duration:{
         type:String,

@@ -1,0 +1,12 @@
+#searchForm{
+    border: 2px solid white;
+    border-radius: 10px;
+    background-color: rgba(228, 227, 227, 0.247);
+    padding-bottom: 20px;
+}
+
+
+#searchContainer .row{
+    justify-content: center;
+    margin: 0px;
+}

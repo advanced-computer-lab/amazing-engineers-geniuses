@@ -1,10 +1,7 @@
-import React, { Component, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import FlightItem from './FlightItem';
 import { Accordion } from 'react-bootstrap';
 import { useLocation } from "react-router-dom";
-
-const api = 'http://localhost:8000';
 
 export default function AvailableFlights(props) {
   const location = useLocation();
@@ -18,9 +15,6 @@ export default function AvailableFlights(props) {
  
 
   useEffect(() => {
-    console.log(location.pathname);
-    console.log(location.state.flightsWithReturn);
-    //console.log(location.state.RetDate);
     setFlightList(flights.map((flight, key)=>
  
       <FlightItem setDepF={props.setDepF} hideBtn={true} showSelect={true} showSelect2={false} CabinClass={props.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> ))

@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { useHistory } from 'react-router';
 import { Alert,Form,Button } from 'react-bootstrap';
 import Auth from "../services/Auth";
 
@@ -10,7 +9,6 @@ export default function Login(props){
     const [password,setPassword] = useState('');
     const [displayFlash,setFlash] = useState(false);
     const [errMsg,setErrMsg] = useState('Error');
-    const history = useHistory()
     
     const handleLogin = ()=>{
         Auth.login(username, password)

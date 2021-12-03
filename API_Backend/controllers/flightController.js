@@ -13,6 +13,13 @@ const createFlight = async (req,res)=>{
    let seatList = createSeatsList(req.body.EconomySeats, req.body.BusinessSeats, req.body.FirstClassSeats);
    let duration = calcFlightDuration(dep,arr);
    console.log(duration);
+
+   // const KidPrice = {
+   //    Econ:req.body.EconPrice,
+   //    First:req.body.FirstPrice,
+   //    Bus:req.body.BusPrice,
+
+   // }
    const Price = {
       Econ:req.body.EconPrice,
       First:req.body.FirstPrice,
@@ -111,19 +118,6 @@ const searchFlights = async (req,res) =>{
    // console.log(req.body.RetDate);
    let flights=[];
 
-   // console.log("Bodyobj",bodyObj);
-
-   // Flight.find(bodyObj,(err,flights)=>{
-   //   if(err){
-   //      return res.status(500).send({message: err})
-   //   }
-   //   else{
-   //      flights = flights.filter((flight)=>(
-   //         findReturnFlights(flight,req.body.RetDate).length !== 0
-   //      ))
-   //   }
-   // })
-
    flights = await Flight.find(bodyObj);
    // console.log("Flights before RetDate filter",flights)
    flights = flights.filter(async(flight)=>(
@@ -206,6 +200,13 @@ const updateFlight = (req, res) => {
          First:req.body.FirstPrice,
          Bus:req.body.BusPrice,
       }
+
+      // const KidPrice = {
+      //    con:req.body.EconPrice,
+      //    First:req.body.FirstPrice,
+      //    Bus:req.body.BusPrice,
+   
+      // }
       
       const Bag = {
          Econ: req.body.EconBag,
@@ -227,6 +228,7 @@ const updateFlight = (req, res) => {
          ToAirport: req.body.ToAirport,
          Terminal: req.body.Terminal,
          Price: Price,
+         //KidPrice:KidPrice,
          BaggageAllowance: Bag,
          Duration: duration
       };

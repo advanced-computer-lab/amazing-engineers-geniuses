@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Button, Modal, Accordion, Row, Col } from 'react-bootstrap';
-import axios from 'axios';
 import { withRouter } from "react-router-dom";
 import Auth from "../services/Auth";
 import '../Styles/FlightItem.css';
-import { useLocation } from "react-router-dom";
 
 
 const Router = require('react-router-dom');
-const api = 'http://localhost:8000';
 const Link = Router.Link
 
 class FlightItem extends Component {
@@ -22,6 +19,8 @@ class FlightItem extends Component {
       returnFlights: [],
       showBookingConfirmation: false,
       PassengersNumber: '',
+      AdultPassengers:'',
+      KidPassengers:'',
       departureFlight: '',
       //returnFlight:''
     }
@@ -34,18 +33,6 @@ class FlightItem extends Component {
     console.log(this.props.flight);
     this.props.deleteFlight(this.props.flight._id);
   }
-
-
-  // bookDepFlight() {
-  //   const bookedFlight = this.props.flight; //DEPARTURE FLIGHT
-  //   const bookedId = this.props.flight._id;
-  //   console.log("aaaaaaaa");
-  //   const returnFlights = this.props.returnFlights;
-  //   this.props.history.push({
-  //     pathname: '/availableReturnFlights',
-  //     state: { returnFlights: returnFlights, bookedFlight: bookedFlight, CabinClass: this.props.CabinClass }
-  //   });
-  // }
   
   bookDepFlight(){
     this.props.setDepF(this.props.flight, this.props.returnFlights);
@@ -53,19 +40,6 @@ class FlightItem extends Component {
   
   //---------------------------------------------------
   bookReturnFlight() {
-    // const returnFlight = this.props.flight; //RETURN FLIGHT
-    // const depFlight = this.props.depFlight;
-    // console.log(this.state.departureFlight);
-
-    //  this.setState({
-    //    returnFlight: this.props.fligh
-    //  });
-
-    // this.props.history.push({
-    //   pathname: '/chooseSeats',
-    //   state: { returnFlight: returnFlight, departureFlight: depFlight, CabinClass: this.props.CabinClass, PassengersNumber: this.props.PassengersNumber }
-    // });
-
     this.props.setRetF(this.props.flight);
   }
 
@@ -172,41 +146,6 @@ class FlightItem extends Component {
               </Row>
             </Accordion.Header>
             <Accordion.Body>
-              {/* {this.state.currentUser.isAdmin && (
-                    <ul>
-                      <li>Flight Number: {this.props.flight.FlightNumber}</li>
-                      <li>
-                        Departure: {this.props.flight.Departure.Hours}:
-                        {this.props.flight.Departure.Minutes}
-                        {this.props.flight.Departure.Period} | {dep.getDate()}-
-                        {dep.getMonth() + 1}-{dep.getFullYear()}
-                      </li>
-                      <li>
-                        Arrival: {this.props.flight.Arrival.Hours}:
-                        {this.props.flight.Arrival.Minutes}
-                        {this.props.flight.Arrival.Period} | {arr.getDate()}-
-                        {arr.getMonth() + 1}-{arr.getFullYear()}
-                      </li>
-                      <li>
-                        Economy Class Seats: {this.props.flight.EconomySeats} |
-                        Price: {this.props.flight.Price.Econ}$ | Baggage
-                        Allowance: {this.props.flight.BaggageAllowance.Econ}kg
-                      </li>
-                      <li>
-                        Business Class Seats: {this.props.flight.BusinessSeats} |
-                        Price: {this.props.flight.Price.Bus}$ | Baggage
-                        Allowance: {this.props.flight.BaggageAllowance.Bus}kg
-                      </li>
-                      <li>
-                        First Class Seats: {this.props.flight.FirstClassSeats} |
-                        Price: {this.props.flight.Price.First}$ | Baggage
-                        Allowance: {this.props.flight.BaggageAllowance.First}kg
-                      </li>
-                      <li>Duration: {this.props.flight.Duration.split(':')[0]} hours {this.props.flight.Duration.split(':')[1] !== '0' && <span>and {this.props.flight.Duration.split(':')[1]} minutes</span>}</li>
-                      <li>Terminal: {this.props.flight.Terminal} </li>
-                    </ul>
-                  )}
-                  {!this.state.currentUser.isAdmin && ( */}
               <ul>
                 <li>Flight Number: {this.props.flight.FlightNumber}</li>
                 <li>
@@ -221,34 +160,30 @@ class FlightItem extends Component {
                   {this.props.flight.Arrival.Period} | {arr.getDate()}-
                         {arr.getMonth() + 1}-{arr.getFullYear()}
                 </li>
-                {(this.props.CabinClass == "E" || this.state.currentUser.isAdmin) &&
-                  <li>
-
-                    Cabin Class: {"Economy"}
-                          Seats: {this.props.flight.EconomySeats} |
-                          Price: {this.props.flight.Price.Econ}$ |
-                          Baggage Allowance: {this.props.flight.BaggageAllowance.Econ} kg
-                        </li>
+                {(this.props.CabinClass === "E" || this.state.currentUser.isAdmin) &&
+                  <div>
+                    <li>Cabin Class: Economy </li>
+                    <li>Seats: {this.props.flight.EconomySeats}</li>
+                    <li> Price: {this.props.flight.Price.Econ}$ </li>
+                    <li> Baggage Allowance: {this.props.flight.BaggageAllowance.Econ} kg</li>
+                  </div>
                 }
-                {(this.props.CabinClass == "B" || this.state.currentUser.isAdmin) &&
-                  <li>
-
-                    Cabin Class: {"Business"}
-                          Seats: {this.props.flight.BusinessSeats} |
-                          Price: {this.props.flight.Price.Bus}$ |
-                          Baggage Allowance: {this.props.flight.BaggageAllowance.Bus} kg
-
-                        </li>
+                {(this.props.CabinClass === "B" || this.state.currentUser.isAdmin) &&
+                <div>
+                   <li> Cabin Class: Business </li>
+                   <li> Seats: {this.props.flight.BusinessSeats} </li>
+                   <li>Price: {this.props.flight.Price.Bus}$ </li>
+                   <li>Baggage Allowance: {this.props.flight.BaggageAllowance.Bus} kg </li>
+                </div>
                 }
-                {(this.props.CabinClass == "F" || this.state.currentUser.isAdmin) &&
-                  <li>
-
-                    Cabin Class: {"First Class"}
-                          Seats: {this.props.flight.FirstClassSeats} |
-                          Price: {this.props.flight.Price.First}$ |
-                          Baggage Allowance: {this.props.flight.BaggageAllowance.First} kg
-
-                        </li>
+                {(this.props.CabinClass === "F" || this.state.currentUser.isAdmin) &&
+                    <div>
+                     <li>Cabin Class: First Class</li>  
+                      <li> Seats: {this.props.flight.FirstClassSeats} </li> 
+                      <li>  Price: {this.props.flight.Price.First}$ </li> 
+                      <li>  Baggage Allowance: {this.props.flight.BaggageAllowance.First} kg </li>
+                      </div>
+  
                 }
                 <li>Duration: {this.props.flight.Duration.split(':')[0]} hours {this.props.flight.Duration.split(':')[1] !== '0' && <span>and {this.props.flight.Duration.split(':')[1]} minutes</span>}</li>
                 <li>Terminal: {this.props.flight.Terminal} </li>

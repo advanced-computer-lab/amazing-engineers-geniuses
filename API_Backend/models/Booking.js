@@ -8,13 +8,13 @@ const bookingSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Flight",
     required: true,
-  }, 
+  },
 
   ReturnFlight: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Flight",
     required: true,
-  }, 
+  },
 
   TotalCost: {
     type: Number,
@@ -28,6 +28,18 @@ const bookingSchema = new Schema({
     min: 1,
   },
 
+  AdultPassengers: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+
+  KidPassengers: {
+    type: Number,
+    required: true,
+    min: 0,
+  },
+
   DepSeats: {
     type: [String],
     required: true,
@@ -38,7 +50,11 @@ const bookingSchema = new Schema({
     required: true,
   },
 
-  CabinClass: {
+  DepCabinClass: {
+    type: String,
+    required: true,
+  },
+  RetCabinClass: {
     type: String,
     required: true,
   },
