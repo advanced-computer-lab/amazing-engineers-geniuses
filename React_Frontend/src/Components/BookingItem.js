@@ -133,16 +133,23 @@ const viewDetailsClicked = () => {
 }
 
 const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, canceledCost) => {
-    axios.post(`${api}/user/flight/cancelReservations`, {username : curUser.username, bookingNumber : canceledNumber})
+    axios.post(`${api}/user/flight/cancelReservations`, {username : curUser.username, bookingNumber : canceledNumber, DepId: dep._id, RetId: ret._id, DepSeats: booking.DepSeats, RetSeats: booking.RetSeats, DepList: dep.SeatsList, RetList: ret.SeatsList})
     .then((res) => {
         console.log(canceledNumber, "canceleeeeddd");
-        console.log(res.data);
+        // console.log(res.data);
         console.log("successs");
     }).catch((error) => {
         if(error){
             console.log(error);
         }
     })
+
+    // axios.post(`${api}/user/flight/addSeatsCancelled`,{Booking: props.booking})
+    // .then((res)=>{
+    //   console.log(res.data);
+    // }).catch((err)=>{
+    //   console.log(err)
+    // })
     
     setOpen(false);
     
