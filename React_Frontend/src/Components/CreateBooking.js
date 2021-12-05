@@ -29,6 +29,7 @@ export default function CreateBooking(props){
     const[showDepBread,setDepBread]= useState(true);
     const[showRetBread,setRetBread]= useState(false);
     const[showSeatBread,setSeatBread]= useState(false);
+    const[depPrice, setDepPrice] = useState(0);
     
     const [bookingInfo, setBookingInfo] = useState({
         bID: '',
@@ -87,6 +88,7 @@ export default function CreateBooking(props){
     function setDepF(flight,returnFlights){
         const cabin = getClass2(bookingInfo.DepCabinClass);
         let price = flight.Price[cabin] * bookingInfo.AdultPassengers + (flight.Price[cabin] / 2) * bookingInfo.KidPassengers;
+        setDepPrice(price);
         console.log('price dep',price);
         setBookingInfo({...bookingInfo,DepartureFlight: flight,TotalCost: price });
         setAvailableReturnFlights(returnFlights);
@@ -250,6 +252,7 @@ export default function CreateBooking(props){
             <Col xs={4} style={{textAlign:'center'}}>
               <FlightSummary
                 bookingInfo={bookingInfo}
+                depPrice = {depPrice}
                 showConfirm={showConfirmModal}
               />
             </Col>

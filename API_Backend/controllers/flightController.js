@@ -248,6 +248,53 @@ const updateFlight = (req, res) => {
    }
 }
 
+const addSeats = (req,res)=>{
+   let booking = req.body.Booking;
+   let depId = booking.DepartureFlight;
+   let retId = booking.ReturnFlight;
+   let depSeats = booking.DepSeats;
+   let retSeats = booking.RetSeats;
+   Flight.findById(depId,(err,depFlight)=>{
+      if(err)
+         console.log(err);
+      else{
+         let newSeats = [...depFlight.SeatsList.Available, depSeats];
+         let newSeatsList= {
+            Econ: depFlight.SeatsList.Econ,
+            Bus: depFlight.SeatsList.Bus,
+            First: depFlight.SeatsList.First,
+            Available: newSeats
+         }
+         Flight.findByIdAndUpdate({_id:depFlight._id},{SeatsList: newSeatsList} ,(err,doc)=>{
+            if(err)
+               console.log(err);
+            else{
+               Flight.findById(retId,(err,retFlight)=>{
+                  if(err)
+                     console.log(err);
+                  else{
+                     let newSeats = [...retFlight.SeatsList.Available, retSeats];
+                     let newSeatsList= {
+                        Econ: retFlight.SeatsList.Econ,
+                        Bus: retFlight.SeatsList.Bus,
+                        First: retFlight.SeatsList.First,
+                        Available: newSeats
+                     }
+                     Flight.findByIdAndUpdate({_id:retFlight._id},{SeatsList: newSeatsList} ,(err,doc)=>{
+                        if(err)
+                           console.log(err);
+                        else{
+                           res.send("all done");
+                        }
+                     });
+                  }
+               })
+            }
+         });
+      }
+   })
+}
+
 const showSchedule = async(req,res)=>{
     const flights = await Flight.find({});
     sortByDate(flights);
@@ -397,5 +444,6 @@ module.exports = {
     getTime,
     findReturnFlights,
     searchFlights,
-    updateSeats
+    updateSeats,
+    addSeats
 }

@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Flights = require('../models/Flight');
 const Bookings = require('../models/Booking');
 const nodemailer = require("nodemailer");
+const Flight = require('../models/Flight');
 
 const addBookingtoUser = (newBooking,userId)=>{
     console.log(userId)
@@ -123,24 +124,82 @@ const getArrivalAirport = (req, res) =>{
 
 // wanna get id and delete using th
 
- const cancelReservation =  (req, res) => {
-    var reservationsArr = [];
+ const cancelReservation =async (req, res) => {
     userName = req.body.username;
-    console.log(userName, "useerrrrrr");
-    bookingNumber = req.body.bookingNumber
-    console.log(bookingNumber, "bookkinunggg")
-    let user =  User.findOneAndUpdate({username: userName}, { $pull: {Bookings: bookingNumber} }, (err, data) => {
-        if(err){
-            return res.json({"error" : err});
-        }
-        else{
-                return res.json({data});
-            }
+    console.log(userName, "usee");
+    bookingNumber = req.body.bookingNumber;
+    console.log(bookingNumber, "booking");
 
-        });  
- 
+    let booking = await Bookings.deleteOne({ _id : bookingNumber }).then(async()=>{
+        console.log('booking '+bookingNumber+' deleted');
+        let user = await User.findOneAndUpdate({username: userName}, { $pull: {Bookings: bookingNumber} });
+    });
 
- }
+    let newDepAv = [...req.body.DepList.Available, ...req.body.DepSeats];
+    let y = await sortSeatList(newDepAv);
+
+    let newDepSeats = {
+        ...req.body.DepList,
+        Available: y
+    }
+    let depFlight = await Flight.findByIdAndUpdate( req.body.DepId,{SeatsList: newDepSeats});
+
+    // console.log(req.body.RetList.Available);
+    // console.log(req.body.RetSeats);
+    let newRetAv =  [...req.body.RetList.Available, ...req.body.RetSeats];
+    let x = await sortSeatList(newRetAv);
+    // console.log('sortedList ',x);
+
+    newRetSeats = {
+        ...req.body.RetList,
+        Available: x
+    }
+
+    console.log('newRetSeats',newRetSeats);
+    let retFlight = await Flight.findByIdAndUpdate(req.body.RetId,{SeatsList: newRetSeats});
+    // console.log(depFlight)
+    // console.log(retFlight);
+    res.send({
+        booking: booking,
+        depFlight: depFlight,
+        retFlight: retFlight
+    })
+    };
+
+
+const sortSeatList = async (list)=>{
+    let result = [];
+    let econlist = list.filter((item)=>{
+        return item.charAt(0) === 'E';
+    })
+    let buslist = list.filter((item)=>{
+        return item.charAt(0) === 'B';
+    })
+    let firstlist = list.filter((item)=>{
+        return item.charAt(0) === 'F';
+    })
+
+    econlist = sortClassList(econlist);
+    buslist = sortClassList(buslist);
+    firstlist = sortClassList(firstlist);
+
+    result = [...econlist, ...buslist, ...firstlist];
+    return result;
+}
+
+const sortClassList = (list)=>{
+    let cabin = list[0].charAt(0);
+    let listNumbers = list.map((item)=>{
+        return parseInt(item.substring(1));
+    });
+    listNumbers.sort(function(a, b){return a - b});
+    let final = listNumbers.map((item)=>{
+        return cabin+''+item;
+    });
+    // console.log('final',final);
+    return final;
+}
+
 
 
 module.exports = {
