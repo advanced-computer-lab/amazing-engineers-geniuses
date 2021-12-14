@@ -18,7 +18,6 @@ import Modal from '@mui/material/Modal';
 import Auth from '../services/Auth';
 const api = 'http://localhost:8000'
 
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: theme.palette.common.black,
@@ -80,13 +79,21 @@ export default function BookingItem(props){
     const [returnExists, setReturnExists] = useState(true);
     const curUser = Auth.getCurrentUser();
     const booking = props.booking;
+    const [arrDep, setArrDep] = useState('');
+    const [arrRet, setArrRet] = useState('');
+    
+    const[depFlightDepTime,setDepFDepT]= useState('');
+    const[depFlightArrTime,setDepFArrT]= useState('');
+    
+    const[retFlightDepTime,setRetFDepT]= useState('');
+    const[retFlightArrTime,setRetFArrT]= useState('');
+  
     function createData(item, info) {
         return { item, info };
       }
 
       // one booking has 2 flights, from and to for each one
       //
-
       
     const rows = [
         createData('Number Of Passengers', booking.NumberOfPassengers),
@@ -172,13 +179,27 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
     useEffect(()=>{
          axios.post(`${api}/user/flight/getDepartureAirport`, {departureId : props.booking.DepartureFlight})
         .then((res) =>{
-            console.log(res.data.departureAirport,"departure");
+            //console.log(res.data.departureAirport,"departure");
             setList(props.booking);
             setDep(res.data.departureAirport);
             const curDate = res.data.departureAirport.DepDate.toString().substring(0,7);
             const curDay = res.data.departureAirport.DepDate.toString().substring(8,10);
+            
+            const x = res.data.departureAirport.DepDate.toString().substring(0,10); //dep date
+            
+            const y=res.data.departureAirport.ArrDate.toString().substring(0,10); //arr date
+            
+            const depFlightDepTime=res.data.departureAirport.Departure.Hours + ":" + res.data.departureAirport.Departure.Minutes + " " + res.data.departureAirport.Departure.Period;
+            const depFlightArrTime=res.data.departureAirport.Arrival.Hours + ":" + res.data.departureAirport.Arrival.Minutes + " " + res.data.departureAirport.Arrival.Period;
+
             setDay(curDay);
-            setDate(curDate);
+            setDate(x);
+            
+            setArrDep(y);
+            
+            setDepFDepT(depFlightDepTime);
+            setDepFArrT(depFlightArrTime);
+            
         }).catch((error)=>{
             if(error){
                 console.log(error);
@@ -188,10 +209,19 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
             setReturnExists(true);
          axios.post(`${api}/user/flight/getDepartureAirport`, {departureId : props.booking.ReturnFlight})
         .then((res) =>{
-            console.log(res.data.departureAirport,"departure");
+            //console.log(res.data.departureAirport,"departure");
             setRet(res.data.departureAirport);
             const curReturnDate = res.data.departureAirport.DepDate.toString().substring(0,10);
             setReturnDate(curReturnDate);
+            
+            const z = res.data.departureAirport.ArrDate.toString().substring(0,10);
+            setArrRet(z);
+            
+            const retFlightDepTime=res.data.departureAirport.Departure.Hours + ":" + res.data.departureAirport.Departure.Minutes + " " + res.data.departureAirport.Departure.Period;
+            const retFlightArrTime=res.data.departureAirport.Arrival.Hours + ":" + res.data.departureAirport.Arrival.Minutes + " " + res.data.departureAirport.Arrival.Period;
+            
+            setRetFDepT(retFlightDepTime);
+            setRetFArrT(retFlightArrTime);
         }).catch((error)=>{
             if(error){
                 console.log(error);
@@ -214,6 +244,14 @@ else{
                         price = {props.booking.TotalCost}
                         handleConfirmOpen = {handleConfirmOpen}
                         viewDetails = {viewDetailsClicked}
+                        booking = {booking}
+                        returnDate={returnDate}
+                        arrDep={arrDep}
+                        arrRet={arrRet}
+                        depFlightDepTime={depFlightDepTime}
+                        depFlightArrTime={depFlightArrTime}
+                        retFlightDepTime={retFlightDepTime}
+                        retFlightArrTime={retFlightArrTime}
                     ></Booking>
                     <Modal
                         open={open}
@@ -221,6 +259,7 @@ else{
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
                 >
+
             <Box sx={style}>
                 <div className = {classes.modalDetails}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
@@ -276,11 +315,10 @@ else{
                 <li> {dep.FromAirport} </li>
             </ul>
              */}
-         
+          
             <ul>
             </ul>
               <br/>
         </div>
     )
 }
-
