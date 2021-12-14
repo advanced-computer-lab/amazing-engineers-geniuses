@@ -14,7 +14,8 @@ import AvailableReturnFlights from './Components/AvailableReturnFlights';
 import ChooseSeats from './Components/ChooseSeats';
 import CreateBooking from './Components/CreateBooking';
 import Profile from './Components/Profile';
-import EditInfo from './Components/EditInfo'
+import EditInfo from './Components/EditInfo';
+import EditBooking from './Components/EditBooking'
 
 class App extends Component {
   constructor(props){
@@ -47,7 +48,10 @@ class App extends Component {
 
           <Route path='/createBooking' component={CreateBooking}/>
           <Route path='/profile' component={Profile}/>
-          <Route path='/profile/edit' component={EditInfo}/>
+          {/* <Route path='/profile/edit' component={EditInfo}/> */}
+          
+          <Route path='/editBooking' component={EditBooking}/>
+          
       </Router>
     );
   }
