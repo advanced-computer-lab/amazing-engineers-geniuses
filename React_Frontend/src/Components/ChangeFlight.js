@@ -10,14 +10,16 @@ import ChangeSeats from './ChangeSeats';
 
 export default function ChangeFlight(props){
     const location = useLocation();
-    const [display,setDisplay] = useState('depF');
+    const [display,setDisplay] = useState(location.state.display);
     const [edit,setEdit] = useState('F');
     const [bookingInfo,setBookingInfo] = useState(location.state.bookingInfo)
     const [alert, setAlert] = useState({msg:'', show:false});
     const [depSeats,setDepSeats] = useState();
     // const [retSeats,setRetSeats] = useState();
     
-      
+    useEffect(() => {
+      console.log(display);
+  }, [])
     
     
     function showAlert(message,show){
@@ -84,16 +86,16 @@ export default function ChangeFlight(props){
             )}
             {display === "chooseDepSeats"  &&<ChangeSeats type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
             
-            {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>}
-            {/* {
-              display === "retF" && availableReturnFlights.length !== 0 && (
+            {/* {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>} */}
+            {
+              display === "retF" && 
                 <AvailableReturnFlights
-                  rFs={availableReturnFlights}
-                  departureFlight={booking.DepartureFlight}
-                  CabinClass={booking.RetCabinClass}
+                  rFs={location.state.returnFlights}
+                  CabinClass={bookingInfo.RetCabinClass}
                 />
-              )
-            } */}
+                // <h1>blaahh</h1>
+              
+            }
     </Container>
     
     

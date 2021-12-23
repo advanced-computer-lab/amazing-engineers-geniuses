@@ -28,7 +28,7 @@ router.post('/searchFlights',flightController.searchFlights);
 
 router.post('/createBooking', bookingController.createBooking);
 
-router.get('/findReturnFlights/:id',flightController.findReturnFlights);
+router.post('/findReturnFlights',flightController.findReturnFlights2);
 
 router.post('/flight/addSeatsCancelled', flightController.addSeats);
 
