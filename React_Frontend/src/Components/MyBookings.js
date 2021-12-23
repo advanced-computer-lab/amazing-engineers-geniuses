@@ -54,23 +54,16 @@ export default function MyBookedFlights(props) {
         var name = curUser.username
        axios.post(`${api}/user/flight/viewReservations`,{username: name})
         .then(async (res)=>{  
-            ///console.log(res.data.listOfBookings, "ress dataaa");
-            setBookings(res.data.listOfBookings);   
-            
+
+            console.log(res.data.listOfBookings, "ress dataaa");
+            setBookings(res.data.listOfBookings);
             if(res.data.listOfBookings.includes(null)){
-                const index = res.data.listOfBookings.indexOf(null);
-                console.log("NO BOOKINGS YET");
-                if (index > -1) {
-                    res.data.listOfBookings.splice(index, 1);
-                } 
-                //setList([]);
+                let indexOfNull = res.data.listOfBookings.indexOf(null);
+                res.data.listOfBookings.splice(indexOfNull,1);
             }
-            
-                setList(res.data.listOfBookings.map((booking)=>
-                (<BookingItem booking={booking}/>)
-                
-                 ))
-            
+            setList(res.data.listOfBookings.map((booking)=>
+                 (<BookingItem booking={booking}/>)
+            ))
             setSpinner(false);
             console.log(res.data.listOfBookings);
         })

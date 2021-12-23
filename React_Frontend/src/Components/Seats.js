@@ -6,6 +6,12 @@ export default function Seats(props){
     const [chosenSeats,setChosen] = useState([]);
     const [msg, setMsg] = useState('Exceeded the number of passengers entered!');
 
+    // useEffect(()=>{
+    //     if(props.editing != null && props.editing){
+    //         setChosen(props.chosenSeats);
+    //     }
+    // },[])
+
     useEffect(() => {
        confirmSeats();
     }, [chosenSeats]);
@@ -15,7 +21,7 @@ export default function Seats(props){
     }
 
     const confirmSeats = () =>{
-       // props.setSeats(chosenSeats);
+       props.setSeats(chosenSeats);
     }
 
     const chooseSeat = (e,seat,available)=>{
@@ -39,21 +45,26 @@ export default function Seats(props){
         }
     }  
 
+    function mapSeat(seat){
+        let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
+        let color = available ? 'lightgrey' : 'Red';
+
+        let chosen = chosenSeats.indexOf(seat) > -1 ? true : false;
+        color = chosen ? 'lightblue' : color;
+
+        return (<Col style={{maxWidth:'50px'}}><button key={seat} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>   
+        <i className="fas fa-square fa-2x"></i></button></Col>)
+    }
+
     const econSeats1 = props.Seats.Econ.map((seat,index)=>{
         if(index % 2 === 0){
-            let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
-            let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'37px'}}><button key={seat} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>   
-            <i className="fas fa-square fa-2x"></i></button></Col>)
+           return mapSeat(seat);
         }
     })
 
     const econSeats2 = props.Seats.Econ.map((seat,index)=>{
         if(index % 2 !== 0){
-            let available = props.Seats.Available.indexOf(seat) > -1 ? true : false;
-            let color = available ? 'lightgrey' : 'Red';
-            return (<Col style={{maxWidth:'37px'}}><button key={seat} style={{color: color, border:'none'}} onClick={(e)=>chooseSeat(e,seat,available)}>
-              <i className="fas fa-square fa-2x"></i></button></Col>)
+           return mapSeat(seat);
         }
     })
 

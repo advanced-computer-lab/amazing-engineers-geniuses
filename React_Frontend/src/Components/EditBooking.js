@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Row, Col, InputGroup, Container, Button, Spinner, Modal, ModalBody, Card } from "react-bootstrap";
+import { Form, Row, Col, InputGroup, Container, Button, Spinner, Modal, ModalBody, Card,Alert  } from "react-bootstrap";
 
 import { useHistory, useLocation } from "react-router-dom";
 import BookingItem from './BookingItem';
 import Booking from './Booking';
-//const Flight = require('../models/Flight');
+
 import axios from 'axios';
 import SearchFlight from './SearchFlight';
 import EditDepartureFlight from './EditDepartureFlight'
 import EditReturnFlight from './EditReturnFlight'
 import EditModal from './EditModal'
-
+import ChangeSeats from './ChangeSeats';
 
 const api = 'http://localhost:8000';
 
@@ -39,6 +39,10 @@ export default function EditBooking(props) {
 
     const [showEditDep, setShowEditDep] = useState(false);
     const [showEditRet, setShowEditRet] = useState(false);
+  
+    const [mainView,setMainView] = useState("main");
+    const [alert, setAlert] = useState({msg:'', show:false});
+    const [depSeats, setDepSeats] = useState();
 
     const[DepCabinClass,setDepCabinClass]=useState(location.state.booking.DepCabinClass);
     const[RetCabinClass,setRetCabinClass]=useState(location.state.booking.RetCabinClass);
@@ -46,13 +50,18 @@ export default function EditBooking(props) {
     useEffect(() => {
         console.log("BANANAAA")
         let x=findDepartureFlight(booking.DepartureFlight,booking.ReturnFlight);
-       // let y=findReturnFlight(booking.ReturnFlight);
     }, [])
 
     useEffect(() => {
         console.log(showEditDep);
     }, [showEditDep])
 
+   function showAlert(message,show){
+        setAlert({
+            msg: message,
+            show: show
+        });
+    }
 
     const flightsAvailable = () => {
         axios.post(`${api}/searchFlights`, {
@@ -167,6 +176,7 @@ export default function EditBooking(props) {
                 }
             })
     }
+  
     function getClass(cabin) {
         if (cabin === 'E') {
             return 'Economy'
@@ -193,14 +203,19 @@ export default function EditBooking(props) {
         history.push({
             pathname: '/editReturnFlight', //, date: date, returnDate: returnDate, arrDep: arrDep, arrRet: arrRet,retFlightDepTime: retFlightDepTime, retFlightArrTime: retFlightArrTime
             state: { returnFlight: returnFlight, booking: booking }
-
         });
 
     }
 
     return (
-        <div> <br />
-            <Container>
+        <div>
+      {alert.show && (
+          <Alert variant="warning" onClose={() => setAlert(false)} dismissible>
+            {alert.msg}
+          </Alert>
+        )}
+      <br />
+        {mainView === 'main' && <Container>
 
                 {showEditDep &&
                     //<EditModal setShow={setShow} showEditDep={showEditDep} />
@@ -435,7 +450,20 @@ export default function EditBooking(props) {
                         </Card>
                     </Col>
                 </Row>
+            </Container>}
+            { 
+            mainView === "changeDepSeats" && 
+            <Container>
+                <ChangeSeats type='Dep' booking={booking} NumberOfPassengers = {booking.NumberOfPassengers} setMainView={setMainView} flight = {departureFlight} cabin = {booking.DepCabinClass} chosenSeats = {booking.DepSeats} showAlert={showAlert} />
             </Container>
+         }
+          { 
+            mainView === "changeRetSeats" && 
+            <Container>
+                <ChangeSeats type='Ret' booking={booking} NumberOfPassengers = {booking.NumberOfPassengers} setMainView={setMainView} flight = {returnFlight} cabin = {booking.RetCabinClass} chosenSeats = {booking.RetSeats} showAlert={showAlert} />
+            </Container>
+         }
+
 
         </div>
     );

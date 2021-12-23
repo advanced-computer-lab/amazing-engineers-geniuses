@@ -8,6 +8,7 @@ const User = require('../models/User');
 
 router.post('/availableFlights',flightController.filterFlights);
 
+router.get('/flight/show/:id',flightController.showFlightbyID);
 
 router.post('/flight/viewReservations', userController.viewReservations);
 
@@ -30,6 +31,8 @@ router.post('/createBooking', bookingController.createBooking);
 router.get('/findReturnFlights/:id',flightController.findReturnFlights);
 
 router.post('/flight/addSeatsCancelled', flightController.addSeats);
+
+router.put('/booking/editSeats', bookingController.editSeats);
 
 router.get('/find/', async (req,res)=>{
     const users = await User.find({})
