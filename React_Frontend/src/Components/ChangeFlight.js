@@ -6,6 +6,8 @@ import AvailableFlights from './AvailableFlights';
 import AvailableReturnFlights from './AvailableReturnFlights';
 import ChooseSeats from './ChooseSeats';
 import ChangeSeats from './ChangeSeats';
+import Invoice from './Invoice';
+
 
 
 export default function ChangeFlight(props){
@@ -82,7 +84,7 @@ export default function ChangeFlight(props){
                 setDisplay = {setDisplay}
               />
             )}
-            {display === "chooseDepSeats"  &&<ChangeSeats type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
+            {display === "chooseDepSeats"  &&<ChangeSeats setDisplay={setDisplay} type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
             
             {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>}
             {/* {
@@ -94,6 +96,8 @@ export default function ChangeFlight(props){
                 />
               )
             } */}
+
+            {display === 'Invoice' && <Invoice bookingInfo={bookingInfo} />}
     </Container>
     
     
