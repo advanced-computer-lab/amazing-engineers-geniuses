@@ -15,8 +15,11 @@ import ChooseSeats from './Components/ChooseSeats';
 import CreateBooking from './Components/CreateBooking';
 import Profile from './Components/Profile';
 import EditInfo from './Components/EditInfo';
-import EditBooking from './Components/EditBooking'
-import SearchFlight from './Components/SearchFlight';
+import EditBooking from './Components/EditBooking';
+import SearchFlight from './Components/SearchFlight'
+import EditDepartureFlight from './Components/EditDepartureFlight'
+import EditReturnFlight from './Components/EditReturnFlight'
+import ChangeFlight from './Components/ChangeFlight'
 
 class App extends Component {
   constructor(props){
@@ -53,6 +56,11 @@ class App extends Component {
           
           <Route path='/editBooking' component={EditBooking}/>
           <Route path='/searchFlights' component={SearchFlight}/>
+          <Route path='/editDepartureFlight' component={EditDepartureFlight}/>
+          <Route path='/editReturnFlight' component={EditReturnFlight}/>
+          <Route path='/changeFlight' component={ChangeFlight}/>
+
+
       </Router>
     );
   }

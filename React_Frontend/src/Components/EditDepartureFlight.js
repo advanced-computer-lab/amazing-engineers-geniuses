@@ -1,49 +1,60 @@
 import React,{ useEffect,useState } from 'react';
-import { Form,Row,Col,InputGroup, Container,Button,Spinner} from "react-bootstrap";
+import { Form,Row,Col,InputGroup, Container,Button,Spinner,Modal,ModalBody} from "react-bootstrap";
+import {useLocation } from "react-router-dom";
+
 import {useHistory} from "react-router-dom";
 import '../Styles/Slideshow.css';
 import '../Styles/SearchFlight.css';
 import axios from 'axios';
 
-
 const api = 'http://localhost:8000';
 
-export default function SearchFlight(props){
+export default function EditFlight(props){
     let history = useHistory();
-    const[FromAirport,setFromAirport]=React.useState("");
-    const[ToAirport,setToAirport]=React.useState("");
-    const[DepCabinClass,setDepCabinClass]=React.useState('E');
-    const[RetCabinClass,setRetCabinClass]=React.useState('E');
-    const[DepDate,setDepDate]=React.useState('');
-    const[RetDate,setRetDate]=React.useState('');
-    const[AdultPassengers,setAdultPassengers]= React.useState(1);
-    const[KidPassengers,setKidPassengers]= React.useState(0);
-    const[PassengersNumber,setPassengersNumber]=React.useState(KidPassengers + AdultPassengers);
-    const[showSpinner, setSpinner] = useState(false);
+    const location = useLocation();
 
-    useEffect(() => {
-    }, []);
+    const [booking,setBooking]= useState(location.state.booking);
 
-    useEffect(() => {
-      setPass();
-    }, [KidPassengers, AdultPassengers]);
+    const [departureFlight, setDepartureFlight] = useState(location.state.departureFlight);
+    const [returnFlight, setReturnFlight] = useState(location.state.returnFlight);
+    
+    const [depFlightDepDate, setDepDate] = useState(location.state.depFlightDepDate);
+    const [retFlightDepDate, setRetDate] = useState(location.state.retFlightDepDate);
+    
+    const [arrDep, setArrDep] = useState(location.state.arrDep);
+    const [arrRet, setArrRet] = useState(location.state.arrRet);
+    
+    const[depFlightDepTime,setDepFDepT]= useState(location.state.depFlightDepTime);
+    const[depFlightArrTime,setDepFArrT]= useState(location.state.depFlightArrTime);
+    
+    const[retFlightDepTime,setRetFDepT]= useState(location.state.retFlightDepTime);
+    const[retFlightArrTime,setRetFArrT]= useState(location.state.retFlightArrTime);
+
+    const[DepCabinClass,setDepCabinClass]=useState(location.state.booking.DepCabinClass);
+    const[RetCabinClass,setRetCabinClass]=useState(location.state.booking.RetCabinClass);
+
+    const [showConfirm, setConfirm] = useState(true);
+
+    // useEffect(() => {
+    //   setPass();
+    // }, [KidPassengers, AdultPassengers]);
 
     const flightsAvailable = () =>{
         axios.post(`${api}/searchFlights`,{
-           FromAirport:FromAirport.toUpperCase(),
-           ToAirport:ToAirport.toUpperCase(),
-           DepDate:DepDate,
-           RetDate: RetDate
+           FromAirport:departureFlight.FromAirport.toUpperCase(),
+           ToAirport:departureFlight.ToAirport.toUpperCase(),
+           DepDate:depFlightDepDate,
+           RetDate: retFlightDepDate
         }).then((res) =>{
             let flightsWithReturn=res.data;
             let flights = flightsWithReturn.map((tuple,i)=>(
                tuple.DepFlight 
             ))
-            flightsWithReturn = flightsWithReturn.filter(tuple=> tuple.DepFlight.SeatsList.Available.filter(seat => seat.charAt(0) === DepCabinClass ).length >= PassengersNumber)
+            flightsWithReturn = flightsWithReturn.filter(tuple=> tuple.DepFlight.SeatsList.Available.filter(seat => seat.charAt(0) === DepCabinClass ).length >= booking.PassengersNumber)
             flightsWithReturn = filterReturnFlights(flightsWithReturn);  
             history.push({
                 pathname: 'createBooking',
-                state: { flightsWithReturn: flightsWithReturn, RetDate: RetDate, DepCabinClass: DepCabinClass, RetCabinClass: RetCabinClass, PassengersNumber: PassengersNumber ,AdultPassengers:AdultPassengers , KidPassengers:KidPassengers}
+                state: { flightsWithReturn: flightsWithReturn, RetDate: retFlightDepDate, DepCabinClass: booking.DepCabinClass, RetCabinClass: booking.RetCabinClass, PassengersNumber: booking.PassengersNumber ,AdultPassengers:booking.AdultPassengers , KidPassengers:booking.KidPassengers}
             });    
         }).catch((error) =>{
             if(error){
@@ -52,10 +63,10 @@ export default function SearchFlight(props){
         })
     }
 
-    const setPass = ()=>{
-        let pass = (Number.parseInt(AdultPassengers) + Number.parseInt(KidPassengers))*1;
-        setPassengersNumber(pass);
-    }
+    // const setPass = ()=>{
+    //     let pass = (Number.parseInt(AdultPassengers) + Number.parseInt(KidPassengers))*1;
+    //     setPassengersNumber(pass);
+    // }
 
     let today = new Date();
     let dd = today.getDate();
@@ -76,7 +87,7 @@ export default function SearchFlight(props){
       flightsWithReturn.forEach(tuple => {
         let dep = tuple.DepFlight;
         let retList = tuple.ReturnFlights;
-        let filteredRetList = retList.filter(ret => ret.SeatsList.Available.filter(seat => seat.charAt(0) === RetCabinClass).length >= PassengersNumber);
+        let filteredRetList = retList.filter(ret => ret.SeatsList.Available.filter(seat => seat.charAt(0) === RetCabinClass).length >= booking.PassengersNumber);
         if(filteredRetList.length !== 0){
           let newTuple = {
             DepFlight: dep,
@@ -87,47 +98,47 @@ export default function SearchFlight(props){
       });
       return result;
     }
-
-
+  
    return (
+    
      <Form id='searchForm' onSubmit={(e)=>{
        e.preventDefault();
-       setSpinner(true);
+       //setSpinner(true);
        setTimeout(flightsAvailable, 2000);
        }}>
-      <h3 style={{textAlign:'left', paddingLeft:'20px', fontWeight:'300', paddingBottom:'10px'}}>Book a Trip</h3>
+      {/* <h3 style={{textAlign:'left', paddingLeft:'20px', fontWeight:'300', paddingBottom:'10px'}}>Book a Trip</h3> */}
+      <br/>
        <Container id='searchContainer'>
-          {showSpinner && 
+           
             <div className="pos-center text-primary" style={{width: '100px', height: '100px', zIndex:'20'}} >   
-              <Spinner animation="border" />
-              <span >Loading...</span>
-            </div>}
+              {/* <Spinner animation="border" /> */}
+              {/* <span >Loading...</span> */}
+            </div>
 
          <Form.Group className="mb-3" controlId="Airports">
-           <Row className="align-items">
-             <Col xs={5} >
-               <InputGroup className="mb-3" >
-                 <InputGroup.Text style={{ paddingRight: '55px',paddingLeft: '55px' }}  >From</InputGroup.Text>
+           <Row>
+             <Col xs={5}>
+               <InputGroup className="mb-3">
+                 <InputGroup.Text>From</InputGroup.Text>
 
                  <Form.Control
-                 
                    type="text"
-                   value={FromAirport}
-                   placeholder="Enter Departure Airport"
+                   value={departureFlight.FromAirport}
                    required
-                   onChange={(e) => setFromAirport(e.target.value)}
+                   editable = {false}
+                   //onChange={(e) => setFromAirport(e.target.value)}
                  />
+                 
                </InputGroup>
              </Col>
              <Col xs={5}>
                <InputGroup className="mb-3">
-                 <InputGroup.Text style={{paddingRight: '52px' ,paddingLeft: '52px' }} >To</InputGroup.Text>
+                 <InputGroup.Text>To</InputGroup.Text>
                  <Form.Control
                    type="text"
-                   value={ToAirport}
-                   placeholder="Enter Arrival Airport"
+                   value={departureFlight.ToAirport}
                    required
-                   onChange={(e) => setToAirport(e.target.value)}
+                   editable = {false}
                  />
                </InputGroup>
              </Col>
@@ -138,10 +149,11 @@ export default function SearchFlight(props){
            <Col xs={5}>
              <Form.Group controlId="formGridDepartue">
                <InputGroup className="mb-3">
-                 <InputGroup.Text style={{ paddingRight: '35px',paddingLeft: '35px' }}>Departure</InputGroup.Text>
+                 <InputGroup.Text>Departure</InputGroup.Text>
 
                  <Form.Control
                    type="date"
+                   value={depFlightDepDate}
                    name="DepDate"
                    min={today}
                    required
@@ -153,11 +165,12 @@ export default function SearchFlight(props){
            <Col xs={5} >
              <Form.Group controlId="formGridArrival">
                <InputGroup className="mb-3">
-                 <InputGroup.Text style={{ paddingRight: '36px' ,paddingLeft: '36px' }}>Return</InputGroup.Text>
+                 <InputGroup.Text>Return</InputGroup.Text>
                  <Form.Control
                    type="date"
+                   value={retFlightDepDate}
                    name="RetDate"
-                   min={DepDate || today}
+                   min={depFlightDepDate || today}
                    required
                    onChange={(e) => setRetDate(e.target.value)}
                  />
@@ -173,8 +186,7 @@ export default function SearchFlight(props){
                  <InputGroup.Text>Departure Class</InputGroup.Text>
                  <Form.Select
                    name="DepCabinClass"
-                   placeholder=" Departure Cabin Class"
-                   value={DepCabinClass}
+                   placeholder={booking.DepCabinClass}
                    required
                    onChange={(e) => setDepCabinClass(e.target.value)}
                  >
@@ -192,11 +204,9 @@ export default function SearchFlight(props){
                  <InputGroup.Text>Return Class</InputGroup.Text>
                  <Form.Select
                    name="RetCabinClass"
-                   placeholder=" Return Cabin Class"
-                   value={RetCabinClass}
+                   placeholder={booking.RetCabinClass}
                    required
-                   onChange={(e) => setRetCabinClass(e.target.value)}
-                 >
+                   onChange={(e) => setRetCabinClass(e.target.value)}> 
                    <option value="E">Economy</option>
                    <option value="B">Business</option>
                    <option value="F">First Class</option>
@@ -211,14 +221,15 @@ export default function SearchFlight(props){
            <Col xs={5}>
              <Form.Group controlId="formGridAPassengers">
              <InputGroup className="mb-3">
-               <InputGroup.Text style={{ paddingRight: '52px' ,paddingLeft: '52px'}}>Adults</InputGroup.Text>
+               <InputGroup.Text>Adults</InputGroup.Text>
                
                <Form.Control
                  type="number" min="1"
-                 placeholder="Number Of Adults"
+                 //placeholder="Enter Number Of Adults"
                  name="Adult Passengers "
                  required
-                 onChange={(e) => {setAdultPassengers(e.target.value);setPass()}}
+                 value={booking.AdultPassengers}
+                 //onChange={(e) => {setAdultPassengers(e.target.value);setPass()}}
                />
                </InputGroup>
              </Form.Group>
@@ -227,27 +238,30 @@ export default function SearchFlight(props){
            <Col xs={5}>
              <Form.Group controlId="formGridKPassengers">
                <InputGroup className="mb-3">
-               <InputGroup.Text style={{ paddingRight: '28px',paddingLeft: '28px' }}>Children</InputGroup.Text>
+               <InputGroup.Text>Children</InputGroup.Text>
                <Form.Control
                  type="number" min="0"
                  placeholder="Number Of Children"
+                 value={booking.KidPassengers}
                  name="Kid Passengers"
                  required
-                 onChange={(e) => {setKidPassengers(e.target.value);setPass()}}
+                 //onChange={(e) => {setKidPassengers(e.target.value);setPass()}}
                />
                </InputGroup>
              </Form.Group>
+                          
            </Col>
+           
+           <Button className="btn btn-home"  type="submit"> Search</Button>
          
            </Row>
-           <Button className="btn btn-home"  type="submit">
-                Search
-                </Button>
+           
     
-        
+         <br/>
 
        </Container>
      </Form>
+    
    );
 
     
