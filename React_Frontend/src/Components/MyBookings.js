@@ -54,6 +54,7 @@ export default function MyBookedFlights(props) {
         var name = curUser.username
        axios.post(`${api}/user/flight/viewReservations`,{username: name})
         .then(async (res)=>{  
+
             console.log(res.data.listOfBookings, "ress dataaa");
             setBookings(res.data.listOfBookings);
             if(res.data.listOfBookings.includes(null)){
@@ -64,6 +65,7 @@ export default function MyBookedFlights(props) {
                  (<BookingItem booking={booking}/>)
             ))
             setSpinner(false);
+            console.log(res.data.listOfBookings);
         })
         .catch((error)=>{
             if(error){

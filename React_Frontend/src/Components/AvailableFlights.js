@@ -17,11 +17,15 @@ export default function AvailableFlights(props) {
   useEffect(() => {
     setFlightList(flights.map((flight, key)=>
  
-      <FlightItem setDepF={props.setDepF} hideBtn={true} showSelect={true} showSelect2={false} CabinClass={props.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> ))
+      <FlightItem setDisplay={props.setDisplay} bookingInfo={props.bookingInfo} edit={props.edit} setDepF={props.setDepF} hideBtn={true} showSelect={true} showSelect2={false} CabinClass={props.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> ))
   }, [])
 
   return (
     <div>
+      {/* {props.edit==='T' &&       
+      <h2> <em>Edit Flight</em></h2>
+      } */}
+      
       <h2> <em>Available Departure Flights</em></h2>
       <div>
         <Accordion>
