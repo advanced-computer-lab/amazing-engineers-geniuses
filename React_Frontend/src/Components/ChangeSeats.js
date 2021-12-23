@@ -1,4 +1,4 @@
-import React,{useState } from 'react';
+import React,{useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import Seats from './Seats';
 import {Row,Col } from 'react-bootstrap';
@@ -16,9 +16,11 @@ export default function ChangeSeats(props){
     const[cabin,setCabin] = useState(props.cabin);
 
     const [newSeats, setNewSeats] = useState();
+    const [showPopup, setPopup] = useState(false);
 
 
-    const found =  props.chosenSeats.some(r=> flight.SeatsList.Available.includes(r))
+    if(props.chosenSeats.length !== 0){
+        const found =  props.chosenSeats.some(r=> flight.SeatsList.Available.includes(r))
     if(!found){
         let editedSeatsList = {
             ...flight.SeatsList,
@@ -30,6 +32,13 @@ export default function ChangeSeats(props){
         }
         setFlight(editedFlight);
     }
+    }
+    
+    useEffect(()=>{
+    if(props.changingFlight)
+        props.setSeats(newSeats);
+    },[newSeats])
+    
 
     const editFlight = ()=>{
         axios.put(`${api}/user/booking/editSeats`,{
@@ -50,7 +59,10 @@ export default function ChangeSeats(props){
           <br/>
           <Row>
            <Col>
-                <h2> <em>Change Seats: </em></h2>
+           {props.changingFlight 
+                ? <h2> <em>Select Seats: </em></h2>
+                :<h2> <em>Change Seats: </em></h2>}
+                
                 <div>
                     <Seats Seats={flight.SeatsList} CabinClass={cabin} setSeats={setNewSeats} PassengersNumber={passengersNumber} showAlert={props.showAlert} editing={true} chosenSeats={props.chosenSeats}/>
 
@@ -66,7 +78,9 @@ export default function ChangeSeats(props){
 
           <li style={{listStyleType:'none'}}> <i style={{color: 'lightblue', border:'none'}} className="fas fa-square fa-2x"></i>    CHOSEN  </li>
 
-        <button class='btn-warning' onClick={editFlight}>Change</button>
+        {props.changingFlight 
+        ? <button className='btn-warning' onClick={()=>{setPopup(true)}}>Select Seats</button> 
+        :<button className='btn-warning' onClick={editFlight}>Change</button>}
        </Container>
 
     );

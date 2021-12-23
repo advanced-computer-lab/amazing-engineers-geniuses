@@ -384,7 +384,7 @@ export default function EditBooking(props) {
                                         <Card.Title>Seat(s):</Card.Title>
                                         <Card.Subtitle style={{ textAlign: 'center' }} className="mb-2 text-muted">{booking.DepSeats.toString()} </Card.Subtitle>
 
-                                        <Button variant="warning" size="sm" onClick={() => { }}> Change </Button>
+                                        <Button variant="warning" size="sm" onClick={() => { setMainView('changeDepSeats')}}> Change </Button>
 
                                     </Col>
 
@@ -438,7 +438,7 @@ export default function EditBooking(props) {
                                     <Col md="auto">
                                         <Card.Title>Seat(s):</Card.Title>
                                         <Card.Subtitle style={{ textAlign: 'center' }} className="mb-2 text-muted">{booking.RetSeats.toString()} </Card.Subtitle>
-                                        <Button variant="warning" size="sm" onClick={() => { }}> Change </Button>
+                                        <Button variant="warning" size="sm" onClick={() => {setMainView('changeRetSeats') }}> Change </Button>
 
                                     </Col>
                                 </Row>
