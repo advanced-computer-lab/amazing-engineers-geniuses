@@ -56,6 +56,7 @@ router.put('/update/:id', (req,res)=>{
 
 });
 
+router.get('/flight/show/:id',flightController.showFlightbyID);
 
 
 module.exports = router;

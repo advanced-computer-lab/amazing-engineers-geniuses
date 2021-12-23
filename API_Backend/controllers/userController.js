@@ -66,7 +66,6 @@ const viewReservations = (req, res) => {
     User.find({username : userName}).then ( (user) => {
         var BookedArr = [];
         var retrievedBookingsArr = user[0].Bookings;
-
         retrievedBookingsArr.forEach( (singleBookingId) => {
             BookedArr.push(Bookings.findById(singleBookingId))
         });

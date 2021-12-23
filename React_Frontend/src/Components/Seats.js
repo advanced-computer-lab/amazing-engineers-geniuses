@@ -15,7 +15,7 @@ export default function Seats(props){
     }
 
     const confirmSeats = () =>{
-        props.setSeats(chosenSeats);
+       // props.setSeats(chosenSeats);
     }
 
     const chooseSeat = (e,seat,available)=>{

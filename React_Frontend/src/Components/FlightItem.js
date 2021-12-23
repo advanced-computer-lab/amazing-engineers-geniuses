@@ -3,6 +3,7 @@ import { Button, Modal, Accordion, Row, Col } from 'react-bootstrap';
 import { withRouter } from "react-router-dom";
 import Auth from "../services/Auth";
 import '../Styles/FlightItem.css';
+import ChooseSeats from './ChooseSeats';
 
 
 const Router = require('react-router-dom');
@@ -27,6 +28,8 @@ class FlightItem extends Component {
     this.df = this.df.bind(this);
     this.bookDepFlight = this.bookDepFlight.bind(this);
     this.bookReturnFlight = this.bookReturnFlight.bind(this);
+    this.editDepFlight = this.editDepFlight.bind(this);
+
   }
 
   df() {
@@ -37,6 +40,11 @@ class FlightItem extends Component {
   bookDepFlight(){
     this.props.setDepF(this.props.flight, this.props.returnFlights);
   }
+  
+  editDepFlight(){
+    console.log('hellohelohelloheloo')
+    this.props.setDisplay('chooseSeats');
+  }    
   
   //---------------------------------------------------
   bookReturnFlight() {
@@ -120,11 +128,20 @@ class FlightItem extends Component {
                           </div>
                     </div>
                   )}
-                  {this.props.showSelect && (
+                  
+                  {this.props.showSelect  && !this.props.edit && (
                     <div>
                       <div className="btn btn-primary" onClick={this.bookDepFlight}>
                         Book Departure Flight
                           </div>
+                    </div>
+                  )}
+                  
+                  {this.props.edit && (
+                    <div>
+                      <div className="btn btn-primary" size='lg' style={{paddingRight: '20px',paddingLeft: '20px'}} onClick={this.editDepFlight}>
+                          Change
+                      </div>
                     </div>
                   )}
 
