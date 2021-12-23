@@ -56,6 +56,10 @@ export default function MyBookedFlights(props) {
         .then(async (res)=>{  
             console.log(res.data.listOfBookings, "ress dataaa");
             setBookings(res.data.listOfBookings);
+            if(res.data.listOfBookings.includes(null)){
+                let indexOfNull = res.data.listOfBookings.indexOf(null);
+                res.data.listOfBookings.splice(indexOfNull,1);
+            }
             setList(res.data.listOfBookings.map((booking)=>
                  (<BookingItem booking={booking}/>)
             ))

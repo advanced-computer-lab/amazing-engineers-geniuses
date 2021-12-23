@@ -1,4 +1,5 @@
 const Booking = require('../models/Booking');
+const Flight = require('../models/Flight');
 const flightController = require('./flightController');
 const userController = require('./userController');
 
@@ -33,6 +34,69 @@ const createBooking =(req,res)=>{
 
 }
 
+const editSeats = async(req, res)=>{
+    //const oldChosen = req.body.oldChosen;
+    const newChosen = req.body.newChosen;
+    let flight = req.body.flight;
+    let booking = req.body.booking;
+    let type = req.body.type;
+    let tempAvailable = [...flight.SeatsList.Available];
+    tempAvailable = tempAvailable.filter((seat)=>{
+        return newChosen.indexOf(seat) === -1
+    });
+    // console.log(tempAvailable);
+    let result = await sortSeatList(tempAvailable);
+    console.log(result);
+    let editedSeatsList = {
+            ...flight.SeatsList,
+            Available: result
+        };
+    
+    let updatedFlight = await Flight.findByIdAndUpdate(flight._id,{SeatsList: editedSeatsList});
+    
+    let updateBooking = {}
+    if(type === 'Dep')
+        updatedBooking = await Booking.findByIdAndUpdate(booking._id,{DepSeats: newChosen});
+    else if(type === 'Ret')
+         updatedBooking = await Booking.findByIdAndUpdate(booking._id,{RetSeats: newChosen});
+
+    res.send({updatedBooking, updatedFlight});
+}
+
+const sortSeatList = async (list)=>{
+    let result = [];
+    let econlist = list.filter((item)=>{
+        return item.charAt(0) === 'E';
+    })
+    let buslist = list.filter((item)=>{
+        return item.charAt(0) === 'B';
+    })
+    let firstlist = list.filter((item)=>{
+        return item.charAt(0) === 'F';
+    })
+
+    econlist = sortClassList(econlist);
+    buslist = sortClassList(buslist);
+    firstlist = sortClassList(firstlist);
+
+    result = [...econlist, ...buslist, ...firstlist];
+    return result;
+}
+
+const sortClassList = (list)=>{
+    let cabin = list[0].charAt(0);
+    let listNumbers = list.map((item)=>{
+        return parseInt(item.substring(1));
+    });
+    listNumbers.sort(function(a, b){return a - b});
+    let final = listNumbers.map((item)=>{
+        return cabin+''+item;
+    });
+    // console.log('final',final);
+    return final;
+}
+
 module.exports = {
     createBooking,
+    editSeats
 }

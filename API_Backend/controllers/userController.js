@@ -164,7 +164,20 @@ const getArrivalAirport = (req, res) =>{
         depFlight: depFlight,
         retFlight: retFlight
     })
-    };
+};
+
+const editSeats = async(req, res)=>{
+    const oldChosen = req.body.oldChosen;
+    const newChosen = req.body.newChosen;
+    let flight = req.body.flight;
+    let tempAvailable = [...flight.SeatsList.Available,...oldChosen];
+    tempAvailable = tempAvailable.filter((seat)=>{
+        return newChosen.indexOf(seat) === -1
+    });
+    console.log(tempAvailable);
+    let result = sortSeatList(tempAvailable);
+    res.send(result);
+}
 
 
 const sortSeatList = async (list)=>{
@@ -208,5 +221,6 @@ module.exports = {
     sendEmail,
     getArrivalAirport,
     getDepartureAirport,
-    addBookingtoUser
+    addBookingtoUser,
+    editSeats
 }
