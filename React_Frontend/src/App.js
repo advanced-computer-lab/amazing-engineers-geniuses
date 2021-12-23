@@ -16,6 +16,7 @@ import CreateBooking from './Components/CreateBooking';
 import Profile from './Components/Profile';
 import EditInfo from './Components/EditInfo';
 import EditBooking from './Components/EditBooking'
+import SearchFlight from './Components/SearchFlight';
 
 class App extends Component {
   constructor(props){
@@ -51,7 +52,7 @@ class App extends Component {
           {/* <Route path='/profile/edit' component={EditInfo}/> */}
           
           <Route path='/editBooking' component={EditBooking}/>
-          
+          <Route path='/searchFlights' component={SearchFlight}/>
       </Router>
     );
   }
