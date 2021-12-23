@@ -1,18 +1,31 @@
 import React,{  useEffect,useState } from 'react';
 import axios from 'axios';
-import {Container} from 'react-bootstrap';
+import {Container, Alert} from 'react-bootstrap';
 import {useLocation} from "react-router-dom";
 import AvailableFlights from './AvailableFlights';
 import AvailableReturnFlights from './AvailableReturnFlights';
 import ChooseSeats from './ChooseSeats';
+import ChangeSeats from './ChangeSeats';
+
 
 export default function ChangeFlight(props){
     const location = useLocation();
     const [display,setDisplay] = useState('depF');
     const [edit,setEdit] = useState('F');
     const [bookingInfo,setBookingInfo] = useState(location.state.bookingInfo)
-    // const [depSeats,setDepSeats] = useState();
+    const [alert, setAlert] = useState({msg:'', show:false});
+    const [depSeats,setDepSeats] = useState();
     // const [retSeats,setRetSeats] = useState();
+    
+      
+    
+    
+    function showAlert(message,show){
+      setAlert({
+          msg: message,
+          show: show
+      });
+  }
 
 
     //const[booking,setBooking]=useState(location.state.booking);
@@ -56,6 +69,11 @@ export default function ChangeFlight(props){
     
     return(
     <Container>
+     {alert.show && (
+          <Alert variant="warning" onClose={() => setAlert(false)} dismissible>
+            {alert.msg}
+          </Alert>
+        )}
         <br/>
         {display === "depF" && location.state.flightsWithReturn.length !== 0 &&(
               <AvailableFlights
@@ -64,14 +82,7 @@ export default function ChangeFlight(props){
                 setDisplay = {setDisplay}
               />
             )}
-                  {/* bookingInfo={bookingInfo}
-                  showAlert={showAlert}
-                  setDepSeats={setDepSeats}
-                  setRetSeats={setRetSeats}
-                  depClass={bookingInfo.DepCabinClass}
-                  retClass={bookingInfo.RetCabinClass} */}
-            {display === "chooseSeats" && <ChooseSeats  bookingInfo={bookingInfo} depClass={bookingInfo.DepCabinClass}
-                  retClass={bookingInfo.RetCabinClass}/>}
+            {display === "chooseDepSeats"  &&<ChangeSeats type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
             
             {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>}
             {/* {

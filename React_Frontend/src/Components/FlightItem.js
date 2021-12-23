@@ -43,7 +43,7 @@ class FlightItem extends Component {
   
   editDepFlight(){
     console.log('hellohelohelloheloo')
-    this.props.setDisplay('chooseSeats');
+    this.props.setDisplay('chooseDepSeats');
   }    
   
   //---------------------------------------------------
