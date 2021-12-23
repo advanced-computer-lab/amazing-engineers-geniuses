@@ -137,7 +137,47 @@ const searchFlights = async (req,res) =>{
    res.send(result);
 }
 
+const findReturnFlights2 = async(req, res)=>{
+   let depFlight = req.body.depFlight;
+   let retDate = req.body.retDate;
+   let RetDate = new Date(retDate);
+   const flightDate = new Date(depFlight.DepDate);
+   const flightArrHour = Number.parseInt(depFlight.Arrival.AsString.split(':')[0]);
+   const flightArrMin = Number.parseInt(depFlight.Arrival.AsString.split(':')[1]);
+   const newDep = depFlight.ToAirport;
+   const newRet = depFlight.FromAirport;
+   let possibleFlights = await Flight.find({FromAirport: newDep, ToAirport: newRet});
 
+   //Gets all Return Flights in later day
+   let returnFlights= possibleFlights.filter((flight)=>(
+      flight.DepDate.getTime() > flightDate.getTime()
+   ))
+
+   //Gets all Return Flights in later hour
+   let returnFlights2= possibleFlights.filter((flight)=>(
+      flight.DepDate.getTime() == flightDate.getTime()
+   )).filter((flight)=>(
+     Number.parseInt(flight.Departure.AsString.split(':')[0]) > flightArrHour
+   ));
+
+   //Gets all Return Flights in later minute
+   let returnFlights3 = possibleFlights.filter((flight)=>(
+      flight.DepDate.getTime() == flightDate.getTime()
+   )).filter((flight)=>(
+     Number.parseInt(flight.Departure.AsString.split(':')[0]) == flightArrHour
+   )).filter((flight)=>(
+      Number.parseInt(flight.Departure.AsString.split(':')[1]) > flightArrMin
+   ))
+
+   //Merges all Return Flights
+   returnFlights.concat(returnFlights2).concat(returnFlights3);
+
+   returnFlights = returnFlights.filter((flight) => (flight.ArrDate.getTime() === RetDate.getTime()))
+
+   res.send(returnFlights);
+//   console.log('return', returnFlights);
+  //return returnFlights
+}
 
 const findReturnFlights = async(depFlight, retDate)=>{
    let RetDate = new Date(retDate);
@@ -443,6 +483,7 @@ module.exports = {
     calcFlightDuration,
     getTime,
     findReturnFlights,
+    findReturnFlights2,
     searchFlights,
     updateSeats,
     addSeats
