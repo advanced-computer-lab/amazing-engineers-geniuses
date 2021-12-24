@@ -60,6 +60,6 @@ router.put('/update/:id', (req,res)=>{
 });
 
 router.get('/flight/show/:id',flightController.showFlightbyID);
-router.put('/booking/edit', bookingController.editBooking);
+// router.put('/booking/edit', bookingController.editBooking);
 
 module.exports = router;
