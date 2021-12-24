@@ -98,17 +98,19 @@ const sortClassList = (list)=>{
 
 const editBooking = async(req, res)=>{
     //let booking = req.body.booking;
-    let oldBookingInfo= req.body.oldBookingInfo;
     let bookingInfo=req.body.bookingInfo;
+    let oldBookingInfo= req.body.oldBookingInfo;
+    console.log(bookingInfo);
     bookingInfo={
         ...bookingInfo,
         DepartureFlight: bookingInfo.DepartureFlight._id ,
         ReturnFlight: bookingInfo.ReturnFlight._id ,
     }
     let updatedBooking = await Booking.findByIdAndUpdate(bookingInfo._id,bookingInfo);
-
+    //console.log(updatedBooking);
 
     if(bookingInfo.DepartureFlight != oldBookingInfo.DepartureFlight){
+        console.log("CHANGING DEPARTURE FLIGHT");
         let oldFlight = await Flight.findById(oldBookingInfo.DepartureFlight);
         let oldFlightAvailable = oldFlight.SeatsList.Available;
         oldFlightAvailable = [...oldFlightAvailable,...oldBookingInfo.DepSeats];
@@ -121,7 +123,7 @@ const editBooking = async(req, res)=>{
         let updatedOldFlight = await Flight.findByIdAndUpdate(oldBookingInfo.DepartureFlight,{SeatsList: oldFlightSeatList});
 
 
-        let newFlight = await findById(bookingInfo.DepartureFlight);
+        let newFlight = await Flight.findById(bookingInfo.DepartureFlight);
         const newChosen= bookingInfo.DepSeats;
         let tempAvailable = [...newFlight.SeatsList.Available];
         tempAvailable = tempAvailable.filter((seat)=>{
@@ -147,7 +149,7 @@ const editBooking = async(req, res)=>{
 
         let updatedOldFlight = await Flight.findByIdAndUpdate(oldBookingInfo.ReturnFlight,{SeatsList: oldFlightSeatList});
 
-        let newFlight = await findById(bookingInfo.ReturnFlight);
+        let newFlight = await Flight.findById(bookingInfo.ReturnFlight);
         const newChosen= bookingInfo.RetSeats;
         let tempAvailable = [...newFlight.SeatsList.Available];
         tempAvailable = tempAvailable.filter((seat)=>{

@@ -99,8 +99,9 @@ export default function ChangeSeats(props){
           editRet={props.editRet}
           editDep={props.editDep}
           tempFlight={props.tempFlight}
-          bookingInfo={props.booking}
+          bookingInfo={props.bookingInfo}
           editBooking={props.editBooking}
+          cabin={props.cabin}
         /> 
         </Container>
         
