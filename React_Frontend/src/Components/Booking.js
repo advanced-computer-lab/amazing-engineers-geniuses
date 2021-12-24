@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
 import { makeStyles } from "@mui/styles";
 import Modal from '@mui/material/Modal';
+import { useHistory } from "react-router-dom";
 const api = 'http://localhost:8000';
 
 const bull = (
@@ -101,12 +102,31 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function Booking (props) {
+    let history = useHistory();
 
-  
+    const [booking, setBooking] = useState(props.booking);
+    
+    function editBooking(){        
+        history.push({
+            pathname: '/editBooking',
+            state: {booking:props.booking, fromAirport:props.fromAirport, toAirport:props.toAirport, 
+            date:props.date, returnDate:props.returnDate, arrDep:props.arrDep, arrRet:props.arrRet, depFlightDepTime:props.depFlightDepTime,
+            depFlightArrTime:props.depFlightArrTime, retFlightDepTime:props.retFlightDepTime, retFlightArrTime:props.retFlightArrTime}
+        });
+        
+        // console.log("BOOKINGGGGGGGGG");
+        // console.log(props.booking);
+        // console.log(props.date);
+        // console.log(props.returnDate);
+        
+      }
 
 // once canceled is clicked, get the flightnumber of that one and send it down to this 
 
   const classes = useStyles();
+  if(!props.returnExists){
+      
+  }
   return (
     <Box sx={{ minWidth: 275 }}>
         
@@ -133,6 +153,7 @@ export default function Booking (props) {
             </CardContent>         
             <CardActions>
                 <div  style={{display : "flex"}}>
+                    <Button onClick = {editBooking} className={classes.viewDetailsButton} size="small">Edit</Button>
                     <Button onClick={props.handleConfirmOpen} className = {classes.cancelButton} size="small">Cancel</Button>
                     <Button onClick = {props.viewDetails} className = {classes.viewDetailsButton} size="small">Details</Button>
                 </div>
@@ -142,6 +163,4 @@ export default function Booking (props) {
         
     </Box>
   );
-}
-
-
+}   

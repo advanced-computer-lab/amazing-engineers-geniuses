@@ -80,6 +80,7 @@ export default function FlightSummary(props){
                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Class : {getClass2(bookingInfo.DepCabinClass)}</li> </Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Adult = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Child = {bookingInfo.DepartureFlight.Price[getClass(bookingInfo.DepCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Flight Cost = {props.depPrice} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
                     <hr/>
                 </div>
 
@@ -94,6 +95,7 @@ export default function FlightSummary(props){
                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}> Class : {getClass2(bookingInfo.RetCabinClass)} </li> </Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Adult = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Price/Child = {bookingInfo.ReturnFlight.Price[getClass(bookingInfo.RetCabinClass)]/2} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
+                     <Card.Subtitle className="mb-2 text-muted"> <li style={{listStyleType:'none'}}>Flight Cost = {bookingInfo.TotalCost-props.depPrice} <i className="fas fa-dollar-sign"></i></li></Card.Subtitle>
                      <hr/>
                 </div>
 

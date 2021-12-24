@@ -10,17 +10,29 @@ router.post('/availableFlights',flightController.filterFlights);
 
 
 router.post('/flight/viewReservations', userController.viewReservations);
+
 router.post('/flight/cancelReservations', userController.cancelReservation);
+router.post('/flight/cancelSingleFlight', userController.cancelSingleFlight);
+
 router.get('/flight/getArrivalAirport', userController.getArrivalAirport);
+
 router.post('/flight/getArrivalAirport', userController.getArrivalAirport);
+
 router.get('/flight/getDepartureAirport', userController.getDepartureAirport);
+
 router.post('/flight/getDepartureAirport', userController.getDepartureAirport);
-router.post('/flight/deleteBooking', userController.deleteBooking);
-router.post('/sendConfirmation', userController.sendEmail);    
+
+router.post('/sendConfirmation', userController.sendEmail); 
+
+router.post('/makePayment', userController.payment);  
+
 router.post('/searchFlights',flightController.searchFlights);
+
 router.post('/createBooking', bookingController.createBooking);
 
 router.get('/findReturnFlights/:id',flightController.findReturnFlights);
+
+router.post('/flight/addSeatsCancelled', flightController.addSeats);
 
 router.get('/find/', async (req,res)=>{
     const users = await User.find({})

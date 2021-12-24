@@ -1,0 +1,52 @@
+#userInfoForm {
+  width: 70vw;
+  margin-left: 14vw;
+  margin-top: 2vw;
+  border: solid black;
+  padding: 3vw;
+  padding-right: 2vw;
+}
+#formGridAddress1 {
+  width: 33.5vw;
+}
+.main {
+  /* background: grey; */
+
+  /* border: blac */
+}
+.greeting {
+  font-weight: bold;
+  font-size: larger;
+  margin-left: 34vw;
+  margin-top: 3vw;
+}
+.userInfoButton {
+  text-align: center;
+  background: #002677;
+  margin-left: 30.6vw;
+  margin-top: 2vw;
+}
+Snackbar {
+  margin-left: 10vw !important;
+}
+Alert {
+  margin-left: 10vw !important;
+}
+.snackbar-root {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2vw;
+}
+
+.snackbar {
+  max-width: 100%;
+  padding: 15px;
+  /* background: #333; */
+  color: white;
+  font-family: sans-serif;
+}

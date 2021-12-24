@@ -57,7 +57,7 @@ export default function MyBookedFlights(props) {
             console.log(res.data.listOfBookings, "ress dataaa");
             setBookings(res.data.listOfBookings);
             setList(res.data.listOfBookings.map((booking)=>
-                 (<BookingItem booking={booking}/>)
+                 (<BookingItem departing = {booking.DepartureFlight} return = {booking.ReturnFlight} booking={booking}/>)
             ))
             setSpinner(false);
         })
@@ -70,6 +70,8 @@ export default function MyBookedFlights(props) {
         );
         
     }, []);
+
+    
     
 
     return(

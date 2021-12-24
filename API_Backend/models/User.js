@@ -18,16 +18,32 @@ const userSchema = new Schema({
     default: false,
     required: false
   },
-  FirstName: String,
-  LastName: String,
-  Address: String,
-  CountryCode: String,
+  FirstName: {
+    type: String,
+    default: null
+  },
+  LastName:  {
+    type: String,
+    default: null
+  },
+  Address:  {
+    type: String,
+    default: null
+  },
+  CountryCode:  {
+    type: String,
+    default: null
+  },
   Phone:[String],
   Email:{
     type: String,
-    unique: true
+    unique: true,
+    default: null
   },
-  Passport:String,
+  Passport: {
+    type: String,
+    default: null
+  },
   
   Bookings:[{
         type: mongoose.Schema.Types.ObjectId,

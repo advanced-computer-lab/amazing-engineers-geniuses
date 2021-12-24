@@ -14,13 +14,20 @@ export default function Register(props){
         Auth.register(username,password)
             .then((res)=>{
                 console.log(res.data);
-                history.push('/');
+                Auth.login(username, password)
+                    .then((res)=>{
+                        history.push('/userInfo');
+                    }).catch((err)=>{
+                            //console.log(err.response);
+                        })
+                
             })
             .catch((err)=>{
                 //console.log(err.response);
                 setErrMsg(err.response.data.message);
                 setFlash(true)
             })
+        
     }
 
     return(
