@@ -20,6 +20,7 @@ import SearchFlight from './Components/SearchFlight'
 import EditDepartureFlight from './Components/EditDepartureFlight'
 import EditReturnFlight from './Components/EditReturnFlight'
 import ChangeFlight from './Components/ChangeFlight'
+import NamesModal from './Components/NamesModal';
 
 class App extends Component {
   constructor(props){
@@ -40,6 +41,7 @@ class App extends Component {
       <Router>
           <NavBar/>
           <Route exact path='/' component={Homepage} />
+          <Route path='/namesModal' component={NamesModal}/>
           <Route path='/flightSchedule' component={FlightSchedule} />
           <Route path='/viewMyBookings' component={MyBookings} />
           {this.state.currentUser.isAdmin && <AdminRoutes/>}
