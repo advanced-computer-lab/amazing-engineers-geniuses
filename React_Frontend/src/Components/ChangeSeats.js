@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 import Seats from './Seats';
 import {Row,Col } from 'react-bootstrap';
 import axios from 'axios';
-
+import Pay from './Pay';
 const api = 'http://localhost:8000';
 
 export default function ChangeSeats(props){
@@ -15,6 +15,8 @@ export default function ChangeSeats(props){
     const[flight,setFlight] = useState(props.flight);
     const[cabin,setCabin] = useState(props.cabin);
 
+    const [showPay, setPay] = useState(false);
+    const [showInvoice, setInvoice] = useState(false);
     const [newSeats, setNewSeats] = useState();
     const [showPopup, setPopup] = useState(false);
 
@@ -39,7 +41,9 @@ export default function ChangeSeats(props){
         props.setSeats(newSeats);
     },[newSeats])
     
-
+    function showPayModal(){
+        setPay(true);
+    }
     const editFlight = ()=>{
         axios.put(`${api}/user/booking/editSeats`,{
             flight: flight,
@@ -79,10 +83,21 @@ export default function ChangeSeats(props){
           <li style={{listStyleType:'none'}}> <i style={{color: 'lightblue', border:'none'}} className="fas fa-square fa-2x"></i>    CHOSEN  </li>
 
         {props.changingFlight 
-        ? <button className='btn-warning' onClick={()=>{setPopup(true)}}>Select Seats</button> 
+        ? <button className='btn-warning' onClick={()=>{showPayModal()}}>Select Seats</button> 
         :<button className='btn-warning' onClick={editFlight}>Change</button>}
-       </Container>
-
+        
+        <Pay
+          show={showPay}
+          onHide={() => {
+            setPay(false);
+          }}
+          changingFlight ={props.changingFlight}
+          setDisplay={props.setDisplay}
+          
+        /> 
+        </Container>
+        
+        
     );
 
 }
