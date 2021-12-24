@@ -16,13 +16,16 @@ export default function Pay(props){
         if(props.changingFlight){
             //TO Change later
             if(props.editDep){
-                props.setBookingInfo({...props.bookingInfo, DepartureFlight : props.tempFlight , DepSeats:props.depSeats} )
+                console.log("EDITING DEP");
+                props.setBookingInfo({...props.bookingInfo, DepartureFlight : props.tempFlight , DepSeats:props.depSeats, DepCabinClass:props.cabin} )
                 
             }
             else{
-                props.setBookingInfo({...props.bookingInfo, ReturnFlight : props.tempFlight, RetSeats:props.retSeats} )
+                console.log("EDITING RET");
+                props.setBookingInfo({...props.bookingInfo, ReturnFlight : props.tempFlight, RetSeats:props.retSeats, RetCabinClass:props.cabin} )
 
             }
+            //console.log(props.bookingInfo);
             props.editBooking();
             props.setDisplay('Invoice');
 

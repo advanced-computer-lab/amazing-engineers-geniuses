@@ -26,7 +26,6 @@ export default function ChangeFlight(props){
       console.log(display);
   }, [])
     
-    
     function showAlert(message,show){
       setAlert({
           msg: message,
@@ -57,10 +56,11 @@ export default function ChangeFlight(props){
     
     const editBooking = ()=>{
       axios.put(`${api}/user/booking/edit`,{
-          booking: props.booking,
+          //booking: props.booking,
           oldBookingInfo: oldBookingInfo,
           bookingInfo: bookingInfo
       }).then((res)=>{
+          //console.log(bookingInfo);
           console.log('booking updated');
       }).catch((err)=>console.log(err));
      // props.setMainView("main");
@@ -103,7 +103,7 @@ export default function ChangeFlight(props){
                 setTempFlight={setTempFlight}
               />
             )}
-            {display === "chooseDepSeats"  &&<ChangeSeats editBooking={editBooking} tempFlight={tempFlight} editDep={true} depSeats={depSeats} setBookingInfo={setBookingInfo} setDisplay={setDisplay} type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {tempFlight} cabin = {location.state.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
+            {display === "chooseDepSeats"  &&<ChangeSeats bookingInfo={bookingInfo} editBooking={editBooking} tempFlight={tempFlight} editDep={true} depSeats={depSeats} setBookingInfo={setBookingInfo} setDisplay={setDisplay} type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {tempFlight} cabin = {location.state.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
             
             {/* {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>} */}
             
@@ -120,7 +120,7 @@ export default function ChangeFlight(props){
                 />
                 </div> )}
                 
-            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret'  editBooking={editBooking} tempFlight={tempFlight} ediRet={true} retSeats={retSeats} setBookingInfo={setBookingInfo}  setDisplay={setDisplay} changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {tempFlight} cabin = {location.state.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
+            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret'  bookingInfo={bookingInfo} editBooking={editBooking} tempFlight={tempFlight} ediRet={true} retSeats={retSeats} setBookingInfo={setBookingInfo}  setDisplay={setDisplay} changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {tempFlight} cabin = {location.state.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
            
     </Container>
     
