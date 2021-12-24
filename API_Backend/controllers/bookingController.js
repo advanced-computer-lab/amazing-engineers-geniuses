@@ -96,6 +96,24 @@ const sortClassList = (list)=>{
     return final;
 }
 
+const editBooking = async(req, res)=>{
+    //const newChosen = req.body.newChosen;
+    let flight = req.body.flight;
+    let booking = req.body.booking;
+    let type = req.body.type;
+    
+    let updatedFlight = await Flight.findByIdAndUpdate(flight._id,{SeatsList: editedSeatsList});
+    
+    let updateBooking = {}
+    if(type === 'Dep')
+        updatedBooking = await Booking.findByIdAndUpdate(booking._id,{DepSeats: newChosen});
+    else if(type === 'Ret')
+         updatedBooking = await Booking.findByIdAndUpdate(booking._id,{RetSeats: newChosen});
+
+    res.send({updatedBooking, updatedFlight});
+}
+
+
 module.exports = {
     createBooking,
     editSeats
