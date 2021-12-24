@@ -114,6 +114,7 @@ export default function ChangeFlight(props){
                   setDisplay = {setDisplay}
                   CabinClass={location.state.RetCabinClass}
                   bookingInfo={bookingInfo}
+                  setTempFlight={setTempFlight}
                 />
                 </div> )}
                 
