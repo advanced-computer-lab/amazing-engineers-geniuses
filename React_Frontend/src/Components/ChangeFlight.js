@@ -58,10 +58,12 @@ export default function ChangeFlight(props){
     const editBooking = ()=>{
       axios.put(`${api}/user/booking/edit`,{
           booking: props.booking,
+          oldBookingInfo: oldBookingInfo,
+          bookingInfo: bookingInfo
       }).then((res)=>{
           console.log('booking updated');
       }).catch((err)=>console.log(err));
-      props.setMainView("main");
+     // props.setMainView("main");
   }
     
     function getClass2(CabinClass){
@@ -101,7 +103,7 @@ export default function ChangeFlight(props){
                 setTempFlight={setTempFlight}
               />
             )}
-            {display === "chooseDepSeats"  &&<ChangeSeats setDisplay={setDisplay} type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
+            {display === "chooseDepSeats"  &&<ChangeSeats editBooking={editBooking} tempFlight={tempFlight} editDep={true} depSeats={depSeats} setBookingInfo={setBookingInfo} setDisplay={setDisplay} type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {tempFlight} cabin = {location.state.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
             
             {/* {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>} */}
             
@@ -114,10 +116,12 @@ export default function ChangeFlight(props){
                   setDisplay = {setDisplay}
                   CabinClass={location.state.RetCabinClass}
                   bookingInfo={bookingInfo}
+                  setTempFlight={setTempFlight}
+
                 />
                 </div> )}
                 
-            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret' setDisplay={setDisplay} changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.ReturnFlight} cabin = {bookingInfo.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
+            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret'  editBooking={editBooking} tempFlight={tempFlight} ediRet={true} retSeats={retSeats} setBookingInfo={setBookingInfo}  setDisplay={setDisplay} changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {tempFlight} cabin = {location.state.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
            
     </Container>
     

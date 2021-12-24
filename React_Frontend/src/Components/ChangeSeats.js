@@ -93,7 +93,14 @@ export default function ChangeSeats(props){
           }}
           changingFlight ={props.changingFlight}
           setDisplay={props.setDisplay}
-          
+          setBookingInfo={props.setBookingInfo}
+          depSeats={props.depSeats}
+          retSeats={props.retSeats}
+          editRet={props.editRet}
+          editDep={props.editDep}
+          tempFlight={props.tempFlight}
+          bookingInfo={props.booking}
+          editBooking={props.editBooking}
         /> 
         </Container>
         
