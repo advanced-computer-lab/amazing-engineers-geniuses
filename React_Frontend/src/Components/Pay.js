@@ -15,7 +15,18 @@ export default function Pay(props){
         e.preventDefault();
         if(props.changingFlight){
             //TO Change later
+            if(props.editDep){
+                props.setBookingInfo({...props.bookingInfo, DepartureFlight : props.tempFlight , DepSeats:props.depSeats} )
+                
+            }
+            else{
+                props.setBookingInfo({...props.bookingInfo, ReturnFlight : props.tempFlight, RetSeats:props.retSeats} )
+
+            }
+            props.editBooking();
             props.setDisplay('Invoice');
+
+           
         }
         else
             props.Book();
