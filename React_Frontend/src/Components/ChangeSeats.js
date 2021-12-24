@@ -44,10 +44,6 @@ export default function ChangeSeats(props){
     function showPayModal(){
         setPay(true);
     }
-    function showInvoicee(){
-        setInvoice(true);
-    }
-
     const editFlight = ()=>{
         axios.put(`${api}/user/booking/editSeats`,{
             flight: flight,

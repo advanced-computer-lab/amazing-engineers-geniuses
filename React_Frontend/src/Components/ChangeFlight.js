@@ -93,6 +93,7 @@ export default function ChangeFlight(props){
           </Alert>
         )}
         <br/>
+        {display === 'Invoice' && <Invoice bookingInfo={bookingInfo} />}
         {display === "depF" && location.state.flightsWithReturn.length !== 0 && (
               <AvailableFlights
                 bookingInfo={bookingInfo}
@@ -117,8 +118,8 @@ export default function ChangeFlight(props){
                 />
                 </div> )}
                 
-            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret' changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.ReturnFlight} cabin = {bookingInfo.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
-   
+            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret' setDisplay={setDisplay} changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.ReturnFlight} cabin = {bookingInfo.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
+           
     </Container>
     
     

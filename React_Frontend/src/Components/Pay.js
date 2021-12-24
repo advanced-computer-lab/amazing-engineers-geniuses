@@ -15,10 +15,12 @@ export default function Pay(props){
         e.preventDefault();
         if(props.changingFlight){
             //TO Change later
+            console.log("aaa");
             props.setDisplay('Invoice');
         }
         else
             props.Book();
+            console.log("bbb");
         
     }
     
