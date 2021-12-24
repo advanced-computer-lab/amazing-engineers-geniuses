@@ -7,6 +7,7 @@ const api = 'http://localhost:8000'
 
 export default function Pay(props){
 
+    const [holderName, setHolderName] = useState("");
     const [paymentDetails, setPayment] = useState({
         CreditCard: '',
         Name: '',
@@ -44,7 +45,7 @@ export default function Pay(props){
             // console.log(res.data);
             const {status} = res;
             if(res.status == 200){
-                sendMail();
+                sendMail(token.email);
                 createBooking();
             }
             console.log(status, "status");
@@ -55,9 +56,10 @@ export default function Pay(props){
         })
     }   
     
-    const sendMail = () =>{
-        axios.post(`${api}/user/sendConfirmation`, {email: curUser.Email, emailSubject: "Transaction completed" , 
+    const sendMail = (inputEmail) =>{
+        axios.post(`${api}/user/sendConfirmation`, {email: inputEmail, emailSubject: "Transaction completed" , 
         emailBody:  
+        "Dear " + holderName +
         "We have just received a payment of " + props.price + "EGP. Listed below are the details of your booking" + "\n"
         + "\n" + "\n"
         + "Departure Date: " + props.bookingDetails.DepartureFlight.DepDate.substring(0,10) + "\n" 
@@ -117,7 +119,7 @@ export default function Pay(props){
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="CardHolder">
                             <Form.Label>Card Holder Name</Form.Label>
-                            <Form.Control required type="text" placeholder="" onChange={(e) => setPayment({ ...paymentDetails, Name: e.target.value })}/>
+                            <Form.Control required type="text" placeholder="" onChange={(e) => setHolderName(e.target.value )}/>
                         </Form.Group>
                     </Row>
                     {/* <Row className="mb-3">
