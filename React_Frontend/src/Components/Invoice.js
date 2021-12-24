@@ -33,7 +33,8 @@ export default function Invoice(props){
                                 <strong className="me-auto">Booking Number</strong>
                                 <small className="text-muted">just now</small>
                             </Toast.Header>
-                            <Toast.Body>Your Booking Number: {props.bookingInfo.bID} </Toast.Body>
+                            {/* props. || .bID */}
+                            <Toast.Body>Your Booking Number: {bookingInfo._id} </Toast.Body> 
                         </Toast>
                         }
                                       
