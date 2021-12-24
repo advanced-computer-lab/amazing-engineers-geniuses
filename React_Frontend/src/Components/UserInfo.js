@@ -149,7 +149,7 @@ export default function UserInfo(){
             </Button>
         </Form>
         <div class = "snackbar-root">
-        <Snackbar class = "snackbar" open={open} autoHideDuration={1000} onClose={handleClose}>
+        <Snackbar class = "snackbar" open={open} autoHideDuration={3000} onClose={handleClose}>
                 <Alert style={{textAlign: "center"}} onClose={handleClose} severity="warning" sx={{ width: '100%' }}>
                     {AlertText}
                 </Alert>

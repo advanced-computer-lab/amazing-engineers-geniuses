@@ -55,7 +55,8 @@ export default function Booking (props) {
   
 
     useEffect(()=>{
-      console.log(props.departureDate, "hohoho");
+      console.log(props.departureCost, "hohoho");
+      console.log(props.returnCost, "hohoho");
       console.log(props.returnExists, "hohoho");
       // getRetPrice();
  }
@@ -141,7 +142,7 @@ export default function Booking (props) {
         </div>
       </div>
       <div class = "snackbar-root">
-        <Snackbar class = "snackbar" open={open} autoHideDuration={1000} onClose={handleClose}>
+        <Snackbar class = "snackbar" open={open} autoHideDuration={3000} onClose={handleClose}>
                 <MuiAlert style={{textAlign: "center"}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
                   Flight details have been emailed to you
                 </MuiAlert>

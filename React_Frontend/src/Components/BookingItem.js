@@ -241,7 +241,8 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
             const curDate = res.data.departureAirport.DepDate.toString().substring(0,7);
             const curDay = res.data.departureAirport.DepDate.toString().substring(8,10);
             const cabin = getClass2(props.booking.DepCabinClass);
-            setDepartureCost(res.data.departureAirport.Price[cabin]);
+            let price = res.data.departureAirport.Price[cabin] * booking.AdultPassengers + (res.data.departureAirport.Price[cabin] / 2) * booking.KidPassengers;
+            setDepartureCost(price);
             const x = res.data.departureAirport.DepDate.toString().substring(0,10); //dep date
             setDepDate(x);
             console.log(depDate,"yeeeeehhaaaa")
@@ -273,7 +274,8 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
             setReturnDate(curReturnDate);
 
             const cabin = getClass2(props.booking.RetCabinClass);
-            setReturnCost(res.data.departureAirport.Price[cabin]);
+            let price = res.data.departureAirport.Price[cabin] * booking.AdultPassengers + (res.data.departureAirport.Price[cabin] / 2) * booking.KidPassengers;
+            setReturnCost(price);
 
             const z = res.data.departureAirport.ArrDate.toString().substring(0,10);
             setArrRet(z);
