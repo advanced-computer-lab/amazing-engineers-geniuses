@@ -7,6 +7,7 @@ import AvailableReturnFlights from './AvailableReturnFlights';
 import ChooseSeats from './ChooseSeats';
 import ChangeSeats from './ChangeSeats';
 
+const api = 'http://localhost:8000';
 
 export default function ChangeFlight(props){
     const location = useLocation();
@@ -15,7 +16,7 @@ export default function ChangeFlight(props){
     const [bookingInfo,setBookingInfo] = useState(location.state.bookingInfo)
     const [alert, setAlert] = useState({msg:'', show:false});
     const [depSeats,setDepSeats] = useState();
-    // const [retSeats,setRetSeats] = useState();
+    const [retSeats,setRetSeats] = useState();
     
     useEffect(() => {
       console.log(display);
@@ -50,6 +51,19 @@ export default function ChangeFlight(props){
     //     setBookingInfo({...bookingInfo, RetSeats: seats})
     // }
     
+  //   const editFlight = ()=>{
+  //     axios.put(`${api}/user/booking/editSeats`,{
+  //         flight: flight,
+  //         oldChosen: props.chosenSeats,
+  //         newChosen: newSeats,
+  //         booking: props.booking,
+  //         type: props.type
+  //     }).then((res)=>{
+  //         console.log('successss');
+  //     }).catch((err)=>console.log(err));
+  //     props.setMainView("main");
+  // }
+    
     function getClass2(CabinClass){
         if(CabinClass ==='E'){
             return 'Econ';
@@ -77,25 +91,32 @@ export default function ChangeFlight(props){
           </Alert>
         )}
         <br/>
-        {display === "depF" && location.state.flightsWithReturn.length !== 0 &&(
+        {display === "depF" && location.state.flightsWithReturn.length !== 0 && (
               <AvailableFlights
                 bookingInfo={bookingInfo}
-                edit={true}
+                editDep={true}
                 setDisplay = {setDisplay}
+                CabinClass={location.state.DepCabinClass}
               />
             )}
             {display === "chooseDepSeats"  &&<ChangeSeats type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
             
             {/* {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>} */}
-            {
-              display === "retF" && 
+            
+            {display === "retF" && (
+              <div>
                 <AvailableReturnFlights
                   rFs={location.state.returnFlights}
                   CabinClass={bookingInfo.RetCabinClass}
+                  editRet={true}
+                  setDisplay = {setDisplay}
+                  CabinClass={location.state.RetCabinClass}
+                  bookingInfo={bookingInfo}
                 />
-                // <h1>blaahh</h1>
-              
-            }
+                </div> )}
+                
+            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret' changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.ReturnFlight} cabin = {bookingInfo.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
+   
     </Container>
     
     

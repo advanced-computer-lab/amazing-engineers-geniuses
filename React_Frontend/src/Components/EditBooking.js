@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, InputGroup, Container, Button, Spinner, Modal, ModalBody, Card,Alert  } from "react-bootstrap";
-
+import { ArrowRight } from 'react-bootstrap-icons';
 import { useHistory, useLocation } from "react-router-dom";
 import BookingItem from './BookingItem';
 import Booking from './Booking';
@@ -89,7 +89,7 @@ export default function EditBooking(props) {
 
             history.push({
                 pathname: 'changeFlight',
-                state: { display:'depF', bookingInfo: booking, flightsWithReturn: flightsWithReturn, RetDate: retFlightDepDate, DepCabinClass: booking.DepCabinClass, RetCabinClass: booking.RetCabinClass, PassengersNumber: booking.NumberOfPassengers, AdultPassengers: booking.AdultPassengers, KidPassengers: booking.KidPassengers }
+                state: { display:'depF', bookingInfo: booking, flightsWithReturn: flightsWithReturn, RetDate: retFlightDepDate, DepCabinClass: DepCabinClass, RetCabinClass: RetCabinClass, PassengersNumber: booking.NumberOfPassengers, AdultPassengers: booking.AdultPassengers, KidPassengers: booking.KidPassengers }
             });
             // console.log("display");
             // console.log(display);
@@ -117,7 +117,7 @@ export default function EditBooking(props) {
 
             history.push({
                 pathname: 'changeFlight',
-                state: {display:'retF', returnFlights:returnFlights, bookingInfo: booking , RetDate: retFlightDepDate, DepCabinClass: booking.DepCabinClass, RetCabinClass: booking.RetCabinClass, PassengersNumber: booking.NumberOfPassengers, AdultPassengers: booking.AdultPassengers, KidPassengers: booking.KidPassengers }
+                state: {display:'retF', returnFlights:returnFlights, bookingInfo: booking , RetDate: retFlightDepDate, DepCabinClass: DepCabinClass, RetCabinClass: RetCabinClass, PassengersNumber: booking.NumberOfPassengers, AdultPassengers: booking.AdultPassengers, KidPassengers: booking.KidPassengers }
             });
             console.log("display");
             console.log(display);
@@ -272,6 +272,15 @@ export default function EditBooking(props) {
                             </Modal.Header>
 
                             <Modal.Body>
+                            
+                            <Card border="primary" style={{ width: '18rem' , textAlign:'center' , marginLeft:'auto', marginRight:'auto' }}>
+                                <Card.Body>
+                                    <Card.Title>
+                                        {departureFlight.FromAirport} <ArrowRight color="royalblue" size={50} /> {departureFlight.ToAirport}
+                                    </Card.Title>
+                                </Card.Body>
+                            </Card>
+                            
                                 <Form id='searchForm' onSubmit={(e) => {
                                     e.preventDefault();
                                     //setSpinner(true);
@@ -284,41 +293,11 @@ export default function EditBooking(props) {
 
                                         </div>
 
-                                        <Form.Group className="mb-3" controlId="Airports">
-                                            <Row>
-                                                <Col xs={5}>
-                                                    <InputGroup className="mb-3">
-                                                        <InputGroup.Text>From</InputGroup.Text>
-
-                                                        <Form.Control
-                                                            type="text"
-                                                            value={departureFlight.FromAirport}
-                                                            required
-                                                            editable={false}
-                                                        //onChange={(e) => setFromAirport(e.target.value)}
-                                                        />
-
-                                                    </InputGroup>
-                                                </Col>
-                                                <Col xs={5}>
-                                                    <InputGroup className="mb-3">
-                                                        <InputGroup.Text>To</InputGroup.Text>
-                                                        <Form.Control
-                                                            type="text"
-                                                            value={departureFlight.ToAirport}
-                                                            required
-                                                            editable={false}
-                                                        />
-                                                    </InputGroup>
-                                                </Col>
-                                            </Row>
-                                        </Form.Group>
-
                                         <Row className="align-items">
-                                            <Col xs={5}>
+                                            <Col xs={8}>
                                                 <Form.Group controlId="formGridDepartue">
                                                     <InputGroup className="mb-3">
-                                                        <InputGroup.Text>Departure</InputGroup.Text>
+                                                        <InputGroup.Text>Departure Date</InputGroup.Text>
 
                                                         <Form.Control
                                                             type="date"
@@ -331,10 +310,10 @@ export default function EditBooking(props) {
                                                     </InputGroup>
                                                 </Form.Group>
                                             </Col>
-                                            <Col xs={5}>
+                                            <Col xs={8}>
                                                 <Form.Group controlId="formGridCabin">
                                                     <InputGroup className="mb-3">
-                                                        <InputGroup.Text>Departure Class</InputGroup.Text>
+                                                        <InputGroup.Text>Cabin Class</InputGroup.Text>
                                                         <Form.Select
                                                             name="DepCabinClass"
                                                             placeholder={booking.DepCabinClass}
@@ -394,6 +373,14 @@ export default function EditBooking(props) {
                             </Modal.Header>
 
                             <Modal.Body>
+                            <Card border="primary" style={{ width: '18rem' , textAlign:'center' , marginLeft:'auto', marginRight:'auto' }}>
+                                <Card.Body>
+                                    <Card.Title>
+                                        {returnFlight.FromAirport} <ArrowRight color="royalblue" size={50} /> {returnFlight.ToAirport}
+                                    </Card.Title>
+                                </Card.Body>
+                            </Card>
+                            
                                 <Form id='editReturn' >
                                     <br />
                                     <Container id='ediRetContainer'>
@@ -402,41 +389,11 @@ export default function EditBooking(props) {
 
                                         </div>
 
-                                        <Form.Group className="mb-3" controlId="Airports">
-                                            <Row>
-                                                <Col xs={5}>
-                                                    <InputGroup className="mb-3">
-                                                        <InputGroup.Text>From</InputGroup.Text>
-
-                                                        <Form.Control
-                                                            type="text"
-                                                            value={returnFlight.FromAirport}
-                                                            required
-                                                            editable={false}
-                                                        //onChange={(e) => setFromAirport(e.target.value)}
-                                                        />
-
-                                                    </InputGroup>
-                                                </Col>
-                                                <Col xs={5}>
-                                                    <InputGroup className="mb-3">
-                                                        <InputGroup.Text>To</InputGroup.Text>
-                                                        <Form.Control
-                                                            type="text"
-                                                            value={returnFlight.ToAirport}
-                                                            required
-                                                            editable={false}
-                                                        />
-                                                    </InputGroup>
-                                                </Col>
-                                            </Row>
-                                        </Form.Group>
-
-                                        <Row className="align-items">
-                                            <Col xs={5}>
+                                        <Row className="align-items" style={{ justifyContent:'center' }}>
+                                            <Col xs={8}>
                                                 <Form.Group controlId="formGridDepartue">
                                                     <InputGroup className="mb-3">
-                                                        <InputGroup.Text>Departure</InputGroup.Text>
+                                                        <InputGroup.Text>Departure Date</InputGroup.Text>
 
                                                         <Form.Control
                                                             type="date"
@@ -449,10 +406,10 @@ export default function EditBooking(props) {
                                                     </InputGroup>
                                                 </Form.Group>
                                             </Col>
-                                            <Col xs={5}>
+                                            <Col xs={8}>
                                                 <Form.Group controlId="formGridCabin">
                                                     <InputGroup className="mb-3">
-                                                        <InputGroup.Text>Return Class</InputGroup.Text>
+                                                        <InputGroup.Text>Cabin Class</InputGroup.Text>
                                                         <Form.Select
                                                             name="DepCabinClass"
                                                             placeholder={booking.RetCabinClass}
