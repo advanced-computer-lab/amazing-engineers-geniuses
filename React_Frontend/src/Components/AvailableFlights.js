@@ -16,7 +16,7 @@ export default function AvailableFlights(props) {
   useEffect(() => {
     setFlightList(flights.map((flight, key)=>
  
-      <FlightItem setDisplay={props.setDisplay} bookingInfo={props.bookingInfo} editDep={props.editDep} setDepF={props.setDepF} hideBtn={true} showSelect={true} showSelect2={false} CabinClass={props.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> ))
+      <FlightItem setTempFlight={props.setTempFlight} setDisplay={props.setDisplay} bookingInfo={props.bookingInfo} editDep={props.editDep} setDepF={props.setDepF} hideBtn={true} showSelect={true} showSelect2={false} CabinClass={props.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> ))
   }, [])
 
   return (

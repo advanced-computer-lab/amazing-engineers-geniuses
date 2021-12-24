@@ -17,6 +17,8 @@ export default function ChangeFlight(props){
     const [alert, setAlert] = useState({msg:'', show:false});
     const [depSeats,setDepSeats] = useState();
     const [retSeats,setRetSeats] = useState();
+    const [tempFlight,setTempFlight]=useState({});
+    const oldBookingInfo=location.state.bookingInfo;
     
     useEffect(() => {
       console.log(display);
@@ -51,18 +53,14 @@ export default function ChangeFlight(props){
     //     setBookingInfo({...bookingInfo, RetSeats: seats})
     // }
     
-  //   const editFlight = ()=>{
-  //     axios.put(`${api}/user/booking/editSeats`,{
-  //         flight: flight,
-  //         oldChosen: props.chosenSeats,
-  //         newChosen: newSeats,
-  //         booking: props.booking,
-  //         type: props.type
-  //     }).then((res)=>{
-  //         console.log('successss');
-  //     }).catch((err)=>console.log(err));
-  //     props.setMainView("main");
-  // }
+    const editBooking = ()=>{
+      axios.put(`${api}/user/booking/edit`,{
+          booking: props.booking,
+      }).then((res)=>{
+          console.log('booking updated');
+      }).catch((err)=>console.log(err));
+      props.setMainView("main");
+  }
     
     function getClass2(CabinClass){
         if(CabinClass ==='E'){
@@ -91,12 +89,15 @@ export default function ChangeFlight(props){
           </Alert>
         )}
         <br/>
+        
+        {/* setBookingInfo={setBookingInfo} */}
         {display === "depF" && location.state.flightsWithReturn.length !== 0 && (
               <AvailableFlights
                 bookingInfo={bookingInfo}
                 editDep={true}
                 setDisplay = {setDisplay}
                 CabinClass={location.state.DepCabinClass}
+                setTempFlight={setTempFlight}
               />
             )}
             {display === "chooseDepSeats"  &&<ChangeSeats type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
