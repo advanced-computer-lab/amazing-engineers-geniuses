@@ -244,6 +244,7 @@ const cancelRequest = async (e, canceledNumber, canceledFrom, canceledTo, cancel
             setDepartureCost(res.data.departureAirport.Price[cabin]);
             const x = res.data.departureAirport.DepDate.toString().substring(0,10); //dep date
             setDepDate(x);
+            console.log(depDate,"yeeeeehhaaaa")
             const y=res.data.departureAirport.ArrDate.toString().substring(0,10); //arr date
             
             const depFlightDepTime=res.data.departureAirport.Departure.Hours + ":" + res.data.departureAirport.Departure.Minutes + " " + res.data.departureAirport.Departure.Period;
@@ -321,6 +322,8 @@ else{
                         depFlightArrTime={depFlightArrTime}
                         retFlightDepTime={retFlightDepTime}
                         retFlightArrTime={retFlightArrTime}
+                        depCabin = {getClass2(props.booking.DepCabinClass)}
+                        retCabin = {getClass2(props.booking.RetCabinClass)}
                     ></NewBooking>
                     <Modal
                         open={open}

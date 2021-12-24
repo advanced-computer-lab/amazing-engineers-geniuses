@@ -268,7 +268,7 @@ const payment = async (req, res)=>{
     }).then( async customer => {
         await stripe.charges.create({
             amount: product.price*100 + 500,
-            currency : 'USD',
+            currency : 'EGP',
             customer : customer.id,
             receipt_email : token.email,
             description: `purchase of ${product.name}`,

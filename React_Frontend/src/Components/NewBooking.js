@@ -1,6 +1,8 @@
 import React, {useEffect,useState} from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -14,7 +16,9 @@ import { Col } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Container } from 'react-bootstrap';
 import "../Styles/NewBooking.css";
-const api = 'http://localhost:8000';
+import Auth from '../services/Auth';
+const api = 'http://localhost:8000'
+
 
 
 
@@ -23,6 +27,10 @@ export default function Booking (props) {
     let history = useHistory();
     const[retPrice, setRetPrice] = React.useState(0);
     const[depPrice, setDepPrice] = React.useState(0);
+    const [open, setOpen] = React.useState(false);
+    const curUser = Auth.getCurrentUser();
+    
+
 
     function getClass2(CabinClass){
       if(CabinClass ==='E'){
@@ -36,6 +44,14 @@ export default function Booking (props) {
       }
       return 'Error in getClass()';
   }
+    
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
   
 
     useEffect(()=>{
@@ -55,7 +71,40 @@ export default function Booking (props) {
         });
       }
 
+      const sendMail = () =>{
+        axios.post(`${api}/user/sendConfirmation`, {email: curUser.Email, emailSubject: "Flight Itinerary" , 
+        emailBody:  
+        "Listed below are the details of your booking" + "\n"
+        + "\n" + "\n"
+        + "Departure Date: " + props.departureDate + "\n" 
+        + "Return Flight Departure Date: " + props.returnDate.substring(0,10) + "\n" 
+        + "Departing flight departure time: " + props.depFlightDepTime + "\n" 
+        + "Departing flight arrival time: " + props.depFlightArrTime + "\n" 
+        + "Return Flight Departure Time: " +props.retFlightDepTime + "\n" 
+        + "Return Flight arrival Time: " + props.retFlightArrTime + "\n" 
+        + "Departing Flight cabin class: " +  props.depCabin + "\n" 
+        + "Returning Flight cabin class: " + props.retCabin + "\n" 
+        + "Departing Flight seats: " + props.arrDep + "\n" 
+        + "Returning Flight seats: " + props.arrRet + "\n" 
+        + "Number of passengers: " + props.booking.NumberOfPassengers + "\n" 
+        + "Adult passengers: " + props.booking.AdultPassengers + "\n" 
+        + "Kid passengers: " + props.booking.KidPassengers + "\n" 
+        + "Total cost: " + props.booking.TotalCost + " EGP" + "\n" + "\n" + "\n" 
+        + "Thank you for using Amazing Airlines." + "\n" + "We hope you enjoy your first and probably last flight."
+        + "\n" + "Brought to you by Khaled, Amira, Shahd, Mohannad and David"
+        + "\n" + "\n" + "\n" + "For more information, please visit our website, it took alot of effort to make."
+        })
+            .then((res) => {
+                console.log("email sent")
+                console.log(res.data)
+                setOpen(true);
+            }).catch((error) =>{
+                if(error){
 
+            console.log(error);
+        }
+    })
+  }
   
   if(!props.returnExists){
     return (
@@ -83,6 +132,7 @@ export default function Booking (props) {
                   
                  </div>
                  <button class = "proceedbtn" onClick = {editBooking} type="button">Trip details</button>
+                 <button class = "emailbtn" onClick = {sendMail} type="button">Email Trip details</button>
                  <button  onClick={props.handleConfirmOpen} class = "cancelbtn" type="button">Cancel Booking</button>
                   {/* <button class = "cancelbtn" onClick = {props.cancelDepartureClicked} type="button">cancel flight</button> */}
               </div>
@@ -90,6 +140,13 @@ export default function Booking (props) {
           </div>
         </div>
       </div>
+      <div class = "snackbar-root">
+        <Snackbar class = "snackbar" open={open} autoHideDuration={1000} onClose={handleClose}>
+                <MuiAlert style={{textAlign: "center"}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                  Flight details have been emailed to you
+                </MuiAlert>
+        </Snackbar>
+        </div>
       </Box>
     );
   }
@@ -130,6 +187,7 @@ export default function Booking (props) {
                </div>
                </div>
                <button class = "proceedbtn" onClick = {editBooking} type="button">Trip details</button>
+               <button class = "emailbtn" onClick = {sendMail} type="button">Email Trip details</button>
                <button  onClick={props.handleConfirmOpen} class = "cancelbtn" type="button">Cancel Booking</button>
                 {/* <button class = "cancelbtn" onClick = {props.cancelDepartureClicked} type="button">cancel flight</button> */}
             </div>
@@ -137,6 +195,13 @@ export default function Booking (props) {
         </div>
       </div>
     </div>
+    <div class = "snackbar-root">
+        <Snackbar class = "snackbar" open={open} autoHideDuration={1000} onClose={handleClose}>
+                <MuiAlert style={{textAlign: "center"}} onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                Flight details have been emailed to you
+                </MuiAlert>
+        </Snackbar>
+        </div>
     </Box>
   );
   }  
