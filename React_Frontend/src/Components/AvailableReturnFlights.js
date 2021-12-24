@@ -8,10 +8,10 @@ export default function AvailableReturnFlights(props){
   const [departureFlight, setDepartureFlight] = useState(props.departureFlight);
   const [list,setList] = useState([])
 
-  useEffect(() => {
+  useEffect(() => { //check passing props.bookingInfo is okkk
     console.log('returnFlights',returnFlights);
     setList(returnFlights.map((returnFlight, key)=>
-        (<FlightItem setRetF={props.setRetF} hideBtn={true} showSelect={false} showSelect2={true} CabinClass={props.CabinClass} depFlight = {departureFlight} flight={returnFlight} key={key}/>) )) 
+        (<FlightItem bookingInfo={props.bookingInfo} setDisplay={props.setDisplay} editRet={props.editRet} setRetF={props.setRetF} hideBtn={true} showSelect={false} showSelect2={true} CabinClass={props.CabinClass} depFlight = {departureFlight} flight={returnFlight} key={key}/>) )) 
   },[])
 
   return(

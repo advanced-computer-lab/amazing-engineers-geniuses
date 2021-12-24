@@ -28,7 +28,7 @@ router.post('/searchFlights',flightController.searchFlights);
 
 router.post('/createBooking', bookingController.createBooking);
 
-router.get('/findReturnFlights/:id',flightController.findReturnFlights);
+router.post('/findReturnFlights',flightController.findReturnFlights2);
 
 router.post('/flight/addSeatsCancelled', flightController.addSeats);
 
@@ -60,6 +60,6 @@ router.put('/update/:id', (req,res)=>{
 });
 
 router.get('/flight/show/:id',flightController.showFlightbyID);
-
+// router.put('/booking/edit', bookingController.editBooking);
 
 module.exports = router;

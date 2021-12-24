@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Row, Col, InputGroup, Container, Button, Spinner, Modal, ModalBody, Card,Alert  } from "react-bootstrap";
-
+import { ArrowRight } from 'react-bootstrap-icons';
 import { useHistory, useLocation } from "react-router-dom";
 import BookingItem from './BookingItem';
 import Booking from './Booking';
@@ -47,6 +47,10 @@ export default function EditBooking(props) {
     const[DepCabinClass,setDepCabinClass]=useState(location.state.booking.DepCabinClass);
     const[RetCabinClass,setRetCabinClass]=useState(location.state.booking.RetCabinClass);
     
+    const[returnFlights,setReturnFlights]=useState({});
+    const[display,setDisplay]= useState('');
+
+
     useEffect(() => {
         console.log("BANANAAA")
         let x=findDepartureFlight(booking.DepartureFlight,booking.ReturnFlight);
@@ -79,10 +83,44 @@ export default function EditBooking(props) {
             flightsWithReturn = filterReturnFlights(flightsWithReturn);
             console.log("BOOKING");
             console.log(booking);
+
+            //setDisplay('depF');
+            //console.log(display);
+
             history.push({
                 pathname: 'changeFlight',
-                state: { bookingInfo: booking, flightsWithReturn: flightsWithReturn, RetDate: retFlightDepDate, DepCabinClass: booking.DepCabinClass, RetCabinClass: booking.RetCabinClass, PassengersNumber: booking.NumberOfPassengers, AdultPassengers: booking.AdultPassengers, KidPassengers: booking.KidPassengers }
+                state: { display:'depF', bookingInfo: booking, flightsWithReturn: flightsWithReturn, RetDate: retFlightDepDate, DepCabinClass: DepCabinClass, RetCabinClass: RetCabinClass, PassengersNumber: booking.NumberOfPassengers, AdultPassengers: booking.AdultPassengers, KidPassengers: booking.KidPassengers }
             });
+            // console.log("display");
+            // console.log(display);
+        }).catch((error) => {
+            if (error) {
+                console.log(error);
+            }
+        })
+
+    }
+    const findReturnFlights = (id) => {
+        axios.post(`${api}/user/findReturnFlights`, {
+            depFlight: departureFlight,
+            retDate: retFlightDepDate
+        }).then((res) => {
+            let returnFlights = res.data;
+            returnFlights = returnFlights.filter(ret => ret.SeatsList.Available.filter(seat => seat.charAt(0) === booking.RetCabinClass).length >= booking.NumberOfPassengers);
+           // returnFlights = returnFlights.filter(tuple => tuple.DepFlight.SeatsList.Available.filter(seat => seat.charAt(0) === booking.DepCabinClass).length >= booking.NumberOfPassengers)
+           // returnFlights = filterReturnFlights(returnFlights);
+            console.log("BOOKING");
+            console.log(booking);
+
+            //setDisplay('retF');
+            //console.log(display);
+
+            history.push({
+                pathname: 'changeFlight',
+                state: {display:'retF', returnFlights:returnFlights, bookingInfo: booking , RetDate: retFlightDepDate, DepCabinClass: DepCabinClass, RetCabinClass: RetCabinClass, PassengersNumber: booking.NumberOfPassengers, AdultPassengers: booking.AdultPassengers, KidPassengers: booking.KidPassengers }
+            });
+            console.log("display");
+            console.log(display);
         }).catch((error) => {
             if (error) {
                 console.log(error);
@@ -234,6 +272,15 @@ export default function EditBooking(props) {
                             </Modal.Header>
 
                             <Modal.Body>
+                            
+                            <Card border="primary" style={{ width: '18rem' , textAlign:'center' , marginLeft:'auto', marginRight:'auto' }}>
+                                <Card.Body>
+                                    <Card.Title>
+                                        {departureFlight.FromAirport} <ArrowRight color="royalblue" size={50} /> {departureFlight.ToAirport}
+                                    </Card.Title>
+                                </Card.Body>
+                            </Card>
+                            
                                 <Form id='searchForm' onSubmit={(e) => {
                                     e.preventDefault();
                                     //setSpinner(true);
@@ -246,41 +293,11 @@ export default function EditBooking(props) {
 
                                         </div>
 
-                                        <Form.Group className="mb-3" controlId="Airports">
-                                            <Row>
-                                                <Col xs={5}>
-                                                    <InputGroup className="mb-3">
-                                                        <InputGroup.Text>From</InputGroup.Text>
-
-                                                        <Form.Control
-                                                            type="text"
-                                                            value={departureFlight.FromAirport}
-                                                            required
-                                                            editable={false}
-                                                        //onChange={(e) => setFromAirport(e.target.value)}
-                                                        />
-
-                                                    </InputGroup>
-                                                </Col>
-                                                <Col xs={5}>
-                                                    <InputGroup className="mb-3">
-                                                        <InputGroup.Text>To</InputGroup.Text>
-                                                        <Form.Control
-                                                            type="text"
-                                                            value={departureFlight.ToAirport}
-                                                            required
-                                                            editable={false}
-                                                        />
-                                                    </InputGroup>
-                                                </Col>
-                                            </Row>
-                                        </Form.Group>
-
                                         <Row className="align-items">
-                                            <Col xs={5}>
+                                            <Col xs={8}>
                                                 <Form.Group controlId="formGridDepartue">
                                                     <InputGroup className="mb-3">
-                                                        <InputGroup.Text>Departure</InputGroup.Text>
+                                                        <InputGroup.Text>Departure Date</InputGroup.Text>
 
                                                         <Form.Control
                                                             type="date"
@@ -293,10 +310,10 @@ export default function EditBooking(props) {
                                                     </InputGroup>
                                                 </Form.Group>
                                             </Col>
-                                            <Col xs={5}>
+                                            <Col xs={8}>
                                                 <Form.Group controlId="formGridCabin">
                                                     <InputGroup className="mb-3">
-                                                        <InputGroup.Text>Departure Class</InputGroup.Text>
+                                                        <InputGroup.Text>Cabin Class</InputGroup.Text>
                                                         <Form.Select
                                                             name="DepCabinClass"
                                                             placeholder={booking.DepCabinClass}
@@ -331,6 +348,102 @@ export default function EditBooking(props) {
                                     variant="primary"
                                     //onClick={showPayModal}
                                     onClick={flightsAvailable}
+                                >
+                                    Search
+                                 </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </div>
+
+                }
+                 {showEditRet &&
+                    //<EditModal setShow={setShow} showEditDep={showEditDep} />
+                    <div>
+                        <Modal
+                            backdrop="static"
+                            keyboard={false}
+                            show={showEditRet}
+                            onHide={() => setShowEditRet(false)}
+                            size="lg"
+                            aria-labelledby="contained-modal-title-vcenter"
+                            centered
+                        >
+                            <Modal.Header closeButton>
+                                <Modal.Title>Edit Return Flight</Modal.Title>
+                            </Modal.Header>
+
+                            <Modal.Body>
+                            <Card border="primary" style={{ width: '18rem' , textAlign:'center' , marginLeft:'auto', marginRight:'auto' }}>
+                                <Card.Body>
+                                    <Card.Title>
+                                        {returnFlight.FromAirport} <ArrowRight color="royalblue" size={50} /> {returnFlight.ToAirport}
+                                    </Card.Title>
+                                </Card.Body>
+                            </Card>
+                            
+                                <Form id='editReturn' >
+                                    <br />
+                                    <Container id='ediRetContainer'>
+
+                                        <div className="pos-center text-primary" style={{ width: '100px', height: '100px', zIndex: '20' }} >
+
+                                        </div>
+
+                                        <Row className="align-items" style={{ justifyContent:'center' }}>
+                                            <Col xs={8}>
+                                                <Form.Group controlId="formGridDepartue">
+                                                    <InputGroup className="mb-3">
+                                                        <InputGroup.Text>Departure Date</InputGroup.Text>
+
+                                                        <Form.Control
+                                                            type="date"
+                                                            value={retFlightDepDate}
+                                                            name="RetDate"
+                                                            min={today}
+                                                            required
+                                                            onChange={(e) => setRetDate(e.target.value)}
+                                                        />
+                                                    </InputGroup>
+                                                </Form.Group>
+                                            </Col>
+                                            <Col xs={8}>
+                                                <Form.Group controlId="formGridCabin">
+                                                    <InputGroup className="mb-3">
+                                                        <InputGroup.Text>Cabin Class</InputGroup.Text>
+                                                        <Form.Select
+                                                            name="DepCabinClass"
+                                                            placeholder={booking.RetCabinClass}
+                                                            required
+                                                            onChange={(e) => setRetCabinClass(e.target.value)}
+                                                        >
+                                                            <option value="E">Economy</option>
+                                                            <option value="B">Business</option>
+                                                            <option value="F">First Class</option>
+                                                        </Form.Select>
+                                                    </InputGroup>
+
+                                                </Form.Group>
+                                            </Col>
+                                        </Row>
+
+                                            {/* <Button className="btn btn-home" type="submit"> Search</Button> */}
+
+                                        <br />
+
+                                    </Container>
+                                </Form>
+
+                            </Modal.Body>
+
+                            <Modal.Footer>
+                                {/* <Button variant="secondary" onClick={() => setShowEditDep(false)}>
+                                    Close
+                                </Button> */}
+
+                                <Button
+                                    variant="primary"
+                                    onClick={()=>{findReturnFlights(booking.DepartureFlight._id)}}
+                                   
                                 >
                                     Search
                                  </Button>
@@ -438,14 +551,14 @@ export default function EditBooking(props) {
                                     <Col md="auto">
                                         <Card.Title>Seat(s):</Card.Title>
                                         <Card.Subtitle style={{ textAlign: 'center' }} className="mb-2 text-muted">{booking.RetSeats.toString()} </Card.Subtitle>
-                                        <Button variant="warning" size="sm" onClick={() => {setMainView('changeRetSeats') }}> Change </Button>
+                                        <Button variant="warning" size="sm" onClick={() => {setMainView('changeRetSeats')}}> Change </Button>
 
                                     </Col>
                                 </Row>
 
                             </Card.Body>
-                            <Row>
-                                <Button style={{ marginLeft: '12px', borderRadius: '0 0 4px 4px' }} onClick={editReturnFlight} >Edit </Button>
+                            <Row>                                                                           
+                                <Button style={{ marginLeft: '12px', borderRadius: '0 0 4px 4px' }} onClick={() => {setShowEditRet(true);}} >Edit </Button>
                             </Row>
                         </Card>
                     </Col>

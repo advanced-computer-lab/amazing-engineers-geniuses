@@ -12,12 +12,11 @@ export default function AvailableFlights(props) {
              tuple.ReturnFlights 
             )));
   const [flightList, setFlightList] = useState()  
- 
 
   useEffect(() => {
     setFlightList(flights.map((flight, key)=>
  
-      <FlightItem setDisplay={props.setDisplay} bookingInfo={props.bookingInfo} edit={props.edit} setDepF={props.setDepF} hideBtn={true} showSelect={true} showSelect2={false} CabinClass={props.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> ))
+      <FlightItem setDisplay={props.setDisplay} bookingInfo={props.bookingInfo} editDep={props.editDep} setDepF={props.setDepF} hideBtn={true} showSelect={true} showSelect2={false} CabinClass={props.CabinClass} flight={flight} returnFlights={returnFlights[flights.indexOf(flight)]} RetDate={location.state.RetDate} key={key}/> ))
   }, [])
 
   return (
