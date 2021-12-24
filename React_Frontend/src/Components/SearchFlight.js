@@ -104,12 +104,13 @@ export default function SearchFlight(props){
             </div>}
 
          <Form.Group className="mb-3" controlId="Airports">
-           <Row>
-             <Col xs={5}>
-               <InputGroup className="mb-3">
-                 <InputGroup.Text>From</InputGroup.Text>
+           <Row className="align-items">
+             <Col xs={5} >
+               <InputGroup className="mb-3" >
+                 <InputGroup.Text style={{ paddingRight: '55px',paddingLeft: '55px' }}  >From</InputGroup.Text>
 
                  <Form.Control
+                 
                    type="text"
                    value={FromAirport}
                    placeholder="Enter Departure Airport"
@@ -120,7 +121,7 @@ export default function SearchFlight(props){
              </Col>
              <Col xs={5}>
                <InputGroup className="mb-3">
-                 <InputGroup.Text>To</InputGroup.Text>
+                 <InputGroup.Text style={{paddingRight: '52px' ,paddingLeft: '52px' }} >To</InputGroup.Text>
                  <Form.Control
                    type="text"
                    value={ToAirport}
@@ -137,7 +138,7 @@ export default function SearchFlight(props){
            <Col xs={5}>
              <Form.Group controlId="formGridDepartue">
                <InputGroup className="mb-3">
-                 <InputGroup.Text>Departure</InputGroup.Text>
+                 <InputGroup.Text style={{ paddingRight: '35px',paddingLeft: '35px' }}>Departure</InputGroup.Text>
 
                  <Form.Control
                    type="date"
@@ -152,7 +153,7 @@ export default function SearchFlight(props){
            <Col xs={5} >
              <Form.Group controlId="formGridArrival">
                <InputGroup className="mb-3">
-                 <InputGroup.Text>Return</InputGroup.Text>
+                 <InputGroup.Text style={{ paddingRight: '36px' ,paddingLeft: '36px' }}>Return</InputGroup.Text>
                  <Form.Control
                    type="date"
                    name="RetDate"
@@ -210,11 +211,11 @@ export default function SearchFlight(props){
            <Col xs={5}>
              <Form.Group controlId="formGridAPassengers">
              <InputGroup className="mb-3">
-               <InputGroup.Text>Adults</InputGroup.Text>
+               <InputGroup.Text style={{ paddingRight: '52px' ,paddingLeft: '52px'}}>Adults</InputGroup.Text>
                
                <Form.Control
                  type="number" min="1"
-                 placeholder="Enter Number Of Adults"
+                 placeholder="Number Of Adults"
                  name="Adult Passengers "
                  required
                  onChange={(e) => {setAdultPassengers(e.target.value);setPass()}}
@@ -226,10 +227,10 @@ export default function SearchFlight(props){
            <Col xs={5}>
              <Form.Group controlId="formGridKPassengers">
                <InputGroup className="mb-3">
-               <InputGroup.Text>Children</InputGroup.Text>
+               <InputGroup.Text style={{ paddingRight: '28px',paddingLeft: '28px' }}>Children</InputGroup.Text>
                <Form.Control
                  type="number" min="0"
-                 placeholder="Enter Number Of Children"
+                 placeholder="Number Of Children"
                  name="Kid Passengers"
                  required
                  onChange={(e) => {setKidPassengers(e.target.value);setPass()}}
@@ -243,7 +244,7 @@ export default function SearchFlight(props){
                 Search
                 </Button>
     
-         <br/>
+        
 
        </Container>
      </Form>

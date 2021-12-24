@@ -6,6 +6,8 @@ import AvailableFlights from './AvailableFlights';
 import AvailableReturnFlights from './AvailableReturnFlights';
 import ChooseSeats from './ChooseSeats';
 import ChangeSeats from './ChangeSeats';
+import Invoice from './Invoice';
+
 
 const api = 'http://localhost:8000';
 
@@ -91,6 +93,7 @@ export default function ChangeFlight(props){
           </Alert>
         )}
         <br/>
+        {display === 'Invoice' && <Invoice bookingInfo={bookingInfo} />}
         {display === "depF" && location.state.flightsWithReturn.length !== 0 && (
               <AvailableFlights
                 bookingInfo={bookingInfo}
@@ -99,7 +102,7 @@ export default function ChangeFlight(props){
                 CabinClass={location.state.DepCabinClass}
               />
             )}
-            {display === "chooseDepSeats"  &&<ChangeSeats type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
+            {display === "chooseDepSeats"  &&<ChangeSeats setDisplay={setDisplay} type='Dep' changingFlight={true} setSeats={setDepSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.DepartureFlight} cabin = {bookingInfo.DepCabinClass} chosenSeats = {bookingInfo.DepSeats} showAlert={showAlert}  />}
             
             {/* {location.state.flightsWithReturn.length === 0 && <h1>No Flights Available</h1>} */}
             
@@ -115,8 +118,8 @@ export default function ChangeFlight(props){
                 />
                 </div> )}
                 
-            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret' changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.ReturnFlight} cabin = {bookingInfo.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
-   
+            {display === "chooseRetSeats"  &&<ChangeSeats type='Ret' setDisplay={setDisplay} changingFlight={true} setSeats={setRetSeats} booking={bookingInfo} NumberOfPassengers = {bookingInfo.NumberOfPassengers} flight = {bookingInfo.ReturnFlight} cabin = {bookingInfo.RetCabinClass} chosenSeats = {bookingInfo.RetSeats} showAlert={showAlert}  />}
+           
     </Container>
     
     

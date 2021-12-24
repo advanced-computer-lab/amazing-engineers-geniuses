@@ -11,9 +11,15 @@ export default function Pay(props){
         CVV:''
     })
 
-    const createBooking= (e)=>{
+    const submitPay= (e)=>{
         e.preventDefault();
-        props.Book();
+        if(props.changingFlight){
+            //TO Change later
+            props.setDisplay('Invoice');
+        }
+        else
+            props.Book();
+        
     }
     
     return(
@@ -31,7 +37,7 @@ export default function Pay(props){
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form id='payForm' onSubmit={createBooking}>
+                <Form id='payForm' onSubmit={submitPay}>
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="CreditCardNumber">
                             <Form.Label>Credit Card Number</Form.Label>
