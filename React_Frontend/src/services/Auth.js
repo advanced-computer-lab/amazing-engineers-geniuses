@@ -35,7 +35,7 @@ class Auth {
     if(user)
       return JSON.parse(user);
     else{
-      return {username: 'Guest', isAdmin: false};
+      return {username: 'Guest', isAdmin: false, isGuest: true};
     }
   }
 }

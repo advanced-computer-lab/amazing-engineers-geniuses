@@ -35,7 +35,6 @@ export default function Pay(props){
     }
 
     const submitPay= ()=>{
-        // e.preventDefault();
         if(props.changingFlight){
             //TO Change later
             if(props.editDep){
