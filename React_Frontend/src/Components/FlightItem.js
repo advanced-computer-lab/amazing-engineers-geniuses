@@ -32,6 +32,7 @@ class FlightItem extends Component {
     this.bookReturnFlight = this.bookReturnFlight.bind(this);
     this.editDepFlight = this.editDepFlight.bind(this);
     this.editRetFlight = this.editRetFlight.bind(this);
+    this.getClass2 = this.getClass2.bind(this);
 
   }
 
@@ -60,6 +61,19 @@ class FlightItem extends Component {
   bookReturnFlight() {
     this.props.setRetF(this.props.flight);
   }
+  
+  getClass2(CabinClass){
+    if(CabinClass ==='E'){
+        return 'Econ';
+    }
+    else if(CabinClass === 'F'){
+        return 'First';
+    }
+    else if (CabinClass === 'B'){
+        return 'Bus';
+    }
+    return 'Error in getClass()';
+}
 
   render() {
     let hidden = '';
@@ -203,16 +217,6 @@ class FlightItem extends Component {
                     <li>Seats: {this.props.flight.EconomySeats}</li>
                     <li> Baggage Allowance: {this.props.flight.BaggageAllowance.Econ} kg</li>
                     <li> Price: {this.props.flight.Price.Econ}$ </li>
-                    {this.props.editDep &&
-                      <li> <b>Price Difference: {this.props.flight.Price.Econ > this.props.bookingInfo.DepartureFlight.Price.Econ ?
-                     +this.props.flight.Price.Econ - this.props.bookingInfo.DepartureFlight.Price.Econ :
-                     -this.props.bookingInfo.DepartureFlight.Price.Econ - this.props.flight.Price.Econ} $ </b> </li>
-                    }
-                      {this.props.editRet &&
-                      <li> <b>Price Difference: {this.props.flight.Price.Econ > this.props.bookingInfo.ReturnFlight.Price.Econ ?
-                      +this.props.flight.Price.Econ - this.props.bookingInfo.ReturnFlight.Price.Econ :
-                      -this.props.bookingInfo.ReturnFlight.Price.Econ - this.props.flight.Price.Econ} $ </b> </li>
-                    }
 
                   </div>
                 }
@@ -222,17 +226,6 @@ class FlightItem extends Component {
                    <li> Seats: {this.props.flight.BusinessSeats} </li>
                    <li>Baggage Allowance: {this.props.flight.BaggageAllowance.Bus} kg </li>
                    <li>Price: {this.props.flight.Price.Bus}$ </li>
-                   {this.props.editDep &&
-                    <li> <b>Price Difference: {this.props.flight.Price.Bus>this.props.bookingInfo.DepartureFlight.Price.Bus ?
-                    +this.props.flight.Price.Bus-this.props.bookingInfo.DepartureFlight.Price.Bus :
-                    -this.props.bookingInfo.DepartureFlight.Price.Bus-this.props.flight.Price.Bus} $ </b> </li> 
-                    }
-                    
-                    {this.props.editRet &&
-                    <li> <b>Price Difference: {this.props.flight.Price.Bus>this.props.bookingInfo.ReturnFlight.Price.Bus ?
-                    +this.props.flight.Price.Bus-this.props.bookingInfo.ReturnFlight.Price.Bus :
-                    -this.props.bookingInfo.ReturnFlight.Price.Bus-this.props.flight.Price.Bus} $ </b> </li> 
-                    }
                 </div>
                 }
                 {(this.props.CabinClass === "F" || this.state.currentUser.isAdmin) &&
@@ -241,18 +234,15 @@ class FlightItem extends Component {
                       <li> Seats: {this.props.flight.FirstClassSeats} </li> 
                       <li>  Baggage Allowance: {this.props.flight.BaggageAllowance.First} kg </li>
                       <li>  Price: {this.props.flight.Price.First}$ </li> 
-                      {this.props.editDep &&
-                        <li> <b>Price Difference: {this.props.flight.Price.First>this.props.bookingInfo.DepartureFlight.Price.First ?
-                        +this.props.flight.Price.First-this.props.bookingInfo.DepartureFlight.Price.First :
-                        -this.props.bookingInfo.DepartureFlight.Price.First-this.props.flight.Price.First} $ </b> </li>
-                      }
-                       {this.props.editRet &&
-                        <li> <b>Price Difference: {this.props.flight.Price.First>this.props.bookingInfo.ReturnFlight.Price.First ?
-                        +this.props.flight.Price.First-this.props.bookingInfo.ReturnFlight.Price.First :
-                        -this.props.bookingInfo.ReturnFlight.Price.First-this.props.flight.Price.First} $ </b> </li>
-                      }
                       </div>
   
+                }
+                {this.props.editDep &&
+                  <li> <b> Price Difference: {this.props.flight.Price[this.getClass2(this.props.CabinClass)] - this.props.bookingInfo.ReturnFlight.Price[this.getClass2(this.props.bookingInfo.RetCabinClass)]}$</b></li>
+                }
+                
+                {this.props.editRet &&
+                  <li> <b> Price Difference: {this.props.flight.Price[this.getClass2(this.props.CabinClass)] - this.props.bookingInfo.ReturnFlight.Price[this.getClass2(this.props.bookingInfo.RetCabinClass)]}$</b></li>
                 }
                
               </ul>

@@ -10,23 +10,38 @@ export default function Pay(props){
         Date: '',
         CVV:''
     })
+    
+    function getClass(CabinClass){
+        if(CabinClass ==='E'){
+            return 'Econ';
+        }
+        else if(CabinClass === 'F'){
+            return 'First';
+        }
+        else if (CabinClass === 'B'){
+            return 'Bus';
+        }
+        return 'Error in getClass()';
+    }
 
     const submitPay= (e)=>{
         e.preventDefault();
         if(props.changingFlight){
             //TO Change later
             if(props.editDep){
-                console.log("EDITING DEP");
-                props.setBookingInfo({...props.bookingInfo, DepartureFlight : props.tempFlight , DepSeats:props.depSeats, DepCabinClass:props.cabin} )
-                
+                let price = props.tempFlight.Price[getClass(props.cabin)] * props.bookingInfo.AdultPassengers + (props.tempFlight.Price[getClass(props.cabin)] / 2) * props.bookingInfo.KidPassengers;
+                price += props.bookingInfo.ReturnFlight.Price[getClass(props.bookingInfo.RetCabinClass)] * props.bookingInfo.AdultPassengers + (props.bookingInfo.ReturnFlight.Price[getClass(props.bookingInfo.RetCabinClass)] /2) * props.bookingInfo.KidPassengers;
+                props.setBookingInfo({...props.bookingInfo, DepartureFlight : props.tempFlight , DepSeats:props.depSeats, DepCabinClass:props.cabin,TotalCost: price})
+
             }
             else{
-                console.log("EDITING RET");
-                props.setBookingInfo({...props.bookingInfo, ReturnFlight : props.tempFlight, RetSeats:props.retSeats, RetCabinClass:props.cabin} )
+                let price = props.tempFlight.Price[getClass(props.cabin)] * props.bookingInfo.AdultPassengers + (props.tempFlight.Price[getClass(props.cabin)] / 2) * props.bookingInfo.KidPassengers;
+                price += props.bookingInfo.DepartureFlight.Price[getClass(props.bookingInfo.DepCabinClass)] * props.bookingInfo.AdultPassengers + (props.bookingInfo.DepartureFlight.Price[getClass(props.bookingInfo.DepCabinClass)] /2) * props.bookingInfo.KidPassengers;
+                props.setBookingInfo({...props.bookingInfo, ReturnFlight : props.tempFlight, RetSeats:props.retSeats, RetCabinClass:props.cabin,TotalCost: price} )
 
             }
             //console.log(props.bookingInfo);
-            props.editBooking();
+            //props.editBooking();
             props.setDisplay('Invoice');
 
            
