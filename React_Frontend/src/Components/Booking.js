@@ -109,7 +109,7 @@ export default function Booking (props) {
     function editBooking(){        
         history.push({
             pathname: '/editBooking',
-            state: {booking:props.booking, date:props.date, returnDate:props.returnDate, arrDep:props.arrDep, arrRet:props.arrRet, depFlightDepTime:props.depFlightDepTime,
+            state: {booking:props.booking, depDate:props.departureDate, returnDate:props.returnDate, arrDep:props.arrDep, arrRet:props.arrRet, depFlightDepTime:props.depFlightDepTime,
             depFlightArrTime:props.depFlightArrTime, retFlightDepTime:props.retFlightDepTime, retFlightArrTime:props.retFlightArrTime}
         });
         

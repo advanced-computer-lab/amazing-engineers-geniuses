@@ -22,7 +22,7 @@ export default function EditBooking(props) {
 
     const [booking, setBooking] = React.useState(location.state.booking);
 
-    const [depFlightDepDate, setDepDate] = useState(location.state.date);
+    const [depFlightDepDate, setDepDate] = useState(location.state.depDate);
     const [retFlightDepDate, setRetDate] = useState(location.state.returnDate);
 
     const [depFlightArrDate, setArrDep] = useState(location.state.arrDep);

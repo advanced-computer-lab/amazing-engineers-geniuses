@@ -67,7 +67,7 @@ export default function Booking (props) {
         history.push({
             pathname: '/editBooking',
             state: {booking:props.booking, fromAirport:props.departureFromAirport, toAirport:props.returnFromAirport, 
-            date:props.date, returnDate:props.returnDate, arrDep:props.arrDep, arrRet:props.arrRet, depFlightDepTime:props.depFlightDepTime,
+            depDate:props.departureDate, returnDate:props.returnDate, arrDep:props.arrDep, arrRet:props.arrRet, depFlightDepTime:props.depFlightDepTime,
             depFlightArrTime:props.depFlightArrTime, retFlightDepTime:props.retFlightDepTime, retFlightArrTime:props.retFlightArrTime}
         });
       }

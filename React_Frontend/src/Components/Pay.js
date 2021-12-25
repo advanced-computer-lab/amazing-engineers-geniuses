@@ -34,8 +34,8 @@ export default function Pay(props){
         return 'Error in getClass()';
     }
 
-    const submitPay= (e)=>{
-        e.preventDefault();
+    const submitPay= ()=>{
+        // e.preventDefault();
         if(props.changingFlight){
             //TO Change later
             if(props.editDep){
@@ -160,7 +160,7 @@ export default function Pay(props){
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Form id='payForm' onSubmit={submitPay}>
+                <Form id='payForm' >
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="CardHolder">
                             <Form.Label>Card Holder Name</Form.Label>
