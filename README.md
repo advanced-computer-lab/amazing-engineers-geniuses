@@ -1,44 +1,159 @@
 # Amazing-Engineers-Geniuses
-A little brief about what the project is about. It should be like a small summary format informing about the main purpose of the project.
+This is a website for our AirLine "Amazing Air" whose main goal is to give our customers a unique travel experience. We aim to help our customers easily navigate through our website and explore what our airline has to offer from searching for flights, booking flights, checking their bookings, and editing booked flights. In addition, it helps our staff "admin(s)" to edit, delete,create flights in order to sustain the demand. 
+
+Our customers can pay online using their credit card and an invoice will be sent to them via email to confirm their booking. Due to the pandemic, booking a flight right now is a dream come true to many, and we want to make this experience as simple and as satisfying as possible.  
 
 ### Motivation
-This section is for letting the reader know why you created this project, the reason behind pursuing such a project, and why you have decided to do it.
+Web Development is a crucial part in anything in our era. Thus, this course created the perfect opportunity for us to explore node JS, React, CSS and JavaScript all in one. It also pushed us to challenge ourselves. 
+We had a bad experience booking online last year so we tried to make ours as easy to use as possible. Our goal is to provide the user with the ultimate online experience. 
 
 ### Build Status
-This basically explains the current build status of the project. If there is a bug /error which needs addressing. This is done so for two different reasons The user understands that this is an issue and does not spend more time figuring if it was a mistake on their part.A developer who is familiar with the issue can suggest some solutions directly without going through the whole code.
+build status: success 
 
 ### Code Style
-This lets the users know that you have used a particular code style and helps them when contributing to your project so that the whole project code style stays the same. Some common code styles: standard, xo, etc.
+We used the standard Javascript Coding style to improve readability and maintainability of our code.
+Moreover, this gives a uniform appearance to the code and makes it as clean and easy to read as possible.
+A semicolon is present after each statement.
+All functions are declared above the code that uses them.
+We also used a naming conventions for local variables. We named the local variables using camel case lettering starting with small letter.
 
 ### Screenshots
 As the saying goes, a picture is equal to a thousand words. Most people will be interested if there is a visual representation of what the project is about. It helps them understand better. A visual representation can be snapshots of the project or a video of the functioning of the project.
 
 ### Tech/Framework used
-This is used to help the reader understand which tech or frameworks have been used to do the project. It helps the reader understand which all tech stack he has to be familiar with to understand the whole project.
+- MongoDB
+- Mongoose
+- Express
+- ReactJS
+- NodeJS
+- Stripe
+- Nodemailer
+- Bootstrap
+- Material UI
+
 
 ### Features
-This is where you write what all extra features have been done in your project. Basically this is where you try to make your project stand out from the rest.
+Our main aim was to make our website simple and easy to navigate through. 
+We added a progress bar to inform the user of how far along he is in the booking process.
+We also added feedback to show when a page is loading.
+In addition, if a user does a wrong action in the booking process(such as selecting more seats than the number of passengers he initially chose) an instant alert message is shown and such action is not allowed.
 
 ### Code Examples
 This is where you try to compress your project and make the reader understand what it does as simply as possible. This should help the reader understand if your code solves their issue.
 
 ### Installation
-If your project needs installation of certain software or configurations to the system. Do mention it in this section as it helps a lot for the reader to use your project. The steps mentioned should be precise and explanatory.  If possible, you can add links that can help them better understand how to configure/install the necessary files or softwares.
+node 
+npm 
+font awesome
+bootstrap 
 
 ### API reference
-If your project is small, then we can add the reference docs in the readme. For larger projects, it is better to provide links to where the API reference documentation is documented.
+post -/availableFlights 
+get -/flight/show/:id
+post -/flight/viewReservations
+post -/flight/cancelReservations
+post -/flight/getArrivalAirport
+get -/flight/getArrivalAirport
+post -/flight/getDepartureAirport
+get -/flight/getDepartureAirport
+post-/sendConfirmation
+post-/searchFlights
+post-/createBooking
+post-/findReturnFlights
+post-/flight/addSeatsCancelled
+put-/booking/editSeats
+get -/find/
+get-/find/:id
+put-/update/:id
+get-/flight/show/:id
+put-/booking/edit
 
-### Tests
-This is the section where you mention all the different tests that can be performed with code examples
 
 ### How to Use?
-As I have mentioned before, you never know who is going to read your readme. So it is better to provide information on how to use your project. A step-by-step guide is best suited for this purpose. It is better to explain steps as detailed as possible because it might be a beginner who is reading it.
+We have 3 different types of users-each of which has different authorization.
+As a Guest:
+
+    1- You can search for flights using the search in the homepage.
+        a- you can choose the departure airport "from" , arrival airport "to" from the list
+        b- select the date the you want to travel on by spcifiying it on "Departure" and same thing for "return" as the date you want to return on.
+        c- select both cabin classes in booth flights.
+        d- spcify the number of adult(s) and childern that will be traveling with you.
+
+        finally , click search in order to find the flight(s) that meets your requiremnts.
+        you can then see the datails of any flight by clicking on the accordion.
+
+    2- You can nagivate through the website by clicking on "Plan" in the navbar and see all the flights that are available in "flight schedule"
+     a- in flight schedule , You can see the flights details by clicking on the accordion 
+
+    3- You can register to be a permenant user with your own account by clicking on "My Account" in the navbar.
+
+    4- You can't book flights as a guest user , you have to be logged in first.
+
+As an Admin:
+
+    1- To have the admin credentials , you log in first as an Admin by clicking on "My Account".
+
+    2- You can create new flights by clicking "Hello Admin" --> "Manage Flights" in the navbar.
+
+    3- You can Update/Delete a pre-existant flight by clicking "Hello Admin" --> "Manage Flights" in the navbar.
+
+    4- You can also Search for flights.
+
+    5- You can see your profile that has your personal info by clicking on "Hello Admin" --> "My profile" in Navbar.Moreover,you can always edit this info by clicking on "edit" button 
+
+As a Logged-in User:
+
+    1- You can see your profile that has your personal info by clicking on "Hello User" --> "My profile" in Navbar.Moreover,you can always edit this info by clicking on "edit" button.
+
+    2- You can search for flights using the search in the homepage.
+        a- you can choose the departure airport "from" , arrival airport "to" from the list
+        b- select the date the you want to travel on by spcifiying it on "Departure" and same thing for "return" as the date you want to return on.
+        c- select both cabin classes in booth flights.
+        d- spcify the number of adult(s) and childern that will be traveling with you.
+
+        finally , click search in order to find the flight(s) that meets your requiremnts.
+        you can then see the datails of any flight by clicking on the accordion.
+
+    3- as you go long in the booking process, you can see the steps you made and flights you chose on the side in the boooking summary.
+
+    4- You can pay with credit card by entering the credit card info. An email will be sent to you for confirmation.
+
+    5- You can always view/edit/delete your previous booking(s).
+     a- edit: you can reselect the seats choosen , change the flight itself or change the cabin class 
+             this can be done in either return/departure flight.
+             this bookking is then updated and shows the new details with the price diffrence when you click on the flight accordion. 
+
+     b- delete: by clicking on "cancel" button in the booked flight.
+
+    c- view: by clicking on "details" to view the itinerary of this booking.
+
+### Tests
+
+1- a guest user cant book a flight.
+
+2- user cant book a flight untill all seats are choosen.
+
+3- number od seats to b e booked bya user must be less than or equal number of availabe seats.
+
+4-when deleting a booking , its removed from the user bookings.
+
+5- when editing a flight, the pre-exsiting data is already filled in and ready to be changed.
+
+6- price diffrence will be with negative if the price is higher than the paid amount and postitive if less than the paid amound indicating the user will regain some of his money back.
+
+7- reverable buttons only appear when an action can be reversed.
+
+8-
 
 ### Contribute
-This is where you let them know that they can contribute and help you out. A guideline on how to contribute is also helpful
+Any contributions to our code is welcomed. You can always improve the frontend for a better UX.
 
 ### Credits
-Giving proper credit is most important. Mention any links/repos which helped you or inspired you to build this project. It can be a blog, another open source project, or just people who have contributed in building this project.
-
-### License
-A short description of the license. (MIT, Apache, etc.)
+Our team -"Amazing-Engineers-Geniuses" did tremendous work in order to fullfill this project.
+Special thanks to our Scrum Master - Khaled Romeh for being always there for support and for managing our team smoothly.
+Shahd Medhat , Amira Hossam , Mohannad Osama , David Edwar also have all worked really hard to perfect this website.
+https://www.freecodecamp.org/learn/back-end-development-and-apis/
+https://react-bootstrap.github.io/components/modal/
+https://www.youtube.com/watch?v=voDummz1gO0
+https://freefrontend.com/
+https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures/#basic-javascript

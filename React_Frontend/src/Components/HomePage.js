@@ -22,7 +22,9 @@ export default function Homepage() {
             <Slideshow/>
             {/* <SearchFlight/> */}
         
+
         <Footer/>
+
   
     </div>
     
