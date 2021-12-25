@@ -52,8 +52,16 @@ export default function ChangeSeats(props){
             booking: props.booking,
             type: props.type
         }).then((res)=>{
+            if(props.type === 'Dep'){
+                props.setBookingInfo({...props.booking,DepSeats:newSeats})
+    
+            }
+            else{
+                props.setBookingInfo({...props.booking,RetSeats:newSeats})
+            }
             console.log('successss');
         }).catch((err)=>console.log(err));
+        
         props.setMainView("main");
     }
 

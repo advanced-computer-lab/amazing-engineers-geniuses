@@ -20,23 +20,38 @@ export default function Pay(props){
         console.log(props.price, "flight cost herreeeee");
     }, [])
     const curUser = Auth.getCurrentUser();
+    
+    function getClass(CabinClass){
+        if(CabinClass ==='E'){
+            return 'Econ';
+        }
+        else if(CabinClass === 'F'){
+            return 'First';
+        }
+        else if (CabinClass === 'B'){
+            return 'Bus';
+        }
+        return 'Error in getClass()';
+    }
 
     const submitPay= (e)=>{
         e.preventDefault();
         if(props.changingFlight){
             //TO Change later
             if(props.editDep){
-                console.log("EDITING DEP");
-                props.setBookingInfo({...props.bookingInfo, DepartureFlight : props.tempFlight , DepSeats:props.depSeats, DepCabinClass:props.cabin} )
-                
+                let price = props.tempFlight.Price[getClass(props.cabin)] * props.bookingInfo.AdultPassengers + (props.tempFlight.Price[getClass(props.cabin)] / 2) * props.bookingInfo.KidPassengers;
+                price += props.bookingInfo.ReturnFlight.Price[getClass(props.bookingInfo.RetCabinClass)] * props.bookingInfo.AdultPassengers + (props.bookingInfo.ReturnFlight.Price[getClass(props.bookingInfo.RetCabinClass)] /2) * props.bookingInfo.KidPassengers;
+                props.setBookingInfo({...props.bookingInfo, DepartureFlight : props.tempFlight , DepSeats:props.depSeats, DepCabinClass:props.cabin,TotalCost: price})
+
             }
             else{
-                console.log("EDITING RET");
-                props.setBookingInfo({...props.bookingInfo, ReturnFlight : props.tempFlight, RetSeats:props.retSeats, RetCabinClass:props.cabin} )
+                let price = props.tempFlight.Price[getClass(props.cabin)] * props.bookingInfo.AdultPassengers + (props.tempFlight.Price[getClass(props.cabin)] / 2) * props.bookingInfo.KidPassengers;
+                price += props.bookingInfo.DepartureFlight.Price[getClass(props.bookingInfo.DepCabinClass)] * props.bookingInfo.AdultPassengers + (props.bookingInfo.DepartureFlight.Price[getClass(props.bookingInfo.DepCabinClass)] /2) * props.bookingInfo.KidPassengers;
+                props.setBookingInfo({...props.bookingInfo, ReturnFlight : props.tempFlight, RetSeats:props.retSeats, RetCabinClass:props.cabin,TotalCost: price} )
 
             }
             //console.log(props.bookingInfo);
-            props.editBooking();
+            //props.editBooking();
             props.setDisplay('Invoice');
 
            
@@ -81,7 +96,7 @@ export default function Pay(props){
             const {status} = res;
             if(res.status == 200){
                 sendMail(token.email);
-                createBooking();
+                submitPay();
             }
             console.log(status, "status");
         }).catch((error) => {
@@ -146,14 +161,6 @@ export default function Pay(props){
             </Modal.Header>
             <Modal.Body>
                 <Form id='payForm' onSubmit={submitPay}>
-                    <Row className="mb-3">
-                {/* <Form id='payForm' onSubmit={createBooking}>
-                    {/* <Row className="mb-3"> */}
-                        <Form.Group as={Col} controlId="CreditCardNumber">
-                            <Form.Label>Credit Card Number</Form.Label>
-                            <Form.Control required type="number" maxLength="16" minLength="16" placeholder="XXXX XXXX XXXX XXXX"  onChange={(e)=>setPayment({...paymentDetails, CreditCard: e.target.value})}/>
-                        </Form.Group>
-                    </Row> 
                     <Row className="mb-3">
                         <Form.Group as={Col} controlId="CardHolder">
                             <Form.Label>Card Holder Name</Form.Label>
