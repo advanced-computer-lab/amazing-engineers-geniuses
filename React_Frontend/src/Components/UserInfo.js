@@ -6,6 +6,7 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Auth from '../services/Auth';
 import { useHistory } from 'react-router';
+import { useLocation } from "react-router-dom";
 const api = 'http://localhost:8000'
 
 
@@ -20,6 +21,7 @@ export default function UserInfo(){
     const [AlertText, setAlertText] = React.useState("");
     const curUser = Auth.getCurrentUser();
     const history = useHistory()
+    const location = useLocation();
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -57,9 +59,18 @@ export default function UserInfo(){
                 email: userInfo.Email
             })
                 .then((res) => {
-                    console.log(res);   
-                    history.push('/');
-                    window.location.reload();
+                    console.log(res, "res hereee");   
+                    console.log(location.state.userName);   
+                    console.log(location.state.userPassword);
+                    Auth.login(location.state.userName, location.state.userPassword)
+                    .then((res)=>{
+                        history.push('/');
+                        window.location.reload();
+                        console.log(Auth.curUser, "cur useerr");                    }).catch((err)=>{
+                            //console.log(err.response);
+                        })
+                   
+
                 }).catch((error) => {
                     if(error){
                         console.log(error);

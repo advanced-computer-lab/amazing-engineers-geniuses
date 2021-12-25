@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import axios from 'axios'
 import {Form,Modal,Row,Col} from 'react-bootstrap';
 import StripeCheckout from 'react-stripe-checkout'
@@ -8,16 +8,22 @@ const api = 'http://localhost:8000'
 export default function Pay(props){
 
     const [holderName, setHolderName] = useState("");
+    const [flightPrice, setFlightPrice] = useState(0);
     const [paymentDetails, setPayment] = useState({
         CreditCard: '',
         Name: '',
         Date: '',
         CVV:''
     })
+    useEffect(() => {
+        setFlightPrice(props.price);
+        console.log(props.price, "flight cost herreeeee");
+    }, [])
     const curUser = Auth.getCurrentUser();
 
     const createBooking= ()=>{
         console.log("here");
+        console.log(props.price,"priceee heereee");
         // e.preventDefault();
         console.log("there");
         props.Book();
@@ -25,20 +31,24 @@ export default function Pay(props){
     const cost = props.price;
     const [product, setProduct] = React.useState({
         name: "Flight reservation",
-        price: cost,
+        price: flightPrice,
     })
 
     const makePayment = (token) => {
+        const price = props.price*100;
+        console.log(price, "price yooo");
         const body = {
             token, 
-            product
+            product,
+            price
         }
         const headers = {
             "Content-type":"application/json"
         }
         axios.post(`${api}/user/makePayment`, {
             token,
-            product
+            product,
+            price
         })
         .then((res) => {
             console.log(res, "responsee");
@@ -57,9 +67,10 @@ export default function Pay(props){
     }   
     
     const sendMail = (inputEmail) =>{
+        console.log(props.price,"priceee heereee");
         axios.post(`${api}/user/sendConfirmation`, {email: inputEmail, emailSubject: "Transaction completed" , 
         emailBody:  
-        "Dear " + holderName +
+        "Dear " + holderName + " " +
         "We have just received a payment of " + props.price + "EGP. Listed below are the details of your booking" + "\n"
         + "\n" + "\n"
         + "Departure Date: " + props.bookingDetails.DepartureFlight.DepDate.substring(0,10) + "\n" 
@@ -144,7 +155,7 @@ export default function Pay(props){
                 stripeKey = "pk_test_51K9XNPDekJuw28Lw9oFt01JHaSPU9R9XTIJZU7wO8JnQysdooTfLHjSSkdtB2R9WNOhCeorqpUcv0sMHkZ6qnI0z00y90wAVWu"  
                 token = {makePayment}
                 name = "Book flight"
-                amount = {props.price * 100}
+                amount = {props.price*100}
             />
             </Modal>
         );

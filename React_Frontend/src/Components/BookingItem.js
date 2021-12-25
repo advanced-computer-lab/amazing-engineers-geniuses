@@ -312,6 +312,7 @@ else{
                         departureCost = {departureCost}
                         returnCost = {returnCost}
                         price = {props.booking.TotalCost}
+                        booking = {props.booking}
                         handleConfirmOpen = {handleConfirmOpen}
                         // viewDetails = {viewDetailsClicked}
                         cancelDepartureClicked = {cancelDepartureClicked}

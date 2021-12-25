@@ -37,14 +37,14 @@ const sendEmail = (req, res) => {
     let transporter = nodemailer.createTransport({
         service:'outlook',
         auth: {
-            user: 'amazingairlines@outlook.com',
+            user: 'amazingairlines1@outlook.com',
             pass: '5amazingengineers'
         }
     });
     message = req.body.message
 
     let mailOptions = {
-        from: '"Amazing Air" amazingairlines@outlook.com', // sender address
+        from: '"Amazing Air" amazingairlines1@outlook.com', // sender address
         to: userEmail, // list of receivers
         subject: emailSubject, // Subject line
         text: emailBody // plain text body
@@ -256,6 +256,7 @@ const sortClassList = (list)=>{
 const payment = async (req, res)=>{
     const product = req.body.product;
     const token = req.body.token;
+    const price = req.body.price;
     console.log("token", token);
     console.log("product", product);
     // console.log("price", product.price);
@@ -267,7 +268,7 @@ const payment = async (req, res)=>{
         source: token.id
     }).then( async customer => {
         await stripe.charges.create({
-            amount: product.price*100 + 500,
+            amount: price,
             currency : 'EGP',
             customer : customer.id,
             receipt_email : token.email,

@@ -16,7 +16,7 @@ export default function Register(props){
                 console.log(res.data);
                 Auth.login(username, password)
                     .then((res)=>{
-                        history.push('/userInfo');
+                        history.push({pathname: '/userInfo', state: {userName: username, userPassword: password}});
                     }).catch((err)=>{
                             //console.log(err.response);
                         })

@@ -73,6 +73,7 @@ export default function Booking (props) {
       }
 
       const sendMail = () =>{
+        console.log(Auth.getCurrentUser());
         axios.post(`${api}/user/sendConfirmation`, {email: curUser.Email, emailSubject: "Flight Itinerary" , 
         emailBody:  
         "Listed below are the details of your booking" + "\n"
@@ -106,7 +107,9 @@ export default function Booking (props) {
         }
     })
   }
-  
+  // if(props.booking == null){
+  //   console.log();
+  // }
   if(!props.returnExists){
     return (
       <Box style = {{overflow: 'hidden'}}sx={{ minWidth: 275 }}>
