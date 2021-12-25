@@ -186,13 +186,13 @@ export default function CreateBooking(props){
             <Breadcrumb.Item className="breadcrumb__item" onClick={() => history.push('/') }> Home </Breadcrumb.Item>
 
            {showDepBread && 
-           <Breadcrumb.Item id='secondbread' className="breadcrumb__item" onClick={() => getNext('') }> Departure Flight </Breadcrumb.Item>}
+           <Breadcrumb.Item id='secondbread' className="breadcrumb__item" onClick={() => getNext('') }> 1.Select Departure Flight </Breadcrumb.Item>}
            
            { showRetBread && 
-           <Breadcrumb.Item id='secondbread' className="breadcrumb__item" onClick={() => getNext('depF')}> Return Flight</Breadcrumb.Item>}
+           <Breadcrumb.Item id='secondbread' className="breadcrumb__item" onClick={() => getNext('depF')}> 2.Select Return Flight</Breadcrumb.Item>}
            
            { showSeatBread &&
-             <Breadcrumb.Item  className="breadcrumb__item" onClick={() => getNext('retF')}>Seats</Breadcrumb.Item>}
+             <Breadcrumb.Item  className="breadcrumb__item" onClick={() => getNext('retF')}>3. Choose Your Seats</Breadcrumb.Item>}
          </Breadcrumb> 
         </Row>
 

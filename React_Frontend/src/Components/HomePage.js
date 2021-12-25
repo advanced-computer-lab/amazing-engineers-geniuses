@@ -43,7 +43,7 @@ export default function Homepage() {
                           <div  class="row">
                           <br/>
                           <br/>
-		                    <i class="fas fa-envelope">:<a style={{textDecoration: 'none', color:'white'}} href= " mailto:amazingairlines1@outlook.com">amazingairlines1@outlook.com</a></i><br/>
+		                    <i class="fas fa-envelope">:<a style={{textDecoration: 'none', color:'white'}} href= "mailto:amazingairlines1@outlook.com">amazingairlines1@outlook.com</a></i><br/>
                         </div> 
                 </div>
                 <div class="col-15 col-sm-4">
