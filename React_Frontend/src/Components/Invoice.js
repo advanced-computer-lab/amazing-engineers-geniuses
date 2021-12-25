@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import {Row,Col,Container,Card, Toast ,} from 'react-bootstrap';
 import '../Styles/Invoice.css';
 
@@ -20,6 +20,13 @@ export default function Invoice(props){
         return 'Error in getClass()';
     }
     
+    useEffect(()=>{
+        if(!('bID' in props.bookingInfo)){
+            console.log('babababa')
+            setBookingInfo({...bookingInfo, bID: bookingInfo._id})
+        }
+    },[])
+    
     return (
     
           
@@ -34,7 +41,7 @@ export default function Invoice(props){
                                 <small className="text-muted">just now</small>
                             </Toast.Header>
                             {/* props. || .bID */}
-                            <Toast.Body>Your Booking Number: {bookingInfo._id} </Toast.Body> 
+                            <Toast.Body>Your Booking Number: {bookingInfo.bID} </Toast.Body> 
                         </Toast>
                         }
                                       

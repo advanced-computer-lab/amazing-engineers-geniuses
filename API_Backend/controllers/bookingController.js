@@ -100,70 +100,94 @@ const editBooking = async(req, res)=>{
     //let booking = req.body.booking;
     let bookingInfo=req.body.bookingInfo;
     let oldBookingInfo= req.body.oldBookingInfo;
-    console.log(bookingInfo);
+    //console.log(bookingInfo.DepartureFlight);
     bookingInfo={
         ...bookingInfo,
         DepartureFlight: bookingInfo.DepartureFlight._id ,
         ReturnFlight: bookingInfo.ReturnFlight._id ,
     }
     let updatedBooking = await Booking.findByIdAndUpdate(bookingInfo._id,bookingInfo);
-    //console.log(updatedBooking);
+     
+    // if(bookingInfo.DepartureFlight != oldBookingInfo.DepartureFlight){
+    //     console.log("CHANGING DEPARTURE FLIGHT");
+    //     let oldFlight = await Flight.findById(oldBookingInfo.DepartureFlight);
+    //     let oldFlightAvailable = oldFlight.SeatsList.Available;
+    //     oldFlightAvailable = [...oldFlightAvailable,...oldBookingInfo.DepSeats];
 
-    if(bookingInfo.DepartureFlight != oldBookingInfo.DepartureFlight){
-        console.log("CHANGING DEPARTURE FLIGHT");
-        let oldFlight = await Flight.findById(oldBookingInfo.DepartureFlight);
-        let oldFlightAvailable = oldFlight.SeatsList.Available;
-        oldFlightAvailable = [...oldFlightAvailable,...oldBookingInfo.DepSeats];
+    //     let oldFlightSeatList = {
+    //         ...oldFlight.SeatsList,
+    //         Available: oldFlightAvailable
+    //     }
 
-        let oldFlightSeatList = {
-            ...oldFlight.SeatsList,
-            Available: oldFlightAvailable
-        }
-
-        let updatedOldFlight = await Flight.findByIdAndUpdate(oldBookingInfo.DepartureFlight,{SeatsList: oldFlightSeatList});
+    //     let updatedOldFlight = await Flight.findByIdAndUpdate(oldBookingInfo.DepartureFlight,{SeatsList: oldFlightSeatList});
 
 
-        let newFlight = await Flight.findById(bookingInfo.DepartureFlight);
-        const newChosen= bookingInfo.DepSeats;
-        let tempAvailable = [...newFlight.SeatsList.Available];
-        tempAvailable = tempAvailable.filter((seat)=>{
-            return newChosen.indexOf(seat) === -1
-        });
-        let result = await sortSeatList(tempAvailable);
-        let editedSeatsList = {
-                ...newFlight.SeatsList,
-                Available: result
-            };
-        let updatedNewFlight = await Flight.findByIdAndUpdate(bookingInfo.DepartureFlight,{SeatsList: editedSeatsList});
-    }
+    //     let newFlight = await Flight.findById(bookingInfo.DepartureFlight);
+    //     const newChosen= bookingInfo.DepSeats;
 
-    if(bookingInfo.ReturnFlight != oldBookingInfo.ReturnFlight){
-        let oldFlight = await Flight.findById(oldBookingInfo.ReturnFlight);
-        let oldFlightAvailable = oldFlight.SeatsList.Available;
-        oldFlightAvailable = [...oldFlightAvailable,...oldBookingInfo.RetSeats];
+    //     let tempAvailable = [...newFlight.SeatsList.Available];
+    //     tempAvailable = tempAvailable.filter((seat)=>{
+    //         return newChosen.indexOf(seat) === -1
+    //     });
 
-        let oldFlightSeatList = {
-            ...oldFlight.SeatsList,
-            Available: oldFlightAvailable
-        }
+    //     let result = await sortSeatList(tempAvailable);
 
-        let updatedOldFlight = await Flight.findByIdAndUpdate(oldBookingInfo.ReturnFlight,{SeatsList: oldFlightSeatList});
+    //     let editedSeatsList = {
+    //             ...newFlight.SeatsList,
+    //             Available: await sortSeatList(tempAvailable)
+    //         };
+        
+            
+    //     console.log("editedSeatsList----------------");
+    //     console.log(editedSeatsList);   
+       
+    //     let updatedNewFlight= Flight.findByIdAndUpdate(bookingInfo.DepartureFlight,{SeatsList: {editedSeatsList}});
+    //     // },(err,flight)=>{
+    //     //     if(err){
+    //     //         console.log('errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrerererererererer')
+    //     //         console.log(err)
+    //     //     }
+               
+    //     //     else
+    //     //     {
+    //     //         console.log("---------flight",flight)
+    //     //         updatedNewFlight = flight;
+    //     //         res.send('hellooo')
+    //     //     }
+           
+    //     // })
+        
+  
+    // }
 
-        let newFlight = await Flight.findById(bookingInfo.ReturnFlight);
-        const newChosen= bookingInfo.RetSeats;
-        let tempAvailable = [...newFlight.SeatsList.Available];
-        tempAvailable = tempAvailable.filter((seat)=>{
-            return newChosen.indexOf(seat) === -1
-        });
-        let result = await sortSeatList(tempAvailable);
-        let editedSeatsList = {
-                ...newFlight.SeatsList,
-                Available: result
-            };
-        let updatedNewFlight = await Flight.findByIdAndUpdate(bookingInfo.ReturnFlight,{SeatsList: editedSeatsList});
-    }
+    // if(bookingInfo.ReturnFlight != oldBookingInfo.ReturnFlight){
+    //     let oldFlight = await Flight.findById(oldBookingInfo.ReturnFlight);
+    //     let oldFlightAvailable = oldFlight.SeatsList.Available;
+    //     oldFlightAvailable = [...oldFlightAvailable,...oldBookingInfo.RetSeats];
 
-    res.send({updatedBooking}); //COST+STILL NOT UPDATED LAMA AFTAH MY BOOKINGS TANY
+    //     let oldFlightSeatList = {
+    //         ...oldFlight.SeatsList,
+    //         Available: oldFlightAvailable
+    //     }
+
+    //     let updatedOldFlight = await Flight.findByIdAndUpdate(oldBookingInfo.ReturnFlight,{SeatsList: oldFlightSeatList});
+
+    //     let newFlight = await Flight.findById(bookingInfo.ReturnFlight);
+    //     const newChosen= bookingInfo.RetSeats;
+    //     let tempAvailable = [...newFlight.SeatsList.Available];
+    //     tempAvailable = tempAvailable.filter((seat)=>{
+    //         return newChosen.indexOf(seat) === -1
+    //     });
+    //     let result = await sortSeatList(tempAvailable);
+    //     let editedSeatsList = {
+    //             ...newFlight.SeatsList,
+    //             Available: result
+    //         };
+    //     let updatedNewFlight = await Flight.findByIdAndUpdate(bookingInfo.ReturnFlight,{SeatsList: editedSeatsList});
+    //   //res.send({updatedBooking,updatedNewFlight });
+    // }
+
+    res.send({updatedBooking});
 }
 
 

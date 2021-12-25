@@ -58,6 +58,8 @@ export default function EditBooking(props) {
 
     useEffect(() => {
         console.log(showEditDep);
+        console.log("DepCabinClass");
+        console.log(DepCabinClass);
     }, [showEditDep])
 
    function showAlert(message,show){
@@ -316,7 +318,8 @@ export default function EditBooking(props) {
                                                         <InputGroup.Text>Cabin Class</InputGroup.Text>
                                                         <Form.Select
                                                             name="DepCabinClass"
-                                                            placeholder={booking.DepCabinClass}
+                                                            placeholder={DepCabinClass}
+                                                            value={DepCabinClass}
                                                             required
                                                             onChange={(e) => setDepCabinClass(e.target.value)}
                                                         >
@@ -412,7 +415,8 @@ export default function EditBooking(props) {
                                                         <InputGroup.Text>Cabin Class</InputGroup.Text>
                                                         <Form.Select
                                                             name="DepCabinClass"
-                                                            placeholder={booking.RetCabinClass}
+                                                            placeholder={RetCabinClass}
+                                                            value={RetCabinClass}
                                                             required
                                                             onChange={(e) => setRetCabinClass(e.target.value)}
                                                         >
@@ -567,13 +571,13 @@ export default function EditBooking(props) {
             { 
             mainView === "changeDepSeats" && 
             <Container>
-                <ChangeSeats type='Dep' booking={booking} NumberOfPassengers = {booking.NumberOfPassengers} setMainView={setMainView} flight = {departureFlight} cabin = {booking.DepCabinClass} chosenSeats = {booking.DepSeats} showAlert={showAlert} />
+                <ChangeSeats type='Dep' setBookingInfo={setBooking} booking={booking} NumberOfPassengers = {booking.NumberOfPassengers} setMainView={setMainView} flight = {departureFlight} cabin = {booking.DepCabinClass} chosenSeats = {booking.DepSeats} showAlert={showAlert} />
             </Container>
          }
           { 
             mainView === "changeRetSeats" && 
             <Container>
-                <ChangeSeats type='Ret' booking={booking} NumberOfPassengers = {booking.NumberOfPassengers} setMainView={setMainView} flight = {returnFlight} cabin = {booking.RetCabinClass} chosenSeats = {booking.RetSeats} showAlert={showAlert} />
+                <ChangeSeats type='Ret' setBookingInfo={setBooking} booking={booking} NumberOfPassengers = {booking.NumberOfPassengers} setMainView={setMainView} flight = {returnFlight} cabin = {booking.RetCabinClass} chosenSeats = {booking.RetSeats} showAlert={showAlert} />
             </Container>
          }
 
