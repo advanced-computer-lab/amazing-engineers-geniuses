@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import axios from 'axios';
 import BookingItem from './BookingItem';
+import NewBooking from './NewBooking';
 import Auth from '../services/Auth';
 import {Spinner} from 'react-bootstrap'
 
@@ -62,7 +63,7 @@ export default function MyBookedFlights(props) {
                 res.data.listOfBookings.splice(indexOfNull,1);
             }
             setList(res.data.listOfBookings.map((booking)=>
-                 (<BookingItem booking={booking}/>)
+                 (<BookingItem departing = {booking.DepartureFlight} return = {booking.ReturnFlight} booking={booking}/>)
             ))
             setSpinner(false);
             console.log(res.data.listOfBookings);
@@ -79,7 +80,23 @@ export default function MyBookedFlights(props) {
 
     
     
-
+if(list.length == 0){
+    return(
+        <div>
+            {showSpinner && 
+            <div className="pos-center text-primary" style={{width: '100px', height: '100px'}} >   
+              <Spinner animation="border" />
+              <span >Loading...</span>
+              {/* </Spinner> */}
+            </div>}
+            {!showSpinner && <div>
+                <h1 className = {classes.title}>My Bookings</h1>
+                <h3 style = {{marginLeft: "29.5vw", marginTop: "13vw", color: "red"}} > You do not have any current bookings</h3>
+            </div>}
+        </div>
+    )
+}
+else{
     return(
         <div>
             {showSpinner && 
@@ -94,4 +111,5 @@ export default function MyBookedFlights(props) {
             </div>}
         </div>
     )
+}
 }

@@ -181,7 +181,7 @@ export default function CreateBooking(props){
 
     return (
       <Container>
-        <Row>
+        <Row>   
          <Breadcrumb className="breadcrumb" >
             <Breadcrumb.Item className="breadcrumb__item" onClick={() => history.push('/') }> Home </Breadcrumb.Item>
 
@@ -290,6 +290,8 @@ export default function CreateBooking(props){
         </Modal>
         <Pay
           show={showPay}
+          bookingDetails = {bookingInfo}
+          price = {bookingInfo.TotalCost} 
           Book={createBooking}
           onHide={() => {
             setPay(false);

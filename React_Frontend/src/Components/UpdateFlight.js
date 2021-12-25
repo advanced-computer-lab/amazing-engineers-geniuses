@@ -6,7 +6,7 @@ const api = 'http://localhost:8000';
 
 
 export default function UpdateFlight(props) {
-
+    
     let history = useHistory();
     const id = props.match.params;
     const base = {

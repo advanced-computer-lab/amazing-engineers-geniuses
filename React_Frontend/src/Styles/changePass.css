@@ -1,0 +1,24 @@
+#changePassButton {
+  background: rgba(255, 0, 0, 0.801);
+  color: white;
+  border: none;
+  height: 2.9vw;
+  border-radius: none;
+}
+#changePassButton:hover {
+  background: rgba(255, 0, 0, 0.973);
+  color: white;
+  border: none;
+  height: 2.9vw;
+  border-radius: none;
+}
+#changePassModal {
+  width: 40vw;
+}
+#contained-modal-title-vcenter {
+  margin-left: 10vw;
+}
+.snackDiv {
+  margin-left: 10vw;
+  width: 10vw;
+}

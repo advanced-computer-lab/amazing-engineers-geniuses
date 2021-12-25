@@ -123,6 +123,9 @@ export default function Booking (props) {
 // once canceled is clicked, get the flightnumber of that one and send it down to this 
 
   const classes = useStyles();
+  if(!props.returnExists){
+      
+  }
   return (
     <Box sx={{ minWidth: 275 }}>
         
@@ -159,5 +162,4 @@ export default function Booking (props) {
         
     </Box>
   );
-}
-
+}   
