@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Alert } from "react-bootstrap";
+import { Alert,Container,Row,Col,Form,Button } from "react-bootstrap";
 const api = "http://localhost:8000";
 
 class CreateFlightForm extends Component {
@@ -105,7 +105,7 @@ class CreateFlightForm extends Component {
             {this.state.errMsg}
           </Alert>
         )}
-        <form onSubmit={this.submitForm}>
+        {/* <form onSubmit={this.submitForm}>
           <h1>Create Flight</h1>
           <label>Flight Number</label>
           <input
@@ -254,7 +254,79 @@ class CreateFlightForm extends Component {
           />
           <br />
           <button type="submit">Create</button>
-        </form>
+        </form> */}
+
+
+         <Container>
+                <h1>Create Flight</h1>
+                <Form onSubmit={this.submitForm} id='createFlight'>
+                    <Form.Group className="mb-3" controlId="FlightNo">
+                       <Row>
+                            <Col>
+                                <Form.Label>Flight No.</Form.Label>
+                                <Form.Control required name="FlightNumber" min='1' type="number"  placeholder="Enter flight #" min={0} onChange={this.changeText}/>
+                            </Col>
+                            <Col>
+                                <Form.Label>Terminal</Form.Label>
+                                <Form.Control name="Terminal" required min="1" type="number"  placeholder="Enter Terminal #" onChange={this.changeText}/>
+                            </Col>
+                       </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="Departure">
+                        <Form.Label>Departure</Form.Label>
+                        <Row>
+                            <Col><Form.Control name="Departure" required  type="time"  onChange={this.changeText}/></Col>
+                            <Col><Form.Control name="DepDate" min={today} required type="date"  onChange={this.changeText}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="Arrival">
+                        <Form.Label>Arrival</Form.Label>
+                        <Row>
+                            <Col><Form.Control name="Arrival" required type="time"  onChange={this.changeText}/></Col>
+                            <Col><Form.Control name="ArrDate" min={this.state.DepDate} required type="date"  onChange={this.changeText}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="SeatsNo">
+                        <Form.Label>Number of Seats</Form.Label>
+                        <Row>
+                            <Col><Form.Control name="EconomySeats" min="0" required type="number"  placeholder="Economy Class" min={0} onChange={this.changeText}/></Col>
+                            <Col><Form.Control name="BusinessSeats" min="0" required type="number"  placeholder="Business Class" min={0} onChange={this.changeText}/></Col>
+                            <Col><Form.Control name="FirstClassSeats" min="0" required type="number"  placeholder="First Class" min={0} onChange={this.changeText}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="SeatsNo">
+                        <Form.Label>Price</Form.Label>
+                        <Row>
+                            <Col><Form.Control name="EconPrice" min="0" required type="number"  placeholder="Economy Class" min={0} onChange={this.changeText}/></Col>
+                            <Col><Form.Control name="BusPrice" min="0" required type="number"  placeholder="Business Class" min={0} onChange={this.changeText}/></Col>
+                            <Col><Form.Control  name="FirstPrice" min="0" required type="number"  placeholder="First Class" min={0} onChange={this.changeText}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="SeatsNo">
+                        <Form.Label>Baggage Allowance /Kg </Form.Label>
+                        <Row>
+                            <Col><Form.Control name="EconBag" min="0" required type="number"  placeholder="Economy Class" min={0} onChange={this.changeText}/></Col>
+                            <Col><Form.Control name="BusBag" min="0" required type="number"  placeholder="Business Class" min={0} onChange={this.changeText}/></Col>
+                            <Col><Form.Control name="FirstBag" min="0" required type="number"  placeholder="First Class" min={0} onChange={this.changeText}/></Col>
+                        </Row>
+                    </Form.Group>
+                    <Form.Group className="mb-3" controlId="Airports">
+                        <Row>
+                            <Col>
+                                <Form.Label>From</Form.Label>
+                                <Form.Control name="FromAirport" required type="text"  placeholder="Enter Deprature Airport" onChange={this.changeText}/>
+                            </Col>
+                            <Col>
+                                <Form.Label>To</Form.Label>
+                                <Form.Control name="ToAirport" required type="text"  placeholder="Enter Arrival Airport" onChange={this.changeText}/>
+                            </Col>
+                        </Row>
+                    </Form.Group>
+                    <Button variant="warning" type='submit' form='createFlight'>
+                        Create
+                    </Button>
+                </Form>
+            </Container>
       </div>
     );
   }

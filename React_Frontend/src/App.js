@@ -39,7 +39,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-          <NavBar/>
+          <NavBar expand='sm'/>
           <Route exact path='/' component={Homepage} />
           <Route path='/namesModal' component={NamesModal}/>
           <Route path='/flightSchedule' component={FlightSchedule} />

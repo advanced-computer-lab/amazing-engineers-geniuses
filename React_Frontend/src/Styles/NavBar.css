@@ -14,6 +14,12 @@
     font-size: xx-large;
 }
 
+@media only screen and (max-width: 470px) {
+    .navbar-brand{
+    font-size: large;
+}
+}
+
 .bg-dark{
     background-color: #002677 !important;
 }

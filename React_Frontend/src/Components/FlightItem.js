@@ -75,20 +75,29 @@ class FlightItem extends Component {
     const arrPer = `${this.props.flight.Arrival.Period}`;
     let diff = arr.getDate() - dep.getDate();
     let daysDiff = '';
-    if (diff < 0 && arr.getMonth() - dep.getMonth() == 1) {
-      diff = 30 - dep.getDate() + arr.getDate()
-      daysDiff = `( +${diff} )`;
+    // if (diff < 0 && arr.getMonth() - dep.getMonth() == 1) {
+    //   diff = 30 - dep.getDate() + arr.getDate()
+    //   daysDiff = `( +${diff} )`;
+    // }
+    // else if (diff < 0 && (arr.getMonth() - dep.getMonth() > 1 || arr.getMonth() + 12 - dep.getMonth() > 1)) {
+    //   if (arr.getMonth() - dep.getMonth() < 0)
+    //     daysDiff = `( + ~${arr.getMonth() + 12 - dep.getMonth()} months)`;
+    //   else
+    //     daysDiff = `( + ~${arr.getMonth() - dep.getMonth()} months)`;
+    // }
+    // else if (diff !== 0) {
+    //   diff = arr.getDate() - dep.getDate();
+    //   daysDiff = `( +${diff} )`;
+    // }
+
+    daysDiff = (arr.getTime()-dep.getTime())/1000/60/60/24;
+    if(daysDiff === 0){
+      daysDiff ="";
     }
-    else if (diff < 0 && (arr.getMonth() - dep.getMonth() > 1 || arr.getMonth() + 12 - dep.getMonth() > 1)) {
-      if (arr.getMonth() - dep.getMonth() < 0)
-        daysDiff = `( + ~${arr.getMonth() + 12 - dep.getMonth()} months)`;
-      else
-        daysDiff = `( + ~${arr.getMonth() - dep.getMonth()} months)`;
+    else{
+      daysDiff = `(+${daysDiff})`;
     }
-    else if (diff !== 0) {
-      diff = arr.getDate() - dep.getDate();
-      daysDiff = `( +${diff} )`;
-    }
+
     return (
       <div>
         <Accordion>
