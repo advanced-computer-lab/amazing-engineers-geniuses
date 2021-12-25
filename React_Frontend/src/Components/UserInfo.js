@@ -59,6 +59,7 @@ export default function UserInfo(){
                 .then((res) => {
                     console.log(res);   
                     history.push('/');
+                    window.location.reload();
                 }).catch((error) => {
                     if(error){
                         console.log(error);

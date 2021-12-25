@@ -83,17 +83,17 @@ const updateInfo = async(req, res, next) => {
         Passport : passportNumber
     });
     if(updatedInfo){
-        // let userPhone = updatedInfo.Phone;
-        // let newPhone = [...userPhone,newPhone];
-        // User.findByIdAndUpdate(req.body.userId,{Phone: newPhone},(err,Phone)=>{
-        //     if(err){
-        //         console.log(err);
-        //         return err;
-        //     }
-        //     else{
-        //         return Phone
-        //     }
-        // })
+        let userPhone = updatedInfo.Phone;
+        let newPhone = [...userPhone,phoneNumber];
+        User.findByIdAndUpdate(req.body.userId,{Phone: phoneNumber},(err,Phone)=>{
+            if(err){
+                console.log(err);
+                return err;
+            }
+            else{
+                return Phone
+            }
+        })
         console.log("bobobo found", updatedInfo.FirstName)
         console.log("yooooooo5")
     }
