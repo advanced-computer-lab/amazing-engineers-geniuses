@@ -13,6 +13,7 @@ router.get('/flight/show/:id',flightController.showFlightbyID);
 router.post('/flight/viewReservations', userController.viewReservations);
 
 router.post('/flight/cancelReservations', userController.cancelReservation);
+router.post('/flight/cancelSingleFlight', userController.cancelSingleFlight);
 
 router.get('/flight/getArrivalAirport', userController.getArrivalAirport);
 
@@ -22,7 +23,9 @@ router.get('/flight/getDepartureAirport', userController.getDepartureAirport);
 
 router.post('/flight/getDepartureAirport', userController.getDepartureAirport);
 
-router.post('/sendConfirmation', userController.sendEmail);    
+router.post('/sendConfirmation', userController.sendEmail); 
+
+router.post('/makePayment', userController.payment);  
 
 router.post('/searchFlights',flightController.searchFlights);
 

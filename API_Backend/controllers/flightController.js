@@ -1,4 +1,5 @@
 const Flight = require('../models/Flight');
+const Booking = require('../models/Booking');
 
 
 const createFlight = async (req,res)=>{
@@ -219,8 +220,10 @@ const findReturnFlights = async(depFlight, retDate)=>{
   return returnFlights
 }
 
-const deleteFlight = (req,res)=>{
+const deleteFlight = async (req,res)=>{
    const id = req.params.id;
+   let bookingsWithFlight = await Booking.find({$or:[{DepartureFlight: id},{ReturnFlight: id}]});
+
    Flight.findByIdAndDelete(id, (err, deleted) => {  
       if (err) 
         res.status(500).send({message: 'Could not delete flight'});

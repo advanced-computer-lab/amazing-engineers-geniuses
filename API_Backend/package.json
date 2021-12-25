@@ -27,6 +27,8 @@
     "method-override": "^3.0.0",
     "mongoose": "^6.0.12",
     "nodemailer": "^6.7.2",
-    "nodemon": "^2.0.14"
+    "nodemon": "^2.0.14",
+    "stripe": "^8.194.0",
+    "uuid": "^8.3.2"
   }
 }

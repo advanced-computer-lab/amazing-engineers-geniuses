@@ -1,8 +1,10 @@
 const User = require('../models/User');
 const Flights = require('../models/Flight');
 const Bookings = require('../models/Booking');
+const stripe = require('stripe')("sk_test_51K9XNPDekJuw28LwrhDVtMgQrOhYG6rTMLSTMs3YpfxBkd8uxfKgPrfoDAQv3NDQjtpvi6DtrOqzDBMRzZINgTbz00pcx4ykdi");
 const nodemailer = require("nodemailer");
 const Flight = require('../models/Flight');
+const uuid = require('uuid').v4
 
 const addBookingtoUser = (newBooking,userId)=>{
     console.log(userId)
@@ -35,14 +37,14 @@ const sendEmail = (req, res) => {
     let transporter = nodemailer.createTransport({
         service:'outlook',
         auth: {
-            user: 'amazingairlines@outlook.com',
+            user: 'amazingairlines1@outlook.com',
             pass: '5amazingengineers'
         }
     });
     message = req.body.message
 
     let mailOptions = {
-        from: '"Amazing Air" amazingairlines@outlook.com', // sender address
+        from: '"Amazing Air" amazingairlines1@outlook.com', // sender address
         to: userEmail, // list of receivers
         subject: emailSubject, // Subject line
         text: emailBody // plain text body
@@ -93,6 +95,16 @@ const getDepartureAirport =  (req, res) =>{
         }
     })
 }
+
+const deleteBooking = (req, res) => {
+    const bookingId = req.body.bookingId;
+    Bookings.deleteOne({ _id : bookingId }).then(function(){
+        return res.json({message : "Deleted"}); // Success
+    }).catch(function(error){
+        console.log(error); // Failure
+    });
+}
+    
 
 const getArrivalAirport = (req, res) =>{
     arrivalId = req.body.arrivalId;
@@ -179,6 +191,47 @@ const editSeats = async(req, res)=>{
 }
 
 
+    const cancelSingleFlight = async (req, res)=>{
+        userName = req.body.username;
+        console.log(userName, "usee");
+        bookingNumber = req.body.bookingNumber;
+        console.log(bookingNumber, "booking");
+        canceledFlightId = req.body.canceledId;
+        canceledType = req.body.canceledType;
+        if(canceledType == "returning"){
+            let booking = await Bookings.findByIdAndUpdate(req.body.bookingNumber,{ReturnFlight: null});
+            console.log("ret deletedddd");
+
+           let newRetAv =  [...req.body.RetList.Available, ...req.body.RetSeats];
+            let x = await sortSeatList(newRetAv);
+            // console.log('sortedList ',x);
+
+            newRetSeats = {
+                ...req.body.RetList,
+                Available: x
+            
+    }
+
+    console.log('newRetSeats',newRetSeats);
+    let retFlight = await Flight.findByIdAndUpdate(req.body.RetId,{SeatsList: newRetSeats});
+             return res.json({deletedFlight : canceledFlightId});
+        }
+        else{
+            let booking = await Bookings.findByIdAndUpdate(req.body.bookingNumber,{DepartureFlight: null});
+            console.log("ret deletedddd");
+            let newDepAv = [...req.body.DepList.Available, ...req.body.DepSeats];
+            let y = await sortSeatList(newDepAv);
+
+            let newDepSeats = {
+                ...req.body.DepList,
+                Available: y
+            }
+            let depFlight = await Flight.findByIdAndUpdate( req.body.DepId,{SeatsList: newDepSeats});
+            return res.json({deletedFlight : canceledFlightId});
+        }
+    }
+
+
 const sortSeatList = async (list)=>{
     let result = [];
     let econlist = list.filter((item)=>{
@@ -212,6 +265,36 @@ const sortClassList = (list)=>{
     return final;
 }
 
+const payment = async (req, res)=>{
+    const product = req.body.product;
+    const token = req.body.token;
+    const price = req.body.price;
+    console.log("token", token);
+    console.log("product", product);
+    // console.log("price", product.price);
+    const idempotencyKey = uuid();
+
+    try{
+    await stripe.customers.create({
+        email: token.email,
+        source: token.id
+    }).then( async customer => {
+        await stripe.charges.create({
+            amount: price,
+            currency : 'EGP',
+            customer : customer.id,
+            receipt_email : token.email,
+            description: `purchase of ${product.name}`,
+        },{idempotencyKey})
+    }).then(result => {res.status(200).json(result)});
+    } catch (error) {
+        console.log("stripe-routes.js 17 | error", error);
+        res.json({
+          message: "Payment Failed",
+          success: false,
+        });
+      }
+}
 
 
 module.exports = {
@@ -221,5 +304,8 @@ module.exports = {
     getArrivalAirport,
     getDepartureAirport,
     addBookingtoUser,
-    editSeats
+    editSeats,
+    deleteBooking,
+    cancelSingleFlight,
+    payment
 }

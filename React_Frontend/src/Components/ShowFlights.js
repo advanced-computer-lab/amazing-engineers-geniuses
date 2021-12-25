@@ -150,7 +150,7 @@ class ShowFlights extends Component{
                     <button type='submit' className='btn btn-warning' >Filter</button>
                     
                 </form> */}
-                <button onClick={this.showFilter}>Open Filter</button>
+                <button className='btn btn-warning' onClick={this.showFilter}>Open Filter</button>
                 <button className='btn btn-info'><Link style={{color: 'white'}} to="/admin/flight/create" >Create New Fight</Link></button>
                 <FilterModal show={this.state.showFilter} onHide={()=>this.setState({showFilter: false})} submitForm={this.submitForm2}/>
                 <div>

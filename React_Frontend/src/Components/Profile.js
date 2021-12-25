@@ -3,7 +3,9 @@ import EditInfo from './EditInfo';
 import ShowUser from './ShowUser';
 import Auth from '../services/Auth';
 import axios from 'axios';
+import {Button} from 'react-bootstrap';
 import {Spinner} from 'react-bootstrap'
+import '../Styles/changePass.css';
 const api = 'http://localhost:8000';
 
 export default function Profile(){  
@@ -12,6 +14,7 @@ export default function Profile(){
     const [showSpinner, setSpinner] = useState(true);
 
     useEffect(() => { //Get user using id stored in token
+        console.log(Auth.getCurrentUser(), "current user hereeeee");
         console.log('token userId', Auth.getCurrentUser().id);
         axios.get(`${api}/user/find/${Auth.getCurrentUser().id}`)
             .then((res)=>{
@@ -53,6 +56,7 @@ export default function Profile(){
                 {/* <Button  style={{marginLeft:' 100px'}}onClick={()=>setDisplay('edit')}>Edit</Button> */}
             </div>}
         {display === 'edit' && !showSpinner && <EditInfo user={user} updateUser={updateUser} />}
+        
         
     </>
  

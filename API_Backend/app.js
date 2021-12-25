@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require('express');
+const stripe = require('stripe')("sk_test_51K9XNPDekJuw28LwrhDVtMgQrOhYG6rTMLSTMs3YpfxBkd8uxfKgPrfoDAQv3NDQjtpvi6DtrOqzDBMRzZINgTbz00pcx4ykdi");
 const app = express();
+const uuid = require("uuid");
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 const cors = require('cors');

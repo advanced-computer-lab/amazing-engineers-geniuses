@@ -11,8 +11,10 @@ import Auth from './services/Auth';
 import NavBar from './Components/NavBar.js';
 import AvailableFlights from './Components/AvailableFlights';
 import AvailableReturnFlights from './Components/AvailableReturnFlights';
+import BookingItem from './Components/BookingItem';
 import ChooseSeats from './Components/ChooseSeats';
 import CreateBooking from './Components/CreateBooking';
+import NewBooking from './Components/NewBooking';
 import Profile from './Components/Profile';
 import EditInfo from './Components/EditInfo';
 import EditBooking from './Components/EditBooking';
@@ -21,6 +23,8 @@ import EditDepartureFlight from './Components/EditDepartureFlight'
 import EditReturnFlight from './Components/EditReturnFlight'
 import ChangeFlight from './Components/ChangeFlight'
 import NamesModal from './Components/NamesModal';
+import UserInfo from './Components/UserInfo'
+import Pay from './Components/Pay'
 
 class App extends Component {
   constructor(props){
@@ -39,11 +43,12 @@ class App extends Component {
   render() {
     return (
       <Router>
-          <NavBar/>
+          <NavBar expand='sm'/>
           <Route exact path='/' component={Homepage} />
           <Route path='/namesModal' component={NamesModal}/>
           <Route path='/flightSchedule' component={FlightSchedule} />
           <Route path='/viewMyBookings' component={MyBookings} />
+          <Route path='/NewBooking' component={NewBooking} />
           {this.state.currentUser.isAdmin && <AdminRoutes/>}
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
@@ -51,6 +56,9 @@ class App extends Component {
           <Route path='/availableReturnFlights' component={AvailableReturnFlights}/>
           {/* <Route path='/bookingConfirmation' component={BookingConfirmationModal}/> */}
           <Route path='/chooseSeats' component={ChooseSeats}/>
+          <Route path='/userInfo' component={UserInfo}/>
+          <Route path='/pay' component={Pay}/>
+          <Route path='/BookingItem' component={BookingItem}/>
 
           <Route path='/createBooking' component={CreateBooking}/>
           <Route path='/profile' component={Profile}/>
