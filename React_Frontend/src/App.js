@@ -25,6 +25,8 @@ import ChangeFlight from './Components/ChangeFlight'
 import NamesModal from './Components/NamesModal';
 import UserInfo from './Components/UserInfo'
 import Pay from './Components/Pay'
+import UserRoutes from './Components/UserRoutes';
+import Footer from './Components/Footer';
 
 class App extends Component {
   constructor(props){
@@ -38,6 +40,7 @@ class App extends Component {
     this.setState({
       currentUser: Auth.getCurrentUser()
     })
+    console.log(Auth.getCurrentUser());
   }
 
   render() {
@@ -45,31 +48,29 @@ class App extends Component {
       <Router>
           <NavBar expand='sm'/>
           <Route exact path='/' component={Homepage} />
-          <Route path='/namesModal' component={NamesModal}/>
           <Route path='/flightSchedule' component={FlightSchedule} />
           <Route path='/viewMyBookings' component={MyBookings} />
           <Route path='/NewBooking' component={NewBooking} />
           {this.state.currentUser.isAdmin && <AdminRoutes/>}
+          {/* {!this.state.currentUser.isGuest && <UserRoutes/>} */}
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
           <Route path='/availableFlights' component={AvailableFlights}/>
           <Route path='/availableReturnFlights' component={AvailableReturnFlights}/>
-          {/* <Route path='/bookingConfirmation' component={BookingConfirmationModal}/> */}
           <Route path='/chooseSeats' component={ChooseSeats}/>
           <Route path='/userInfo' component={UserInfo}/>
           <Route path='/pay' component={Pay}/>
           <Route path='/BookingItem' component={BookingItem}/>
 
           <Route path='/createBooking' component={CreateBooking}/>
-          <Route path='/profile' component={Profile}/>
-          {/* <Route path='/profile/edit' component={EditInfo}/> */}
+          <Route path='/profile' component={Profile}/> 
+          <Route path='/profile/edit' component={EditInfo}/>
           
           <Route path='/editBooking' component={EditBooking}/>
           <Route path='/searchFlights' component={SearchFlight}/>
-          <Route path='/editDepartureFlight' component={EditDepartureFlight}/>
+         <Route path='/editDepartureFlight' component={EditDepartureFlight}/>
           <Route path='/editReturnFlight' component={EditReturnFlight}/>
           <Route path='/changeFlight' component={ChangeFlight}/>
-
 
       </Router>
     );
