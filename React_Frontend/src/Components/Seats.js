@@ -31,8 +31,8 @@ export default function Seats(props){
             if(index === -1 && chosenSeats.length < props.PassengersNumber){
                 e.currentTarget.style.color = 'lightblue'
                 setChosen([...chosenSeats,seat]);
-                let x=props.totalSeats+1;
-                props.setTotalSeats(x);
+                // let x=props.totalSeats+1;
+                // props.setTotalSeats(x);
             }
             else{ //either deselecting a seat or no. of passengers exceeded
                 if(chosenSeats.length >= props.PassengersNumber && index === -1){
@@ -42,8 +42,8 @@ export default function Seats(props){
                     e.currentTarget.style.color = 'lightgrey'
                     let newSeats = chosenSeats.filter(s => s !== seat);
                     setChosen(newSeats);
-                    let x=props.totalSeats-1;
-                    props.setTotalSeats(x);
+                    // let x=props.totalSeats-1;
+                    // props.setTotalSeats(x);
                 }
             }
         }
